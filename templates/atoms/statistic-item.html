@@ -1,0 +1,9 @@
+{% comment %}
+Statistic Item Atom
+Usage: {% include 'atoms/statistic-item.html' with label="Possession Average" value="63.2%" %}
+{% endcomment %}
+
+<div class="flex justify-between {{ class }}">
+    <span class="text-sm text-slate-600">{{ label }}</span>
+    <span class="font-semibold text-blue-600">{{ value }}</span>
+</div>

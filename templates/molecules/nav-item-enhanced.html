@@ -1,0 +1,48 @@
+{% comment %}
+Enhanced Navigation Item Molecule with Submenu Support
+Usage: {% include 'molecules/nav-item-enhanced.html' with item=menu_item %}
+{% endcomment %}
+{% load i18n %}
+
+<li class="h-full {% if item.dropdown_items or item.has_submenu %}group relative{% endif %}">
+    <a class="flex items-center gap-2 h-full px-4 hover:text-emerald-800 transition-colors duration-300 {{ item.class }}"
+       href="{{ item.href|default:'#' }}">
+        {{ item.text }}
+        {% if item.dropdown_items or item.has_submenu %}
+            {% include 'atoms/icon.html' with name="chevron-down" size="sm" %}
+        {% endif %}
+    </a>
+    
+    {% if item.dropdown_items %}
+        <div class="absolute left-0 top-full w-[280px] bg-slate-900 shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+            <ul class="py-2">
+                {% for dropdown_item in item.dropdown_items %}
+                    <li class="{% if dropdown_item.has_submenu %}group/sub relative{% endif %}">
+                        <a class="flex items-center gap-2 justify-between px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-emerald-800 transition-colors"
+                           href="{{ dropdown_item.href|default:'#' }}">
+                            <span>{{ dropdown_item.text }}</span>
+                            {% if dropdown_item.has_submenu %}
+                                {% include 'atoms/icon.html' with name="chevron-right" size="sm" %}
+                            {% endif %}
+                        </a>
+                        
+                        {% if dropdown_item.has_submenu and dropdown_item.submenu %}
+                            <div class="absolute left-full top-0 w-[280px] bg-slate-900 shadow-lg rounded-lg opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300 ml-1">
+                                <ul class="py-2">
+                                    {% for submenu_item in dropdown_item.submenu %}
+                                        <li>
+                                            <a class="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-emerald-800 transition-colors"
+                                               href="{{ submenu_item.href|default:'#' }}">
+                                                {{ submenu_item.text }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</li>

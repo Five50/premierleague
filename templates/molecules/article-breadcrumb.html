@@ -1,0 +1,16 @@
+{% comment %}
+Article Breadcrumb Molecule
+Usage: {% include 'molecules/article-breadcrumb.html' with back_url="blog" back_text="Back to News" tags=tags %}
+{% endcomment %}
+
+{% load i18n %}
+
+<div class="flex items-center space-x-4 mb-6">
+    <a href="{% url back_url %}" class="text-blue-600 hover:text-blue-800 font-medium">
+        ← {{ back_text }}
+    </a>
+    <span class="text-slate-400">|</span>
+    {% for tag in tags %}
+        {% include 'atoms/article-tag.html' with text=tag.text variant=tag.variant %}
+    {% endfor %}
+</div>

@@ -1,0 +1,186 @@
+{% load static %}
+{% load i18n %}
+{% comment %}
+League table organism
+Usage: {% include 'organisms/league-table.html' with table_data=league_table show_full=True %}
+{% endcomment %}
+
+<div class="league-table-container">
+    <!-- Table Header -->
+    <div class="table-header mb-6 text-center">
+        <h2 class="pl-heading mb-2">{% trans "Allsvenskan Table" %}</h2>
+        <p class="pl-text">
+            {% trans "Season" %} {{ table_data.season }} • 
+            {% trans "Last updated" %}: {{ table_data.last_updated }}
+        </p>
+    </div>
+    
+    <!-- League Table -->
+    <div class="table-wrapper pl-card overflow-x-auto">
+        <table class="league-table w-full">
+            <thead>
+                <tr class="border-b-2 border-slate-200 ">
+                    <th class="text-left py-4 px-2 pl-text font-semibold">#</th>
+                    <th class="text-left py-4 px-4 pl-text font-semibold min-w-[200px]">{% trans "Team" %}</th>
+                    <th class="text-center py-4 px-2 pl-text font-semibold">{% trans "P" %}</th>
+                    <th class="text-center py-4 px-2 pl-text font-semibold">{% trans "W" %}</th>
+                    <th class="text-center py-4 px-2 pl-text font-semibold">{% trans "D" %}</th>
+                    <th class="text-center py-4 px-2 pl-text font-semibold">{% trans "L" %}</th>
+                    <th class="text-center py-4 px-2 pl-text font-semibold">{% trans "GF" %}</th>
+                    <th class="text-center py-4 px-2 pl-text font-semibold">{% trans "GA" %}</th>
+                    <th class="text-center py-4 px-2 pl-text font-semibold">{% trans "GD" %}</th>
+                    <th class="text-center py-4 px-3 pl-text font-semibold">{% trans "Pts" %}</th>
+                    <th class="text-center py-4 px-2 pl-text font-semibold">{% trans "Form" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in table_data.table %}
+                <tr class="border-b border-slate-100  hover:bg-slate-50 /50 transition-colors"
+                    {% if not show_full and forloop.counter > 6 %}style="display: none;"{% endif %}>
+                    
+                    <!-- Position with qualification indicators -->
+                    <td class="py-4 px-2 font-semibold pl-text relative">
+                        {{ team.position }}
+                        <!-- Qualification indicators -->
+                        {% if team.position <= 4 %}
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 rounded-r"></div>
+                        {% elif team.position <= 6 %}
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-r"></div>
+                        {% elif team.position >= 18 %}
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-red-500 rounded-r"></div>
+                        {% endif %}
+                    </td>
+                    
+                    <!-- Team Name -->
+                    <td class="py-4 px-4">
+                        <a href="/teams/{{ team.team_id }}/" class="flex items-center space-x-3 hover:text-blue-700  transition-colors">
+                            {% include 'atoms/team-logo.html' with team_id=team.team_id size='small' %}
+                            <span class="font-semibold pl-text">
+                                {% if LANGUAGE_CODE == 'sv' %}
+                                    {{ team.team_name.sv }}
+                                {% else %}
+                                    {{ team.team_name.en }}
+                                {% endif %}
+                            </span>
+                        </a>
+                    </td>
+                    
+                    <!-- Played -->
+                    <td class="text-center py-4 px-2 pl-text">{{ team.played }}</td>
+                    
+                    <!-- Won -->
+                    <td class="text-center py-4 px-2 text-green-600  font-semibold">{{ team.won }}</td>
+                    
+                    <!-- Drawn -->
+                    <td class="text-center py-4 px-2 text-yellow-600  font-semibold">{{ team.drawn }}</td>
+                    
+                    <!-- Lost -->
+                    <td class="text-center py-4 px-2 text-red-600  font-semibold">{{ team.lost }}</td>
+                    
+                    <!-- Goals For -->
+                    <td class="text-center py-4 px-2 pl-text">{{ team.goals_for }}</td>
+                    
+                    <!-- Goals Against -->
+                    <td class="text-center py-4 px-2 pl-text">{{ team.goals_against }}</td>
+                    
+                    <!-- Goal Difference -->
+                    <td class="text-center py-4 px-2 font-semibold 
+                        {% if team.goal_difference > 0 %}text-green-600 
+                        {% elif team.goal_difference < 0 %}text-red-600 
+                        {% else %}pl-text{% endif %}">
+                        {% if team.goal_difference > 0 %}+{% endif %}{{ team.goal_difference }}
+                    </td>
+                    
+                    <!-- Points -->
+                    <td class="text-center py-4 px-3 font-bold text-lg pl-text">{{ team.points }}</td>
+                    
+                    <!-- Form -->
+                    <td class="py-4 px-2">
+                        <div class="flex items-center justify-center space-x-1">
+                            {% for result in team.form %}
+                                <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold text-white
+                                    {% if result == 'W' %}bg-green-600
+                                    {% elif result == 'D' %}bg-yellow-600
+                                    {% elif result == 'L' %}bg-red-600
+                                    {% else %}bg-slate-400{% endif %}">
+                                    {{ result }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Show More/Less Button (if not showing full table) -->
+    {% if not show_full and table_data.table|length > 6 %}
+    <div class="table-controls mt-6 text-center">
+        <button id="toggleTableBtn" class="pl-button-outline" onclick="toggleFullTable()">
+            {% trans "Show Full Table" %}
+        </button>
+    </div>
+    {% endif %}
+    
+    <!-- Table Legend -->
+    <div class="table-legend mt-6 p-4 bg-slate-50  rounded-lg">
+        <div class="legend-title text-sm font-semibold pl-text mb-3">{% trans "Qualification" %}</div>
+        <div class="legend-items grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+            <div class="legend-item flex items-center space-x-2">
+                <div class="w-4 h-4 bg-blue-500 rounded"></div>
+                <span class="pl-text">
+                    {% if LANGUAGE_CODE == 'sv' %}
+                        {{ table_data.legends.sv.champions_league }}
+                    {% else %}
+                        {{ table_data.legends.en.champions_league }}
+                    {% endif %}
+                </span>
+            </div>
+            <div class="legend-item flex items-center space-x-2">
+                <div class="w-4 h-4 bg-orange-500 rounded"></div>
+                <span class="pl-text">
+                    {% if LANGUAGE_CODE == 'sv' %}
+                        {{ table_data.legends.sv.europa_league }}
+                    {% else %}
+                        {{ table_data.legends.en.europa_league }}
+                    {% endif %}
+                </span>
+            </div>
+            <div class="legend-item flex items-center space-x-2">
+                <div class="w-4 h-4 bg-red-500 rounded"></div>
+                <span class="pl-text">
+                    {% if LANGUAGE_CODE == 'sv' %}
+                        {{ table_data.legends.sv.relegation }}
+                    {% else %}
+                        {{ table_data.legends.en.relegation }}
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleFullTable() {
+    const hiddenRows = document.querySelectorAll('.league-table tbody tr[style*="display: none"]');
+    const button = document.getElementById('toggleTableBtn');
+    
+    if (hiddenRows.length > 0) {
+        // Show all rows
+        hiddenRows.forEach(row => {
+            row.style.display = '';
+        });
+        button.textContent = '{% trans "Show Less" %}';
+    } else {
+        // Hide rows beyond 6th position
+        const allRows = document.querySelectorAll('.league-table tbody tr');
+        allRows.forEach((row, index) => {
+            if (index >= 6) {
+                row.style.display = 'none';
+            }
+        });
+        button.textContent = '{% trans "Show Full Table" %}';
+    }
+}
+</script>

@@ -1,0 +1,310 @@
+{% load i18n %}
+<!-- Blog Roll Section -->
+<section class="py-20 bg-gray-100" aria-labelledby="blog-heading">
+    <div class="container mx-auto px-4">
+        <!-- Section Header -->
+        <header class="text-center mb-16">
+            <h2 id="blog-heading" class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                {% trans "Latest Recovery Insights" %}
+            </h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                {% trans "Stay informed with expert insights, recovery stories, and the latest research in addiction treatment and mental health." %}
+            </p>
+        </header>
+        
+        <!-- Featured Article -->
+        <article class="bg-gradient-to-r from-emerald-700 to-emerald-800 rounded-2xl overflow-hidden mb-16 shadow-2xl">
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop" 
+                         alt="{% trans 'Meditation and mindfulness in addiction recovery' %}" 
+                         class="w-full h-80 lg:h-full object-cover">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white text-emerald-900">
+                            {% trans "Featured Article" %}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-8 lg:p-12 text-white">
+                    <header>
+                        <div class="text-emerald-200 text-sm mb-2">{% trans "Recovery Methods" %} • {% trans "5 min read" %}</div>
+                        <h3 class="text-xl lg:text-2xl font-bold mb-4 leading-tight">
+                            {% trans "The Role of Mindfulness in Long-Term Recovery" %}
+                        </h3>
+                    </header>
+                    <p class="text-emerald-100 text-base mb-6 leading-relaxed">
+                        {% trans "Discover how mindfulness practices and meditation techniques are revolutionizing addiction treatment and helping individuals maintain long-term sobriety." %}
+                    </p>
+                    <footer class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100&h=100&fit=crop&crop=face" 
+                                 alt="{% trans 'Dr. Sarah Martinez' %}" 
+                                 class="w-10 h-10 rounded-full mr-3">
+                            <div>
+                                <div class="font-semibold">{% trans "Dr. Sarah Martinez" %}</div>
+                                <div class="text-emerald-200 text-sm">{% trans "Clinical Director" %}</div>
+                            </div>
+                        </div>
+                        <a href="#" class="inline-flex items-center text-white hover:text-emerald-200 transition-colors font-semibold focus:outline-none focus:underline">
+                            {% trans "Read More" %}
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                        </a>
+                    </footer>
+                </div>
+            </div>
+        </article>
+        
+        <!-- Blog Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <!-- Article 1 -->
+            <article class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&h=300&fit=crop" 
+                         alt="{% trans 'Family therapy session in addiction recovery' %}" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-stone-700 text-white">
+                            {% trans "Family Support" %}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <header>
+                        <div class="text-gray-500 text-sm mb-2">{% trans "March 15, 2024" %} • {% trans "4 min read" %}</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-3 group-hover:text-emerald-700 transition-colors leading-tight">
+                            {% trans "How Family Therapy Strengthens Recovery Outcomes" %}
+                        </h3>
+                    </header>
+                    <p class="text-gray-600 mb-4 leading-relaxed">
+                        {% trans "Learn how involving family members in the recovery process can significantly improve treatment success rates and long-term sobriety." %}
+                    </p>
+                    <footer class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&h=100&fit=crop&crop=face" 
+                                 alt="{% trans 'Michael Thompson, LMFT' %}" 
+                                 class="w-8 h-8 rounded-full mr-2">
+                            <div class="text-sm text-gray-700">{% trans "Michael Thompson, LMFT" %}</div>
+                        </div>
+                        <a href="#" class="text-emerald-700 hover:text-emerald-800 transition-colors font-semibold text-sm focus:outline-none focus:underline">
+                            {% trans "Read More" %}
+                        </a>
+                    </footer>
+                </div>
+            </article>
+            
+            <!-- Article 2 -->
+            <article class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=300&fit=crop" 
+                         alt="{% trans 'Luxury rehabilitation facility amenities' %}" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-700 text-white">
+                            {% trans "Treatment Options" %}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <header>
+                        <div class="text-gray-500 text-sm mb-2">{% trans "March 12, 2024" %} • {% trans "6 min read" %}</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-3 group-hover:text-emerald-700 transition-colors leading-tight">
+                            {% trans "Luxury vs. Standard Rehab: What's the Difference?" %}
+                        </h3>
+                    </header>
+                    <p class="text-gray-600 mb-4 leading-relaxed">
+                        {% trans "Explore the differences between luxury and standard rehabilitation programs and how to choose the right level of care for your needs." %}
+                    </p>
+                    <footer class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=100&h=100&fit=crop&crop=face" 
+                                 alt="{% trans 'Dr. Amanda Rodriguez' %}" 
+                                 class="w-8 h-8 rounded-full mr-2">
+                            <div class="text-sm text-gray-700">{% trans "Dr. Amanda Rodriguez" %}</div>
+                        </div>
+                        <a href="#" class="text-emerald-700 hover:text-emerald-800 transition-colors font-semibold text-sm focus:outline-none focus:underline">
+                            {% trans "Read More" %}
+                        </a>
+                    </footer>
+                </div>
+            </article>
+            
+            <!-- Article 3 -->
+            <article class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=600&h=300&fit=crop" 
+                         alt="{% trans 'Digital health technology in addiction treatment' %}" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-stone-600 text-white">
+                            {% trans "Innovation" %}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <header>
+                        <div class="text-gray-500 text-sm mb-2">{% trans "March 10, 2024" %} • {% trans "3 min read" %}</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-3 group-hover:text-emerald-700 transition-colors leading-tight">
+                            {% trans "Technology's Role in Modern Addiction Recovery" %}
+                        </h3>
+                    </header>
+                    <p class="text-gray-600 mb-4 leading-relaxed">
+                        {% trans "Discover how innovative technologies like telemedicine and mobile apps are enhancing addiction treatment and recovery support." %}
+                    </p>
+                    <footer class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" 
+                                 alt="{% trans 'Dr. James Chen' %}" 
+                                 class="w-8 h-8 rounded-full mr-2">
+                            <div class="text-sm text-gray-700">{% trans "Dr. James Chen" %}</div>
+                        </div>
+                        <a href="#" class="text-emerald-700 hover:text-emerald-800 transition-colors font-semibold text-sm focus:outline-none focus:underline">
+                            {% trans "Read More" %}
+                        </a>
+                    </footer>
+                </div>
+            </article>
+            
+            <!-- Article 4 -->
+            <article class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&h=300&fit=crop" 
+                         alt="{% trans 'Nutrition and fitness in addiction recovery' %}" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-600 text-white">
+                            {% trans "Wellness" %}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <header>
+                        <div class="text-gray-500 text-sm mb-2">{% trans "March 8, 2024" %} • {% trans "5 min read" %}</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-3 group-hover:text-emerald-700 transition-colors leading-tight">
+                            {% trans "Nutrition and Fitness: Pillars of Recovery" %}
+                        </h3>
+                    </header>
+                    <p class="text-gray-600 mb-4 leading-relaxed">
+                        {% trans "Learn how proper nutrition and regular exercise can accelerate healing, improve mental health, and support long-term recovery." %}
+                    </p>
+                    <footer class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1594824694996-8b8ae73b3434?w=100&h=100&fit=crop&crop=face" 
+                                 alt="{% trans 'Lisa Park, RD' %}" 
+                                 class="w-8 h-8 rounded-full mr-2">
+                            <div class="text-sm text-gray-700">{% trans "Lisa Park, RD" %}</div>
+                        </div>
+                        <a href="#" class="text-emerald-700 hover:text-emerald-800 transition-colors font-semibold text-sm focus:outline-none focus:underline">
+                            {% trans "Read More" %}
+                        </a>
+                    </footer>
+                </div>
+            </article>
+            
+            <!-- Article 5 -->
+            <article class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1540479859555-17af45c78602?w=600&h=300&fit=crop" 
+                         alt="{% trans 'Mental health awareness and dual diagnosis treatment' %}" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-stone-500 text-white">
+                            {% trans "Mental Health" %}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <header>
+                        <div class="text-gray-500 text-sm mb-2">{% trans "March 5, 2024" %} • {% trans "4 min read" %}</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-3 group-hover:text-emerald-700 transition-colors leading-tight">
+                            {% trans "Understanding Dual Diagnosis Treatment" %}
+                        </h3>
+                    </header>
+                    <p class="text-gray-600 mb-4 leading-relaxed">
+                        {% trans "Explore the importance of treating co-occurring mental health disorders alongside addiction for comprehensive, effective recovery." %}
+                    </p>
+                    <footer class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=100&h=100&fit=crop&crop=face" 
+                                 alt="{% trans 'Dr. Patricia Williams' %}" 
+                                 class="w-8 h-8 rounded-full mr-2">
+                            <div class="text-sm text-gray-700">{% trans "Dr. Patricia Williams" %}</div>
+                        </div>
+                        <a href="#" class="text-emerald-700 hover:text-emerald-800 transition-colors font-semibold text-sm focus:outline-none focus:underline">
+                            {% trans "Read More" %}
+                        </a>
+                    </footer>
+                </div>
+            </article>
+            
+            <!-- Article 6 -->
+            <article class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1573481078935-b9605167e06b?w=600&h=300&fit=crop" 
+                         alt="{% trans 'Recovery success celebration and milestones' %}" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute top-4 left-4">
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-400 text-gray-900">
+                            {% trans "Success Stories" %}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <header>
+                        <div class="text-gray-500 text-sm mb-2">{% trans "March 3, 2024" %} • {% trans "3 min read" %}</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-3 group-hover:text-emerald-700 transition-colors leading-tight">
+                            {% trans "Celebrating Recovery Milestones: Why They Matter" %}
+                        </h3>
+                    </header>
+                    <p class="text-gray-600 mb-4 leading-relaxed">
+                        {% trans "Discover the importance of acknowledging recovery milestones and how celebrating progress can strengthen your commitment to sobriety." %}
+                    </p>
+                    <footer class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" 
+                                 alt="{% trans 'Robert Johnson' %}" 
+                                 class="w-8 h-8 rounded-full mr-2">
+                            <div class="text-sm text-gray-700">{% trans "Robert Johnson" %}</div>
+                        </div>
+                        <a href="#" class="text-emerald-700 hover:text-emerald-800 transition-colors font-semibold text-sm focus:outline-none focus:underline">
+                            {% trans "Read More" %}
+                        </a>
+                    </footer>
+                </div>
+            </article>
+        </div>
+        
+        <!-- Newsletter Signup -->
+        <div class="bg-white rounded-2xl p-8 md:p-12 text-center border border-gray-200 shadow-lg">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">
+                {% trans "Stay Informed About Recovery" %}
+            </h3>
+            <p class="text-gray-600 text-base mb-8 max-w-2xl mx-auto">
+                {% trans "Get the latest recovery insights, success stories, and treatment innovations delivered to your inbox weekly." %}
+            </p>
+            <form class="max-w-md mx-auto flex gap-4">
+                <input type="email" 
+                       placeholder="{% trans 'Enter your email address' %}" 
+                       class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:border-transparent">
+                <button type="submit" 
+                        class="px-4 py-2 bg-emerald-700 text-white rounded-lg font-semibold text-sm hover:bg-emerald-800 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-200 whitespace-nowrap">
+                    {% trans "Subscribe" %}
+                </button>
+            </form>
+            <p class="text-gray-500 text-sm mt-4">
+                {% trans "No spam, unsubscribe anytime. Your privacy is important to us." %}
+            </p>
+        </div>
+        
+        <!-- View All Articles -->
+        <div class="text-center mt-12">
+            <a href="#" class="inline-flex items-center px-6 py-3 bg-emerald-700 text-white rounded-xl font-semibold text-base hover:bg-emerald-800 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-200">
+                {% trans "View All Articles" %}
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,19 @@
+{% load i18n %}
+{% comment %}
+Odds display atom
+Usage: {% include 'atoms/odds-display.html' with odds=2.50 label='Home Win' %}
+{% endcomment %}
+
+<div class="odds-display pl-card p-3 text-center hover:bg-blue-50 cursor-pointer transition-colors">
+    <div class="odds-label text-xs pl-text opacity-75 mb-1">
+        {{ label }}
+    </div>
+    <div class="odds-value text-lg font-bold text-blue-700">
+        {{ odds }}
+    </div>
+    {% if enhanced %}
+        <div class="enhanced-tag text-xs bg-green-500 text-white px-2 py-1 rounded-full mt-1">
+            {% trans "Enhanced" %}
+        </div>
+    {% endif %}
+</div>

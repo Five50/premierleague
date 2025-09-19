@@ -1,0 +1,25 @@
+{% load i18n %}
+{% comment %}
+Breadcrumb molecule
+Usage: {% include 'molecules/breadcrumb.html' with items=breadcrumb_items %}
+items should be a list of dicts with 'label' and 'url' keys
+{% endcomment %}
+
+<nav aria-label="Breadcrumb">
+  <ol class="flex items-center space-x-2 text-xs">
+    {% for item in items %}
+      <li class="flex items-center">
+        {% if not forloop.last %}
+          <a href="{{ item.url }}" class="text-slate-600 hover:text-emerald-900 transition-colors">
+            {{ item.label }}
+          </a>
+          <svg class="w-2 h-2 ml-2" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        {% else %}
+          <span class="text-slate-100">{{ item.label }}</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+</nav>

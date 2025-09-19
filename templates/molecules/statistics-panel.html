@@ -1,0 +1,15 @@
+{% comment %}
+Statistics Panel Molecule
+Usage: {% include 'molecules/statistics-panel.html' with title="Key Statistics" stats=statistics %}
+{% endcomment %}
+
+{% load i18n %}
+
+<div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+    <h3 class="text-lg font-semibold text-slate-900 mb-4">{{ title }}</h3>
+    <div class="space-y-3">
+        {% for stat in stats %}
+            {% include 'atoms/statistic-item.html' with label=stat.label value=stat.value %}
+        {% endfor %}
+    </div>
+</div>

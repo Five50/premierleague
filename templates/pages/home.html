@@ -1,0 +1,947 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "ALLSVENSKAN Insikter - Swedish Football Statistics & Tables" %}{% endblock %}
+
+{% block content %}
+    <!-- Hero Section with Gradient -->
+    <section class="bg-gradient-to-b from-blue-700 to-80% via-slate-100 from-80% to-slate-100 text-white py-6 lg:pt-20">
+        <div class="container mx-auto space-y-6 lg:space-y-12 px-4">
+            <div class="text-center relative z-10">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    {% trans "Live Allsvenskan Table" %}
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-4xl mx-auto">
+                    {% trans "Follow the latest standings and see how your favorite teams are performing in Sweden's premier football league. Updated live with current season results." %}
+                </p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mt-12">
+                    <div class="text-center">
+                        <div class="text-3xl md:text-4xl font-bold text-yellow-400">16</div>
+                        <div class="text-sm md:text-base opacity-90">{% trans "Teams" %}</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl md:text-4xl font-bold text-yellow-400">30</div>
+                        <div class="text-sm md:text-base opacity-90">{% trans "Matches per Team" %}</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl md:text-4xl font-bold text-yellow-400">240</div>
+                        <div class="text-sm md:text-base opacity-90">{% trans "Total Matches" %}</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl md:text-4xl font-bold text-yellow-400">2025/26</div>
+                        <div class="text-sm md:text-base opacity-90">{% trans "Season" %}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-xl md:text-2xl font-bold text-white">{% trans "Top 10 Teams" %}</h2>
+                            <a href="{% url 'table' %}" class="text-yellow-400 hover:text-yellow-300 text-sm font-medium transition-colors">
+                                {% trans "View Full Table" %} →
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-600">
+                                    <th class="text-left py-3 px-4 font-semibold">#</th>
+                                    <th class="text-left py-3 px-4 font-semibold">{% trans "Team" %}</th>
+                                    <th class="text-center py-3 px-2 font-semibold">{% trans "P" %}</th>
+                                    <th class="text-center py-3 px-2 font-semibold">{% trans "W" %}</th>
+                                    <th class="text-center py-3 px-2 font-semibold">{% trans "D" %}</th>
+                                    <th class="text-center py-3 px-2 font-semibold">{% trans "L" %}</th>
+                                    <th class="text-center py-3 px-2 font-semibold">{% trans "GD" %}</th>
+                                    <th class="text-center py-3 px-2 font-semibold">{% trans "Pts" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if api_data_available and standings %}
+                                    {% for standing in standings|slice:":10" %}
+                                        <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors
+                                            {% if forloop.counter <= 2 %}bg-green-50 border-l-4 border-l-green-500
+                                            {% elif forloop.counter <= 3 %}bg-blue-50 border-l-4 border-l-blue-500
+                                            {% elif forloop.counter >= 15 %}bg-red-50 border-l-4 border-l-red-500
+                                            {% endif %}">
+                                            <td class="py-3 px-4 text-sm font-bold
+                                                {% if forloop.counter <= 2 %}text-green-600
+                                                {% elif forloop.counter <= 3 %}text-blue-600
+                                                {% elif forloop.counter >= 15 %}text-red-600
+                                                {% else %}text-slate-700
+                                                {% endif %}">{{ standing.rank }}</td>
+                                            <td class="py-3 px-4">
+                                                <div class="flex items-center space-x-3">
+                                                    {% if standing.team.logo %}
+                                                        <img src="{{ standing.team.logo }}" alt="{{ standing.team.name }}" class="w-8 h-8 object-contain">
+                                                    {% else %}
+                                                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                                            <span class="text-white text-xs font-bold">{{ standing.team.name|slice:":1"|upper }}</span>
+                                                        </div>
+                                                    {% endif %}
+                                                    <span class="font-semibold text-slate-900 text-sm md:text-base">{{ standing.team.name }}</span>
+                                                </div>
+                                            </td>
+                                            <td class="text-center py-3 px-2 text-sm text-slate-700">{{ standing.all.played }}</td>
+                                            <td class="text-center py-3 px-2 text-sm text-slate-700">{{ standing.all.win }}</td>
+                                            <td class="text-center py-3 px-2 text-sm text-slate-700">{{ standing.all.draw }}</td>
+                                            <td class="text-center py-3 px-2 text-sm text-slate-700">{{ standing.all.lose }}</td>
+                                            <td class="text-center py-3 px-2 text-sm font-medium
+                                                {% if standing.goalsDiff > 0 %}text-green-600
+                                                {% elif standing.goalsDiff < 0 %}text-red-600
+                                                {% else %}text-slate-700
+                                                {% endif %}">{{ standing.goalsDiff|stringformat:"+d" }}</td>
+                                            <td class="text-center py-3 px-2 font-bold text-blue-600">{{ standing.points }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <!-- Fallback static data when API is unavailable - show top 10 -->
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50 bg-green-50 border-l-4 border-l-green-500 transition-colors">
+                                        <td class="py-3 px-4 text-sm font-bold text-green-600">1</td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">M</span>
+                                                </div>
+                                                <span class="font-semibold text-slate-900">Malmö FF</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">15</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">12</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">2</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">1</td>
+                                        <td class="text-center py-3 px-2 text-sm font-medium text-green-600">+18</td>
+                                        <td class="text-center py-3 px-2 font-bold text-blue-600">38</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50 bg-green-50 border-l-4 border-l-green-500 transition-colors">
+                                        <td class="py-3 px-4 text-sm font-bold text-green-600">2</td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">A</span>
+                                                </div>
+                                                <span class="font-semibold text-slate-900">AIK</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">15</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">10</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">3</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">2</td>
+                                        <td class="text-center py-3 px-2 text-sm font-medium text-green-600">+12</td>
+                                        <td class="text-center py-3 px-2 font-bold text-blue-600">33</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50 bg-blue-50 border-l-4 border-l-blue-500 transition-colors">
+                                        <td class="py-3 px-4 text-sm font-bold text-blue-600">3</td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">H</span>
+                                                </div>
+                                                <span class="font-semibold text-slate-900">Hammarby IF</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">15</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">9</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">3</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">3</td>
+                                        <td class="text-center py-3 px-2 text-sm font-medium text-green-600">+8</td>
+                                        <td class="text-center py-3 px-2 font-bold text-blue-600">30</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                        <td class="py-3 px-4 text-sm font-bold text-slate-700">4</td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">D</span>
+                                                </div>
+                                                <span class="font-semibold text-slate-900">Djurgården IF</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">15</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">8</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">4</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">3</td>
+                                        <td class="text-center py-3 px-2 text-sm font-medium text-green-600">+5</td>
+                                        <td class="text-center py-3 px-2 font-bold text-blue-600">28</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                        <td class="py-3 px-4 text-sm font-bold text-slate-700">5</td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">G</span>
+                                                </div>
+                                                <span class="font-semibold text-slate-900">IFK Göteborg</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">15</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">8</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">2</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">5</td>
+                                        <td class="text-center py-3 px-2 text-sm font-medium text-green-600">+3</td>
+                                        <td class="text-center py-3 px-2 font-bold text-blue-600">26</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                        <td class="py-3 px-4 text-sm font-bold text-slate-700">6</td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-yellow-600 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">B</span>
+                                                </div>
+                                                <span class="font-semibold text-slate-900">BK Häcken</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">15</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">7</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">4</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">4</td>
+                                        <td class="text-center py-3 px-2 text-sm font-medium text-slate-700">0</td>
+                                        <td class="text-center py-3 px-2 font-bold text-blue-600">25</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                        <td class="py-3 px-4 text-sm font-bold text-slate-700">7</td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">E</span>
+                                                </div>
+                                                <span class="font-semibold text-slate-900">Elfsborg</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">15</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">6</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">6</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">3</td>
+                                        <td class="text-center py-3 px-2 text-sm font-medium text-red-600">-2</td>
+                                        <td class="text-center py-3 px-2 font-bold text-blue-600">24</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                        <td class="py-3 px-4 text-sm font-bold text-slate-700">8</td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">S</span>
+                                                </div>
+                                                <span class="font-semibold text-slate-900">Sirius IK</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">15</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">6</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">5</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">4</td>
+                                        <td class="text-center py-3 px-2 text-sm font-medium text-red-600">-1</td>
+                                        <td class="text-center py-3 px-2 font-bold text-blue-600">23</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                        <td class="py-3 px-4 text-sm font-bold text-slate-700">9</td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">H</span>
+                                                </div>
+                                                <span class="font-semibold text-slate-900">Häcken</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">15</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">5</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">7</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">3</td>
+                                        <td class="text-center py-3 px-2 text-sm font-medium text-red-600">-3</td>
+                                        <td class="text-center py-3 px-2 font-bold text-blue-600">22</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                        <td class="py-3 px-4 text-sm font-bold text-slate-700">10</td>
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">K</span>
+                                                </div>
+                                                <span class="font-semibold text-slate-900">Kalmar FF</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">15</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">5</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">6</td>
+                                        <td class="text-center py-3 px-2 text-sm text-slate-700">4</td>
+                                        <td class="text-center py-3 px-2 text-sm font-medium text-red-600">-4</td>
+                                        <td class="text-center py-3 px-2 font-bold text-blue-600">21</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <!-- Tabbed Content Section -->
+    <div class="bg-slate-100 pt-6 pb-6 lg:pb-20" x-data="{ activeTab: 'upcoming' }">
+        <div class="container mx-auto px-4">
+            <div class="mx-auto">
+                <!-- Tab Navigation -->
+                <div class="border-b border-slate-200 mb-8">
+                    <nav class="flex space-x-8">
+                        <button @click="activeTab = 'upcoming'"
+                                :class="activeTab === 'upcoming' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+                                class="py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                            {% trans "Upcoming Matches" %}
+                        </button>
+                        <button @click="activeTab = 'recent'"
+                                :class="activeTab === 'recent' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+                                class="py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                            {% trans "Recent Matches" %}
+                        </button>
+                        <button @click="activeTab = 'stats'"
+                                :class="activeTab === 'stats' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+                                class="py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                            {% trans "League Stats" %}
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Tab Content -->
+                <div>
+                    <!-- Upcoming Matches Tab -->
+                    <div x-show="activeTab === 'upcoming'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                        <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-2xl font-bold text-slate-900">{% trans "Upcoming Matches" %}</h2>
+                                <a href="{% url 'fixtures' %}" class="text-blue-600 hover:text-blue-700 text-sm font-medium">{% trans "View All Fixtures" %}</a>
+                            </div>
+
+                            <div class="space-y-4">
+                                {% if api_data_available and upcoming_fixtures %}
+                                    {% for fixture in upcoming_fixtures|slice:":5" %}
+                                        <div class="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center space-x-4 flex-1">
+                                                    <div class="flex items-center space-x-3">
+                                                        {% if fixture.teams.home.logo %}
+                                                            <img src="{{ fixture.teams.home.logo }}" alt="{{ fixture.teams.home.name }}" class="w-8 h-8 object-contain">
+                                                        {% else %}
+                                                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                                                <span class="text-white text-xs font-bold">{{ fixture.teams.home.name|slice:":1"|upper }}</span>
+                                                            </div>
+                                                        {% endif %}
+                                                        <span class="font-semibold text-slate-900">{{ fixture.teams.home.name }}</span>
+                                                    </div>
+                                                    <div class="text-lg font-bold text-slate-600">vs</div>
+                                                    <div class="flex items-center space-x-3">
+                                                        <span class="font-semibold text-slate-900">{{ fixture.teams.away.name }}</span>
+                                                        {% if fixture.teams.away.logo %}
+                                                            <img src="{{ fixture.teams.away.logo }}" alt="{{ fixture.teams.away.name }}" class="w-8 h-8 object-contain">
+                                                        {% else %}
+                                                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                                                <span class="text-white text-xs font-bold">{{ fixture.teams.away.name|slice:":1"|upper }}</span>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-sm font-medium text-slate-900">{{ fixture.fixture.date|date:"M d" }}</div>
+                                                    <div class="text-sm text-slate-500">{{ fixture.fixture.date|date:"H:i" }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <!-- Fallback static data -->
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4 flex-1">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">M</span>
+                                                    </div>
+                                                    <span class="font-semibold text-slate-900">Malmö FF</span>
+                                                </div>
+                                                <div class="text-lg font-bold text-slate-600">vs</div>
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="font-semibold text-slate-900">Hammarby IF</span>
+                                                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">H</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-sm font-medium text-slate-900">{% trans "Oct 21" %}</div>
+                                                <div class="text-sm text-slate-500">19:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4 flex-1">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">A</span>
+                                                    </div>
+                                                    <span class="font-semibold text-slate-900">AIK</span>
+                                                </div>
+                                                <div class="text-lg font-bold text-slate-600">vs</div>
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="font-semibold text-slate-900">Djurgården IF</span>
+                                                    <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">D</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-sm font-medium text-slate-900">{% trans "Oct 22" %}</div>
+                                                <div class="text-sm text-slate-500">16:30</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4 flex-1">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">G</span>
+                                                    </div>
+                                                    <span class="font-semibold text-slate-900">IFK Göteborg</span>
+                                                </div>
+                                                <div class="text-lg font-bold text-slate-600">vs</div>
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="font-semibold text-slate-900">Elfsborg</span>
+                                                    <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">E</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-sm font-medium text-slate-900">{% trans "Oct 23" %}</div>
+                                                <div class="text-sm text-slate-500">14:00</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Matches Tab -->
+                    <div x-show="activeTab === 'recent'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                        <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-2xl font-bold text-slate-900">{% trans "Recent Matches" %}</h2>
+                                <a href="{% url 'fixtures' %}" class="text-blue-600 hover:text-blue-700 text-sm font-medium">{% trans "View All Results" %}</a>
+                            </div>
+
+                            <div class="space-y-4">
+                                {% if api_data_available and recent_fixtures %}
+                                    {% for fixture in recent_fixtures|slice:":5" %}
+                                        <div class="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center space-x-4 flex-1">
+                                                    <div class="flex items-center space-x-3">
+                                                        {% if fixture.teams.home.logo %}
+                                                            <img src="{{ fixture.teams.home.logo }}" alt="{{ fixture.teams.home.name }}" class="w-8 h-8 object-contain">
+                                                        {% else %}
+                                                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                                                <span class="text-white text-xs font-bold">{{ fixture.teams.home.name|slice:":1"|upper }}</span>
+                                                            </div>
+                                                        {% endif %}
+                                                        <span class="font-semibold text-slate-900">{{ fixture.teams.home.name }}</span>
+                                                    </div>
+                                                    <div class="text-lg font-bold text-slate-900">{{ fixture.goals.home|default:"0" }} - {{ fixture.goals.away|default:"0" }}</div>
+                                                    <div class="flex items-center space-x-3">
+                                                        <span class="font-semibold text-slate-900">{{ fixture.teams.away.name }}</span>
+                                                        {% if fixture.teams.away.logo %}
+                                                            <img src="{{ fixture.teams.away.logo }}" alt="{{ fixture.teams.away.name }}" class="w-8 h-8 object-contain">
+                                                        {% else %}
+                                                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                                                <span class="text-white text-xs font-bold">{{ fixture.teams.away.name|slice:":1"|upper }}</span>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-sm font-medium text-slate-900">{{ fixture.fixture.date|date:"M d" }}</div>
+                                                    <div class="text-sm text-slate-500">{{ fixture.fixture.status.short }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <!-- Fallback static data -->
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4 flex-1">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">M</span>
+                                                    </div>
+                                                    <span class="font-semibold text-slate-900">Malmö FF</span>
+                                                </div>
+                                                <div class="text-lg font-bold text-slate-900">2 - 1</div>
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="font-semibold text-slate-900">AIK</span>
+                                                    <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">A</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-sm font-medium text-slate-900">{% trans "Oct 15" %}</div>
+                                                <div class="text-sm text-slate-500">FT</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4 flex-1">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">H</span>
+                                                    </div>
+                                                    <span class="font-semibold text-slate-900">Hammarby IF</span>
+                                                </div>
+                                                <div class="text-lg font-bold text-slate-900">1 - 1</div>
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="font-semibold text-slate-900">Djurgården IF</span>
+                                                    <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">D</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-sm font-medium text-slate-900">{% trans "Oct 13" %}</div>
+                                                <div class="text-sm text-slate-500">FT</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4 flex-1">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">G</span>
+                                                    </div>
+                                                    <span class="font-semibold text-slate-900">IFK Göteborg</span>
+                                                </div>
+                                                <div class="text-lg font-bold text-slate-900">3 - 0</div>
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="font-semibold text-slate-900">Elfsborg</span>
+                                                    <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                                                        <span class="text-white text-xs font-bold">E</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-sm font-medium text-slate-900">{% trans "Oct 12" %}</div>
+                                                <div class="text-sm text-slate-500">FT</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- League Stats Tab -->
+                    <div x-show="activeTab === 'stats'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                        <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                            <h2 class="text-2xl font-bold text-slate-900 mb-6">{% trans "League Statistics" %}</h2>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                <!-- Top Scorers -->
+                                <div>
+                                    <h3 class="text-lg font-semibold text-slate-900 mb-4">{% trans "Top Scorers" %}</h3>
+                                    <div class="space-y-3">
+                                        {% if api_data_available and top_scorers %}
+                                            {% for scorer in top_scorers|slice:":5" %}
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="text-sm font-bold
+                                                        {% if forloop.counter == 1 %}text-yellow-600
+                                                        {% elif forloop.counter == 2 %}text-slate-500
+                                                        {% elif forloop.counter == 3 %}text-amber-600
+                                                        {% else %}text-blue-600{% endif %}">{{ forloop.counter }}.</div>
+                                                    {% if scorer.player.photo %}
+                                                        <img src="{{ scorer.player.photo }}" alt="{{ scorer.player.name }}" class="w-8 h-8 rounded-full object-cover">
+                                                    {% else %}
+                                                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                                            <span class="text-white text-xs font-bold">{{ scorer.player.name|slice:":1"|upper }}</span>
+                                                        </div>
+                                                    {% endif %}
+                                                    <div class="flex-1">
+                                                        <div class="font-semibold text-slate-900 text-sm">{{ scorer.player.name }}</div>
+                                                        <div class="text-xs text-slate-500">{{ scorer.statistics.0.team.name }}</div>
+                                                    </div>
+                                                    <div class="text-lg font-bold
+                                                        {% if forloop.counter == 1 %}text-yellow-600
+                                                        {% elif forloop.counter == 2 %}text-slate-500
+                                                        {% elif forloop.counter == 3 %}text-amber-600
+                                                        {% else %}text-blue-600{% endif %}">{{ scorer.statistics.0.goals.total|default:0 }}</div>
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <!-- Fallback static data -->
+                                            <div class="flex items-center space-x-3">
+                                                <div class="text-sm font-bold text-yellow-600">1.</div>
+                                                <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">V</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="font-semibold text-slate-900 text-sm">Viktor Gyökeres</div>
+                                                    <div class="text-xs text-slate-500">Malmö FF</div>
+                                                </div>
+                                                <div class="text-lg font-bold text-yellow-600">18</div>
+                                            </div>
+                                            <div class="flex items-center space-x-3">
+                                                <div class="text-sm font-bold text-slate-500">2.</div>
+                                                <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">S</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="font-semibold text-slate-900 text-sm">Sebastian Andersson</div>
+                                                    <div class="text-xs text-slate-500">AIK</div>
+                                                </div>
+                                                <div class="text-lg font-bold text-slate-500">14</div>
+                                            </div>
+                                            <div class="flex items-center space-x-3">
+                                                <div class="text-sm font-bold text-amber-600">3.</div>
+                                                <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">M</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="font-semibold text-slate-900 text-sm">Marcus Berg</div>
+                                                    <div class="text-xs text-slate-500">Hammarby IF</div>
+                                                </div>
+                                                <div class="text-lg font-bold text-amber-600">12</div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Top Assists -->
+                                <div>
+                                    <h3 class="text-lg font-semibold text-slate-900 mb-4">{% trans "Most Assists" %}</h3>
+                                    <div class="space-y-3">
+                                        {% if api_data_available and top_assists %}
+                                            {% for player in top_assists|slice:":5" %}
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="text-sm font-bold
+                                                        {% if forloop.counter == 1 %}text-yellow-600
+                                                        {% elif forloop.counter == 2 %}text-slate-500
+                                                        {% elif forloop.counter == 3 %}text-amber-600
+                                                        {% else %}text-blue-600{% endif %}">{{ forloop.counter }}.</div>
+                                                    {% if player.player.photo %}
+                                                        <img src="{{ player.player.photo }}" alt="{{ player.player.name }}" class="w-8 h-8 rounded-full object-cover">
+                                                    {% else %}
+                                                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                                            <span class="text-white text-xs font-bold">{{ player.player.name|slice:":1"|upper }}</span>
+                                                        </div>
+                                                    {% endif %}
+                                                    <div class="flex-1">
+                                                        <div class="font-semibold text-slate-900 text-sm">{{ player.player.name }}</div>
+                                                        <div class="text-xs text-slate-500">{{ player.statistics.0.team.name }}</div>
+                                                    </div>
+                                                    <div class="text-lg font-bold
+                                                        {% if forloop.counter == 1 %}text-yellow-600
+                                                        {% elif forloop.counter == 2 %}text-slate-500
+                                                        {% elif forloop.counter == 3 %}text-amber-600
+                                                        {% else %}text-blue-600{% endif %}">{{ player.statistics.0.goals.assists|default:0 }}</div>
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <!-- Fallback static data -->
+                                            <div class="flex items-center space-x-3">
+                                                <div class="text-sm font-bold text-yellow-600">1.</div>
+                                                <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">L</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="font-semibold text-slate-900 text-sm">Lars Magnusson</div>
+                                                    <div class="text-xs text-slate-500">Hammarby IF</div>
+                                                </div>
+                                                <div class="text-lg font-bold text-yellow-600">9</div>
+                                            </div>
+                                            <div class="flex items-center space-x-3">
+                                                <div class="text-sm font-bold text-slate-500">2.</div>
+                                                <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">A</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="font-semibold text-slate-900 text-sm">Anders Svensson</div>
+                                                    <div class="text-xs text-slate-500">Malmö FF</div>
+                                                </div>
+                                                <div class="text-lg font-bold text-slate-500">8</div>
+                                            </div>
+                                            <div class="flex items-center space-x-3">
+                                                <div class="text-sm font-bold text-amber-600">3.</div>
+                                                <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">K</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="font-semibold text-slate-900 text-sm">Kalle Holmberg</div>
+                                                    <div class="text-xs text-slate-500">Djurgården IF</div>
+                                                </div>
+                                                <div class="text-lg font-bold text-amber-600">7</div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Clean Sheets -->
+                                <div>
+                                    <h3 class="text-lg font-semibold text-slate-900 mb-4">{% trans "Clean Sheets" %}</h3>
+                                    <div class="space-y-3">
+                                        {% if api_data_available and clean_sheets %}
+                                            {% for keeper in clean_sheets|slice:":5" %}
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="text-sm font-bold
+                                                        {% if forloop.counter == 1 %}text-yellow-600
+                                                        {% elif forloop.counter == 2 %}text-slate-500
+                                                        {% elif forloop.counter == 3 %}text-amber-600
+                                                        {% else %}text-blue-600{% endif %}">{{ forloop.counter }}.</div>
+                                                    {% if keeper.player.photo %}
+                                                        <img src="{{ keeper.player.photo }}" alt="{{ keeper.player.name }}" class="w-8 h-8 rounded-full object-cover">
+                                                    {% else %}
+                                                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                                            <span class="text-white text-xs font-bold">{{ keeper.player.name|slice:":1"|upper }}</span>
+                                                        </div>
+                                                    {% endif %}
+                                                    <div class="flex-1">
+                                                        <div class="font-semibold text-slate-900 text-sm">{{ keeper.player.name }}</div>
+                                                        <div class="text-xs text-slate-500">{{ keeper.statistics.0.team.name }}</div>
+                                                    </div>
+                                                    <div class="text-lg font-bold
+                                                        {% if forloop.counter == 1 %}text-yellow-600
+                                                        {% elif forloop.counter == 2 %}text-slate-500
+                                                        {% elif forloop.counter == 3 %}text-amber-600
+                                                        {% else %}text-blue-600{% endif %}">{{ keeper.statistics.0.goals.conceded|default:0 }}</div>
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <!-- Fallback static data -->
+                                            <div class="flex items-center space-x-3">
+                                                <div class="text-sm font-bold text-yellow-600">1.</div>
+                                                <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">O</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="font-semibold text-slate-900 text-sm">Oscar Lindqvist</div>
+                                                    <div class="text-xs text-slate-500">AIK</div>
+                                                </div>
+                                                <div class="text-lg font-bold text-yellow-600">11</div>
+                                            </div>
+                                            <div class="flex items-center space-x-3">
+                                                <div class="text-sm font-bold text-slate-500">2.</div>
+                                                <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">J</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="font-semibold text-slate-900 text-sm">Johan Dahlin</div>
+                                                    <div class="text-xs text-slate-500">Malmö FF</div>
+                                                </div>
+                                                <div class="text-lg font-bold text-slate-500">9</div>
+                                            </div>
+                                            <div class="flex items-center space-x-3">
+                                                <div class="text-sm font-bold text-amber-600">3.</div>
+                                                <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-bold">B</span>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="font-semibold text-slate-900 text-sm">Blazej Augustyn</div>
+                                                    <div class="text-xs text-slate-500">Hammarby IF</div>
+                                                </div>
+                                                <div class="text-lg font-bold text-amber-600">8</div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Latest News -->
+    <div class="bg-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="border-b border-gray-200 pb-4 mb-8">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-3xl font-bold text-gray-900">{% trans "Latest News" %}</h2>
+                    <a href="{% url 'blog' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+                        {% trans "All News" %}
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Featured Story -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <article class="group">
+                    <a href="{% url 'blog-post' 'malmo-ff-midfielder-signing' %}" class="block">
+                        <div class="relative overflow-hidden rounded-lg mb-4">
+                            <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600&h=400&fit=crop&q=80"
+                                 alt="{% trans 'Football player signing contract' %}"
+                                 class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-red-600 text-white px-3 py-1 text-xs font-bold uppercase tracking-wide rounded">{% trans "Breaking" %}</span>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <span class="text-blue-600 text-sm font-medium uppercase tracking-wide">{% trans "Transfer News" %}</span>
+                            <time class="text-gray-500 text-sm ml-2">{% trans "2 hours ago" %}</time>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                            {% trans "Malmö FF Completes Major Signing of Danish Midfielder" %}
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            {% trans "The Allsvenskan leaders have secured the services of Copenhagen's star midfielder in a deal worth €3.2 million, strengthening their squad as they push for the championship title. The 24-year-old Danish international brings creativity and defensive stability to their midfield." %}
+                        </p>
+                    </a>
+                </article>
+
+                <div class="space-y-6">
+                    <!-- Secondary Stories -->
+                    <article class="group flex space-x-4">
+                        <a href="{% url 'blog-post' 'aik-tactical-evolution-championship' %}" class="flex space-x-4">
+                            <div class="flex-shrink-0">
+                                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=150&h=100&fit=crop&q=80"
+                                     alt="{% trans 'Football tactical board' %}"
+                                     class="w-32 h-20 object-cover rounded group-hover:opacity-75 transition-opacity">
+                            </div>
+                            <div class="flex-1">
+                                <div class="mb-1">
+                                    <span class="text-blue-600 text-xs font-medium uppercase tracking-wide">{% trans "Analysis" %}</span>
+                                    <time class="text-gray-500 text-xs ml-2">{% trans "5 hours ago" %}</time>
+                                </div>
+                                <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors leading-tight">
+                                    {% trans "AIK's Tactical Revolution Paying Dividends" %}
+                                </h4>
+                                <p class="text-gray-600 text-sm line-clamp-2">
+                                    {% trans "The Stockholm club's switch to a 3-5-2 formation has transformed their season, with defensive solidity the foundation of their title charge." %}
+                                </p>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="group flex space-x-4">
+                        <a href="{% url 'blog-post' 'hammarby-star-forward-return-derby' %}" class="flex space-x-4">
+                            <div class="flex-shrink-0">
+                                <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=150&h=100&fit=crop&q=80"
+                                     alt="{% trans 'Football player with medical team' %}"
+                                     class="w-32 h-20 object-cover rounded group-hover:opacity-75 transition-opacity">
+                            </div>
+                            <div class="flex-1">
+                                <div class="mb-1">
+                                    <span class="text-blue-600 text-xs font-medium uppercase tracking-wide">{% trans "Team News" %}</span>
+                                    <time class="text-gray-500 text-xs ml-2">{% trans "1 day ago" %}</time>
+                                </div>
+                                <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors leading-tight">
+                                    {% trans "Hammarby Star Set for Derby Return" %}
+                                </h4>
+                                <p class="text-gray-600 text-sm line-clamp-2">
+                                    {% trans "Swedish international forward cleared for action after hamstring injury, boosting Hammarby's hopes in crucial Stockholm derby clash." %}
+                                </p>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="group flex space-x-4">
+                        <a href="{% url 'blog-post' 'stockholm-derby-preview' %}" class="flex space-x-4">
+                            <div class="flex-shrink-0">
+                                <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=150&h=100&fit=crop&q=80"
+                                     alt="{% trans 'Football stadium crowd' %}"
+                                     class="w-32 h-20 object-cover rounded group-hover:opacity-75 transition-opacity">
+                            </div>
+                            <div class="flex-1">
+                                <div class="mb-1">
+                                    <span class="text-blue-600 text-xs font-medium uppercase tracking-wide">{% trans "Preview" %}</span>
+                                    <time class="text-gray-500 text-xs ml-2">{% trans "3 hours ago" %}</time>
+                                </div>
+                                <h4 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors leading-tight">
+                                    {% trans "Stockholm Derby: Title Implications" %}
+                                </h4>
+                                <p class="text-gray-600 text-sm line-clamp-2">
+                                    {% trans "Hammarby vs Djurgården carries massive championship significance as both clubs fight for European qualification spots." %}
+                                </p>
+                            </div>
+                        </a>
+                    </article>
+                </div>
+            </div>
+
+            <!-- More Stories Grid -->
+            <div class="border-t border-gray-200 pt-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <article class="group">
+                        <a href="{% url 'blog-post' 'top-scorers-race-heating-up' %}" class="block">
+                            <div class="relative overflow-hidden rounded-lg mb-4">
+                                <img src="https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=400&h=240&fit=crop&q=80"
+                                     alt="{% trans 'Football goal celebration' %}"
+                                     class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-blue-600 text-sm font-medium uppercase tracking-wide">{% trans "Golden Boot" %}</span>
+                                <time class="text-gray-500 text-sm ml-2">{% trans "6 hours ago" %}</time>
+                            </div>
+                            <h4 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                                {% trans "Top Scorer Race Enters Final Stretch" %}
+                            </h4>
+                            <p class="text-gray-600">
+                                {% trans "Just two goals separate the top three strikers as the Golden Boot race intensifies with six matches remaining in the season." %}
+                            </p>
+                        </a>
+                    </article>
+
+                    <article class="group">
+                        <a href="{% url 'blog-post' 'european-qualification-battle' %}" class="block">
+                            <div class="relative overflow-hidden rounded-lg mb-4">
+                                <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=400&h=240&fit=crop&q=80"
+                                     alt="{% trans 'European football competition' %}"
+                                     class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-blue-600 text-sm font-medium uppercase tracking-wide">{% trans "European Places" %}</span>
+                                <time class="text-gray-500 text-sm ml-2">{% trans "8 hours ago" %}</time>
+                            </div>
+                            <h4 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                                {% trans "Five Teams Battle for Europe" %}
+                            </h4>
+                            <p class="text-gray-600">
+                                {% trans "The fight for Champions League and Europa League qualification spots remains wide open with multiple teams in contention." %}
+                            </p>
+                        </a>
+                    </article>
+
+                    <article class="group">
+                        <a href="{% url 'blog-post' 'young-talent-breakthrough' %}" class="block">
+                            <div class="relative overflow-hidden rounded-lg mb-4">
+                                <img src="https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=400&h=240&fit=crop&q=80"
+                                     alt="{% trans 'Young football player' %}"
+                                     class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-blue-600 text-sm font-medium uppercase tracking-wide">{% trans "Youth Focus" %}</span>
+                                <time class="text-gray-500 text-sm ml-2">{% trans "12 hours ago" %}</time>
+                            </div>
+                            <h4 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                                {% trans "Rising Stars Make Their Mark" %}
+                            </h4>
+                            <p class="text-gray-600">
+                                {% trans "Several teenage talents have emerged as key players this season, showcasing the strength of Swedish youth development." %}
+                            </p>
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Preview -->
+    {% include 'organisms/products-section.html' %}
+{% endblock %}

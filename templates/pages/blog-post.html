@@ -1,0 +1,469 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Malmö FF's Championship Strategy: A Tactical Deep Dive" %} | Allsvenskan Insikter{% endblock %}
+
+{% block meta_description %}{% trans "An in-depth analysis of Malmö FF's tactical evolution and strategic approach that has positioned them as serious championship contenders in Allsvenskan 2025." %}{% endblock %}
+
+{% block content %}
+<!-- Article Header -->
+<section class="bg-gradient-to-br from-blue-50 to-slate-50 py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center space-x-4 mb-6">
+                <a href="{% url 'blog' %}" class="text-blue-600 hover:text-blue-800 font-medium">
+                    ← {% trans "Back to News" %}
+                </a>
+                <span class="text-slate-400">|</span>
+                <span class="px-3 py-1 bg-blue-100 text-blue-900 text-sm font-medium rounded-full">
+                    {% trans "Tactical Analysis" %}
+                </span>
+                <span class="px-3 py-1 bg-red-100 text-red-900 text-sm font-medium rounded-full">
+                    {% trans "Featured" %}
+                </span>
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+                {% trans "Malmö FF's Championship Strategy: A Tactical Deep Dive" %}
+            </h1>
+            <p class="text-xl text-slate-600 mb-8 max-w-4xl leading-relaxed">
+                {% trans "How the Swedish giants transformed their playing style and tactical approach to dominate Allsvenskan and establish themselves as serious contenders for European competition." %}
+            </p>
+            <div class="flex flex-wrap items-center gap-6 text-slate-600">
+                <div class="flex items-center">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face&q=80"
+                         alt="Erik Lindström" class="w-12 h-12 rounded-full mr-3 object-cover">
+                    <div>
+                        <p class="font-semibold text-slate-900">Erik Lindström</p>
+                        <p class="text-sm">{% trans "Football Analyst" %}</p>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face&q=80"
+                         alt="Lars Andersson" class="w-12 h-12 rounded-full mr-3 object-cover">
+                    <div>
+                        <p class="font-semibold text-slate-900">Lars Andersson</p>
+                        <p class="text-sm">{% trans "Former Sweden International" %}</p>
+                    </div>
+                </div>
+                <span>{% trans "September 18, 2025" %}</span>
+                <span>{% trans "15 min read" %}</span>
+                <div class="flex items-center space-x-1">
+                    <span class="text-amber-400">★★★★★</span>
+                    <span class="text-sm">(4.8)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Article Content with Sidebar Layout -->
+<article class="py-12">
+    <div class="container mx-auto px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <!-- Main Content -->
+                <div class="lg:col-span-2">
+                    <div class="prose prose-lg prose-slate max-w-none">
+                        <!-- Featured Image -->
+                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&h=600&fit=crop&q=80"
+                             alt="{% trans 'Malmö FF tactical formation on football pitch' %}"
+                             class="w-full rounded-lg shadow-lg mb-8">
+
+                        <!-- Introduction -->
+                        <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                            {% trans "Malmö FF's transformation from a struggling mid-table team to championship contenders represents one of Allsvenskan's most remarkable tactical evolutions. Under new management, the club has implemented a sophisticated playing philosophy that combines traditional Swedish football values with modern tactical innovations, creating a blueprint that other clubs are beginning to emulate." %}
+                        </p>
+
+                        <!-- Section 1: Tactical Foundation -->
+                        <h2 id="tactical-foundation" class="text-2xl font-bold text-slate-900 mt-8 mb-4">{% trans "The 4-3-3 Foundation: Building from the Back" %}</h2>
+                        <p class="mb-6">
+                            {% trans "At the heart of Malmö's tactical revolution lies their commitment to a possession-based 4-3-3 formation that prioritizes ball circulation and patient build-up play. This system allows the team to control tempo while maintaining defensive stability—a crucial balance in Allsvenskan's physically demanding environment." %}
+                        </p>
+
+                        <!-- Expert Quote -->
+                        <blockquote class="bg-blue-50 border-l-4 border-blue-600 p-6 my-8 italic text-slate-700">
+                            <p class="text-lg mb-4">
+                                {% trans "Malmö's tactical discipline is exceptional. They never lose their shape, never panic under pressure. That's the mark of a championship-caliber team." %}
+                            </p>
+                            <footer class="text-slate-600 font-semibold">— Lars Andersson, Former Sweden International</footer>
+                        </blockquote>
+
+                        <!-- Tactical Breakdown -->
+                        <div class="grid md:grid-cols-2 gap-6 my-8">
+                            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3 flex items-center">
+                                    <span class="text-blue-600 mr-2">⚽</span>
+                                    {% trans "Defensive Phase" %}
+                                </h4>
+                                <ul class="space-y-2 text-slate-700">
+                                    <li>• Compact defensive block</li>
+                                    <li>• High press triggers</li>
+                                    <li>• Immediate ball recovery</li>
+                                    <li>• Zonal marking in set pieces</li>
+                                    <li>• Quick transition to attack</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-900 mb-3 flex items-center">
+                                    <span class="text-blue-600 mr-2">🎯</span>
+                                    {% trans "Attacking Phase" %}
+                                </h4>
+                                <ul class="space-y-2 text-slate-700">
+                                    <li>• Patient build-up play</li>
+                                    <li>• Wide overloads</li>
+                                    <li>• Central midfielder drops deep</li>
+                                    <li>• Inverted wingers cut inside</li>
+                                    <li>• Late runs into the box</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Key Players -->
+                        <h2 id="key-players" class="text-2xl font-bold text-slate-900 mt-8 mb-4">{% trans "Tactical Catalysts: The Key Players" %}</h2>
+
+                        <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1200&h=400&fit=crop&q=80"
+                             alt="{% trans 'Football players in tactical discussion' %}"
+                             class="w-full rounded-lg shadow-lg my-8">
+
+                        <p class="mb-6">
+                            {% trans "The success of any tactical system depends on having the right personnel in key positions. Malmö's recruitment strategy has been laser-focused on finding players who can execute their specific tactical demands while maintaining the flexibility to adapt to different game scenarios." %}
+                        </p>
+
+                        <!-- Player Analysis -->
+                        <div class="bg-white border border-slate-200 rounded-lg overflow-hidden my-8">
+                            <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4">
+                                <h4 class="font-semibold text-lg">{% trans "Positional Analysis: The Tactical Framework" %}</h4>
+                            </div>
+                            <div class="p-6">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div>
+                                        <h5 class="font-semibold text-slate-900 mb-2">{% trans "Defensive Third" %}</h5>
+                                        <ul class="text-sm text-slate-700 space-y-1">
+                                            <li>• Ball-playing centre-backs</li>
+                                            <li>• Attacking full-backs</li>
+                                            <li>• Sweeper-keeper system</li>
+                                            <li>• Quick distribution</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-slate-900 mb-2">{% trans "Middle Third" %}</h5>
+                                        <ul class="text-sm text-slate-700 space-y-1">
+                                            <li>• Deep-lying playmaker</li>
+                                            <li>• Box-to-box midfielders</li>
+                                            <li>• Defensive work rate</li>
+                                            <li>• Creative passing range</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-slate-900 mb-2">{% trans "Final Third" %}</h5>
+                                        <ul class="text-sm text-slate-700 space-y-1">
+                                            <li>• Versatile wingers</li>
+                                            <li>• Clinical striker</li>
+                                            <li>• Movement off the ball</li>
+                                            <li>• Press-resistant technique</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expert Commentary Section -->
+                        <div class="bg-gradient-to-r from-slate-50 to-blue-50 p-8 rounded-lg border border-slate-200 my-8">
+                            <h3 class="text-xl font-semibold text-slate-900 mb-4 flex items-center">
+                                <span class="text-blue-600 mr-2">👨‍🏫</span>
+                                {% trans "Expert Commentary: The Tactical Revolution" %}
+                            </h3>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <div class="flex items-start mb-4">
+                                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face&q=80"
+                                             alt="Erik Lindström" class="w-10 h-10 rounded-full mr-3 object-cover">
+                                        <div>
+                                            <h4 class="font-semibold text-slate-900 text-sm">Erik Lindström</h4>
+                                            <p class="text-xs text-slate-600">{% trans "Tactical Analyst" %}</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-slate-700 italic text-sm">
+                                        {% trans "What impresses me most about Malmö's approach is their patience in possession. They're willing to make 15-20 passes to create one clear chance, rather than forcing low-percentage attacks. This maturity is what separates them from other Allsvenskan teams." %}
+                                    </p>
+                                </div>
+                                <div>
+                                    <div class="flex items-start mb-4">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face&q=80"
+                                             alt="Lars Andersson" class="w-10 h-10 rounded-full mr-3 object-cover">
+                                        <div>
+                                            <h4 class="font-semibold text-slate-900 text-sm">Lars Andersson</h4>
+                                            <p class="text-xs text-slate-600">{% trans "Former Sweden International" %}</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-slate-700 italic text-sm">
+                                        {% trans "Having played at the highest level, I can appreciate the tactical intelligence required to execute this system. Every player understands their role perfectly, and more importantly, they understand how their role connects to the team's overall strategy." %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Set Pieces -->
+                        <h2 id="set-pieces" class="text-2xl font-bold text-slate-900 mt-8 mb-4">{% trans "Set Piece Mastery: The Hidden Advantage" %}</h2>
+                        <p class="mb-6">
+                            {% trans "One of the most overlooked aspects of Malmö's success has been their meticulous approach to set pieces. In a league where margins are often razor-thin, their ability to consistently create and convert opportunities from dead ball situations has proven decisive in crucial matches." %}
+                        </p>
+
+                        <div class="bg-blue-50 border-l-4 border-blue-600 p-6 my-8">
+                            <p class="font-semibold text-blue-900 mb-2">{% trans "Statistical Insight:" %}</p>
+                            <p class="text-blue-800">
+                                {% trans "Malmö FF has scored 47% of their goals from set pieces this season, the highest rate in Allsvenskan. Their defensive record from corners and free kicks is equally impressive, conceding just 3 goals from 127 set piece situations faced." %}
+                            </p>
+                        </div>
+
+                        <!-- Section 4: Future Evolution -->
+                        <h2 id="future-evolution" class="text-2xl font-bold text-slate-900 mt-8 mb-4">{% trans "The Road Ahead: Tactical Evolution" %}</h2>
+                        <p class="mb-6">
+                            {% trans "As opponents adapt to Malmö's tactical approach, the coaching staff continues to refine and evolve their system. The key to sustained success lies in maintaining tactical flexibility while preserving the core principles that have made them so effective." %}
+                        </p>
+
+                        <div class="space-y-6">
+                            <div class="border-l-4 border-blue-600 pl-6">
+                                <h4 class="font-semibold text-slate-900 mb-2">{% trans "European Aspirations" %}</h4>
+                                <p class="text-slate-700">
+                                    {% trans "The tactical sophistication displayed domestically positions Malmö well for European competition, where their patient build-up play and defensive discipline will be tested against elite opposition." %}
+                                </p>
+                            </div>
+                            <div class="border-l-4 border-blue-600 pl-6">
+                                <h4 class="font-semibold text-slate-900 mb-2">{% trans "Youth Development" %}</h4>
+                                <p class="text-slate-700">
+                                    {% trans "The academy system has been restructured to produce players who can seamlessly integrate into the first team's tactical framework, ensuring long-term sustainability." %}
+                                </p>
+                            </div>
+                            <div class="border-l-4 border-blue-600 pl-6">
+                                <h4 class="font-semibold text-slate-900 mb-2">{% trans "Tactical Innovations" %}</h4>
+                                <p class="text-slate-700">
+                                    {% trans "Ongoing analysis of opponent tendencies and new tactical trends ensures that Malmö remains ahead of the curve in their strategic approach." %}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Conclusion -->
+                        <h2 id="conclusion" class="text-2xl font-bold text-slate-900 mt-8 mb-4">{% trans "The Championship Blueprint" %}</h2>
+                        <p class="mb-6">
+                            {% trans "Malmö FF's tactical transformation demonstrates that success in modern football requires more than individual talent—it demands a comprehensive understanding of tactical principles, meticulous preparation, and the discipline to execute a game plan consistently across an entire season." %}
+                        </p>
+                        <p class="mb-6">
+                            {% trans "Their approach serves as a template for other Allsvenskan clubs: invest in tactical education, recruit players who fit the system, and maintain unwavering commitment to the chosen philosophy. In an era of tactical evolution, Malmö FF has positioned itself at the forefront of Swedish football's strategic renaissance." %}
+                        </p>
+                    </div>
+
+                    <!-- Author Bios -->
+                    <div class="grid md:grid-cols-2 gap-6 mt-12">
+                        <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                            <div class="flex items-start">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face&q=80"
+                                     alt="Erik Lindström" class="w-20 h-20 rounded-full mr-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-slate-900 mb-2">{% trans "About Erik Lindström" %}</h3>
+                                    <p class="text-slate-700 mb-3 text-sm">
+                                        {% trans "Erik is a leading football analyst specializing in Allsvenskan tactics and strategy. With over 15 years of experience covering Swedish football, he has become one of the most respected voices in tactical analysis." %}
+                                    </p>
+                                    <div class="flex space-x-3">
+                                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium text-sm">{% trans "View Profile" %}</a>
+                                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium text-sm">{% trans "More Articles" %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                            <div class="flex items-start">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face&q=80"
+                                     alt="Lars Andersson" class="w-20 h-20 rounded-full mr-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-slate-900 mb-2">{% trans "About Lars Andersson" %}</h3>
+                                    <p class="text-slate-700 mb-3 text-sm">
+                                        {% trans "Former Sweden international with 73 caps, Lars brings elite-level playing experience to his analysis. He holds a UEFA Pro coaching license and currently works as a tactical consultant for several clubs." %}
+                                    </p>
+                                    <div class="flex space-x-3">
+                                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium text-sm">{% trans "View Profile" %}</a>
+                                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium text-sm">{% trans "More Articles" %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Share Buttons -->
+                    <div class="border-t border-b border-slate-200 py-6 mt-12 mb-8">
+                        <div class="flex items-center justify-between">
+                            <p class="text-slate-600">{% trans "Share this analysis:" %}</p>
+                            <div class="flex space-x-3">
+                                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Facebook</button>
+                                <button class="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition">Twitter</button>
+                                <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">WhatsApp</button>
+                                <button class="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition">Email</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Related Articles -->
+                    <div class="mt-12">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-6">{% trans "More Tactical Analysis" %}</h2>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <article class="bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-lg transition group">
+                                <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=200&fit=crop&q=80" alt="{% trans 'AIK Stockholm tactical analysis' %}" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-slate-900 mb-2 group-hover:text-blue-600 transition">{% trans "AIK's Counter-Attacking Masterclass" %}</h3>
+                                    <p class="text-sm text-slate-600">{% trans "How Stockholm's giants weaponize transitions" %}</p>
+                                    <span class="text-xs text-blue-600 font-medium">{% trans "8 min read" %}</span>
+                                </div>
+                            </article>
+                            <article class="bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-lg transition group">
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop&q=80" alt="{% trans 'Hammarby tactical formation' %}" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-slate-900 mb-2 group-hover:text-blue-600 transition">{% trans "Hammarby's High-Press Revolution" %}</h3>
+                                    <p class="text-sm text-slate-600">{% trans "Tactical intensity meets technical quality" %}</p>
+                                    <span class="text-xs text-blue-600 font-medium">{% trans "12 min read" %}</span>
+                                </div>
+                            </article>
+                            <article class="bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-lg transition group">
+                                <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=400&h=200&fit=crop&q=80" alt="{% trans 'Djurgården youth development' %}" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-slate-900 mb-2 group-hover:text-blue-600 transition">{% trans "Djurgården's Academy Blueprint" %}</h3>
+                                    <p class="text-sm text-slate-600">{% trans "Building stars through tactical education" %}</p>
+                                    <span class="text-xs text-blue-600 font-medium">{% trans "15 min read" %}</span>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="sticky top-8 space-y-8">
+                        <!-- Table of Contents -->
+                        <div class="bg-white border border-slate-200 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-slate-900 mb-4">{% trans "Table of Contents" %}</h3>
+                            <nav class="space-y-2">
+                                <a href="#tactical-foundation" class="block text-blue-600 hover:text-blue-800 py-1 px-2 rounded hover:bg-blue-50 transition text-sm">
+                                    {% trans "The 4-3-3 Foundation" %}
+                                </a>
+                                <a href="#key-players" class="block text-blue-600 hover:text-blue-800 py-1 px-2 rounded hover:bg-blue-50 transition text-sm">
+                                    {% trans "Tactical Catalysts" %}
+                                </a>
+                                <a href="#set-pieces" class="block text-blue-600 hover:text-blue-800 py-1 px-2 rounded hover:bg-blue-50 transition text-sm">
+                                    {% trans "Set Piece Mastery" %}
+                                </a>
+                                <a href="#future-evolution" class="block text-blue-600 hover:text-blue-800 py-1 px-2 rounded hover:bg-blue-50 transition text-sm">
+                                    {% trans "Future Evolution" %}
+                                </a>
+                                <a href="#conclusion" class="block text-blue-600 hover:text-blue-800 py-1 px-2 rounded hover:bg-blue-50 transition text-sm">
+                                    {% trans "Championship Blueprint" %}
+                                </a>
+                            </nav>
+                        </div>
+
+                        <!-- Expert Authors -->
+                        <div class="bg-white border border-slate-200 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-slate-900 mb-4">{% trans "Expert Analysis" %}</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face&q=80"
+                                         alt="Erik Lindström" class="w-12 h-12 rounded-full mr-3 object-cover">
+                                    <div>
+                                        <h4 class="font-semibold text-slate-900 text-sm">Erik Lindström</h4>
+                                        <p class="text-xs text-slate-600 mb-1">{% trans "Football Analyst" %}</p>
+                                        <p class="text-xs text-slate-500">{% trans "15+ years analyzing Allsvenskan tactics" %}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face&q=80"
+                                         alt="Lars Andersson" class="w-12 h-12 rounded-full mr-3 object-cover">
+                                    <div>
+                                        <h4 class="font-semibold text-slate-900 text-sm">Lars Andersson</h4>
+                                        <p class="text-xs text-slate-600 mb-1">{% trans "Former Sweden International" %}</p>
+                                        <p class="text-xs text-slate-500">{% trans "73 caps for Sweden, UEFA coaching license" %}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Key Statistics -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-slate-900 mb-4">{% trans "Key Statistics" %}</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-slate-600">{% trans "Possession Average" %}</span>
+                                    <span class="font-semibold text-blue-600">63.2%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-slate-600">{% trans "Pass Accuracy" %}</span>
+                                    <span class="font-semibold text-blue-600">87.4%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-slate-600">{% trans "Goals from Set Pieces" %}</span>
+                                    <span class="font-semibold text-blue-600">47%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-slate-600">{% trans "Clean Sheets" %}</span>
+                                    <span class="font-semibold text-blue-600">14/22</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Related Articles -->
+                        <div class="bg-white border border-slate-200 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-slate-900 mb-4">{% trans "Related Articles" %}</h3>
+                            <div class="space-y-4">
+                                <article class="group">
+                                    <a href="#" class="block">
+                                        <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=300&h=150&fit=crop&q=80"
+                                             alt="AIK tactics" class="w-full h-20 object-cover rounded mb-2">
+                                        <h4 class="font-medium text-slate-900 text-sm group-hover:text-blue-600 transition">{% trans "AIK's Counter-Attacking Strategy" %}</h4>
+                                        <p class="text-xs text-slate-500">{% trans "5 min read" %}</p>
+                                    </a>
+                                </article>
+                                <article class="group">
+                                    <a href="#" class="block">
+                                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=150&fit=crop&q=80"
+                                             alt="Hammarby formation" class="w-full h-20 object-cover rounded mb-2">
+                                        <h4 class="font-medium text-slate-900 text-sm group-hover:text-blue-600 transition">{% trans "Hammarby's High-Press System" %}</h4>
+                                        <p class="text-xs text-slate-500">{% trans "8 min read" %}</p>
+                                    </a>
+                                </article>
+                                <article class="group">
+                                    <a href="#" class="block">
+                                        <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=300&h=150&fit=crop&q=80"
+                                             alt="Djurgården youth" class="w-full h-20 object-cover rounded mb-2">
+                                        <h4 class="font-medium text-slate-900 text-sm group-hover:text-blue-600 transition">{% trans "Djurgården's Youth Development" %}</h4>
+                                        <p class="text-xs text-slate-500">{% trans "12 min read" %}</p>
+                                    </a>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- Newsletter Section -->
+<section class="py-12 bg-slate-50 border-t border-slate-200">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">{% trans "Get Tactical Insights Delivered" %}</h3>
+                <p class="text-slate-700 mb-6">
+                    {% trans "Join our exclusive newsletter for weekly tactical analysis, match breakdowns, and expert insights into Allsvenskan's evolving strategies." %}
+                </p>
+                <form class="flex flex-col sm:flex-row gap-4">
+                    <input type="email"
+                           placeholder="{% trans 'Your email address' %}"
+                           class="flex-1 px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600 text-slate-700">
+                    <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
+                        {% trans "Subscribe" %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

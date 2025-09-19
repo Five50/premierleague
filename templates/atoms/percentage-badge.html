@@ -1,0 +1,10 @@
+{% comment %}
+Percentage badge atom component
+Usage: {% include 'atoms/percentage-badge.html' with percentage="4.95" size="lg" %}
+Sizes: sm, md, lg
+{% endcomment %}
+<span class="inline-flex items-center font-bold 
+  {% if size == 'sm' %}text-sm{% elif size == 'lg' %}text-2xl{% else %}text-lg{% endif %}
+  text-green-700">
+  {{ percentage }}%
+</span>

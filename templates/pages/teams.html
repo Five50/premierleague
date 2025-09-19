@@ -1,0 +1,578 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load url_translate %}
+{% load i18n_extras %}
+
+{% block title %}{% trans "ALLSVENSKAN Insikter - Teams, Squads & Stats" %}{% endblock %}
+
+{% block meta_description %}{% trans "Explore all 16 Allsvenskan teams with ALLSVENSKAN Insikter. Get detailed squad lists, stats, transfers and club information. Latest team news and performance data." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50">
+    <!-- Page Header -->
+    <div class="bg-blue-700 text-white">
+        <div class="container mx-auto px-4 py-12">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                    {% trans "Allsvenskan Teams" %}
+                </h1>
+                <p class="text-xl text-blue-100 max-w-2xl mx-auto">
+                    {% trans "Explore all 16 Allsvenskan clubs with live statistics, team information, and performance data." %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teams Grid -->
+    <div class="container mx-auto px-4 py-12">
+        {% if teams_available %}
+            <!-- View Toggle -->
+            <div class="mb-8 flex justify-center">
+                <div class="inline-flex bg-slate-200 rounded-lg p-1">
+                    <button id="gridView" class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white" onclick="toggleView('grid')">
+                        <svg class="w-4 h-4 mr-2 inline" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                        </svg>
+                        {% trans "Grid View" %}
+                    </button>
+                    <button id="listView" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900" onclick="toggleView('list')">
+                        <svg class="w-4 h-4 mr-2 inline" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        {% trans "List View" %}
+                    </button>
+                </div>
+            </div>
+
+            {% if teams %}
+                <!-- Teams Grid Display -->
+                <div id="teamsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {% for team_data in teams %}
+                        {% with team=team_data.team %}
+                            <div class="team-card pl-card hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                                 onclick="window.location.href='{% url 'team-detail' team.name|team_slug %}'">
+
+                                <!-- Team Header -->
+                                <div class="team-header">
+                                    <div class="flex items-center justify-between mb-4 border-b border-slate-200">
+                                        {% if team.logo %}
+                                        <picture class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-2">
+                                            <img src="{{ team.logo }}" alt="{{ team.name }}" class="w-full h-full object-contain">
+                                        </picture>
+                                        {% endif %}
+                                        <div class="text-right">
+                                            <h3 class="text-xl font-bold truncate" data-team-id="{{ team.id }}">{{ team.name }}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        {% if team.venue and team.venue.name %}
+                                            <div class="text-sm text-slate-600 flex items-center">
+                                                <svg class="w-4 h-4 mr-2 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                                                </svg>
+                                                <span class="font-medium">{% trans "Stadium" %}:</span>
+                                                <span class="ml-1">{{ team.venue.name }}</span>
+                                            </div>
+                                        {% endif %}
+
+                                        {% if team.venue and team.venue.capacity %}
+                                            <div class="text-sm text-slate-600 flex items-center">
+                                                <svg class="w-4 h-4 mr-2 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                                                </svg>
+                                                <span class="font-medium">{% trans "Capacity" %}:</span>
+                                                <span class="ml-1">{{ team.venue.capacity|floatformat:0 }}</span>
+                                            </div>
+                                        {% endif %}
+
+                                        {% if team.founded %}
+                                            <div class="text-sm text-slate-500">
+                                                {% trans "Founded" %}: {{ team.founded }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Team Info -->
+                                <div class="flex flex-col">
+                                    <!-- View Details Button -->
+                                    <div class="pl-button-outline text-center w-full py-2 hover:bg-blue-600 hover:text-white transition-colors">
+                                        {% trans "View Team Profile" %} →
+                                    </div>
+                                </div>
+                            </div>
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        {% else %}
+            <!-- Error/No Data State -->
+            <div class="pl-card text-center py-16">
+                <div class="text-6xl mb-4">⚽</div>
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">
+                    {% trans "Unable to Load Teams" %}
+                </h2>
+                <p class="text-slate-600 mb-8">
+                    {% trans "We're having trouble connecting to the live data. Please try refreshing the page." %}
+                </p>
+                <button onclick="location.reload()" class="pl-button">
+                    {% trans "Refresh Page" %}
+                </button>
+            </div>
+        {% endif %}
+    </div>
+
+        <!-- Teams Stats Banner -->
+    {% if teams_available and teams %}
+        <!-- Recent Form Trends Section -->
+        <div class="bg-slate-100 border-b border-slate-200">
+            <div class="container mx-auto px-4 py-12">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">
+                        📈 {% trans "Team Form Trends" %}
+                    </h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                        {% trans "Track momentum shifts and performance patterns across all Allsvenskan teams with interactive trend analysis." %}
+                    </p>
+                </div>
+
+                <!-- Chart Controls -->
+                <div class="mb-8 flex flex-wrap justify-center gap-4">
+                    <div class="flex bg-white rounded-lg p-1 shadow-sm border border-slate-200">
+                        <button id="winRateBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white" onclick="switchMetric('winRate')">
+                            {% trans "Win Rate %" %}
+                        </button>
+                        <button id="goalsBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900" onclick="switchMetric('goals')">
+                            {% trans "Goals Scored" %}
+                        </button>
+                        <button id="pointsBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900" onclick="switchMetric('points')">
+                            {% trans "Points Trend" %}
+                        </button>
+                    </div>
+                    <div class="flex bg-white rounded-lg p-1 shadow-sm border border-slate-200">
+                        <button id="lastFiveBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-yellow-500 text-gray-900" onclick="switchTimeframe('last5')">
+                            {% trans "Last 5 Games" %}
+                        </button>
+                        <button id="lastTenBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900" onclick="switchTimeframe('last10')">
+                            {% trans "Last 10 Games" %}
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Line Chart Container -->
+                <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 mb-8">
+                    <div class="relative">
+                        <div id="formTrendsChart" class="w-full" style="height: 400px;"></div>
+                        <div id="chartLegend" class="flex flex-wrap justify-center gap-4 mt-6"></div>
+                    </div>
+                </div>
+
+                <!-- Top Performers Summary -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 text-center">
+                        <div class="text-green-600 text-3xl font-bold mb-2" id="topFormTeam">-</div>
+                        <div class="text-sm text-slate-600">{% trans "Best Recent Form" %}</div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 text-center">
+                        <div class="text-blue-600 text-3xl font-bold mb-2" id="mostConsistent">-</div>
+                        <div class="text-sm text-slate-600">{% trans "Most Consistent" %}</div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 text-center">
+                        <div class="text-yellow-600 text-3xl font-bold mb-2" id="improvingTeam">-</div>
+                        <div class="text-sm text-slate-600">{% trans "Biggest Improver" %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- D3.js Library -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<script>
+let currentView = 'grid';
+let currentMetric = 'winRate';
+let currentTimeframe = 'last5';
+let chartData = {};
+
+function toggleView(view) {
+    currentView = view;
+
+    // Update active button
+    const gridBtn = document.getElementById('gridView');
+    const listBtn = document.getElementById('listView');
+
+    if (view === 'grid') {
+        gridBtn.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white';
+        listBtn.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900';
+        document.getElementById('teamsContainer').className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6';
+    } else {
+        listBtn.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white';
+        gridBtn.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900';
+        document.getElementById('teamsContainer').className = 'space-y-4';
+
+        // Update card layouts for list view
+        document.querySelectorAll('.team-card').forEach(card => {
+            card.className = 'team-card pl-card hover:shadow-lg transition-all duration-300 cursor-pointer';
+            // You could add specific list styling here
+        });
+    }
+}
+
+// Form Trends Chart Functions
+function generateMockFormData() {
+    const teams = [
+        {name: 'AIK', color: '#000000'},
+        {name: 'Malmö FF', color: '#6CABDD'},
+        {name: 'Hammarby', color: '#00A651'},
+        {name: 'Djurgården', color: '#003366'},
+        {name: 'IFK Göteborg', color: '#0066CC'},
+        {name: 'Elfsborg', color: '#FFD700'}
+    ];
+
+    const gameCount = currentTimeframe === 'last5' ? 5 : 10;
+
+    teams.forEach(team => {
+        team.data = [];
+        let cumulativePoints = 0;
+        let cumulativeGoals = 0;
+        let wins = 0;
+
+        for (let i = 0; i < gameCount; i++) {
+            const result = Math.random();
+            let points, goals;
+
+            if (result < 0.4) { // Win
+                points = 3;
+                goals = Math.floor(Math.random() * 3) + 1;
+                wins++;
+            } else if (result < 0.7) { // Draw
+                points = 1;
+                goals = Math.floor(Math.random() * 2) + 1;
+            } else { // Loss
+                points = 0;
+                goals = Math.floor(Math.random() * 2);
+            }
+
+            cumulativePoints += points;
+            cumulativeGoals += goals;
+
+            team.data.push({
+                game: i + 1,
+                winRate: ((wins / (i + 1)) * 100),
+                goals: cumulativeGoals,
+                points: cumulativePoints
+            });
+        }
+    });
+
+    return teams;
+}
+
+function createFormTrendsChart() {
+    // Clear previous chart
+    d3.select("#formTrendsChart").selectAll("*").remove();
+    d3.select("#chartLegend").selectAll("*").remove();
+
+    const margin = {top: 20, right: 30, bottom: 40, left: 60};
+    const width = document.getElementById('formTrendsChart').clientWidth - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    // Create SVG
+    const svg = d3.select("#formTrendsChart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
+
+    // Create gradients for line area fills
+    const defs = svg.append("defs");
+
+    const gradient = defs.append("linearGradient")
+        .attr("id", "areaGradient")
+        .attr("gradientUnits", "userSpaceOnUse")
+        .attr("x1", 0).attr("y1", height)
+        .attr("x2", 0).attr("y2", 0);
+
+    gradient.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "#3b82f6")
+        .attr("stop-opacity", 0.1);
+
+    gradient.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#3b82f6")
+        .attr("stop-opacity", 0.3);
+
+    const g = svg.append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Generate data
+    const teams = generateMockFormData();
+    const gameCount = currentTimeframe === 'last5' ? 5 : 10;
+
+    // Scales
+    const xScale = d3.scaleLinear()
+        .domain([1, gameCount])
+        .range([0, width]);
+
+    let yDomain;
+    const metricKey = currentMetric;
+
+    if (currentMetric === 'winRate') {
+        yDomain = [0, 100];
+    } else if (currentMetric === 'goals') {
+        yDomain = [0, d3.max(teams, team => d3.max(team.data, d => d.goals))];
+    } else {
+        yDomain = [0, d3.max(teams, team => d3.max(team.data, d => d.points))];
+    }
+
+    const yScale = d3.scaleLinear()
+        .domain(yDomain)
+        .range([height, 0]);
+
+    // Line generator
+    const line = d3.line()
+        .x(d => xScale(d.game))
+        .y(d => yScale(d[metricKey]))
+        .curve(d3.curveMonotoneX);
+
+    // Area generator for subtle background
+    const area = d3.area()
+        .x(d => xScale(d.game))
+        .y0(height)
+        .y1(d => yScale(d[metricKey]))
+        .curve(d3.curveMonotoneX);
+
+    // Add axes
+    g.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(xScale).tickFormat(d => `Game ${d}`))
+        .append("text")
+        .attr("x", width / 2)
+        .attr("y", 35)
+        .attr("fill", "#64748b")
+        .style("text-anchor", "middle")
+        .text("{% trans "Recent Games" %}");
+
+    let yAxisLabel = '';
+    if (currentMetric === 'winRate') yAxisLabel = '{% trans "Win Rate %" %}';
+    else if (currentMetric === 'goals') yAxisLabel = '{% trans "Goals Scored" %}';
+    else yAxisLabel = '{% trans "Points" %}';
+
+    g.append("g")
+        .call(d3.axisLeft(yScale))
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -45)
+        .attr("x", -height / 2)
+        .attr("fill", "#64748b")
+        .style("text-anchor", "middle")
+        .text(yAxisLabel);
+
+    // Create tooltip
+    const tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("background", "rgba(15, 23, 42, 0.95)")
+        .style("color", "white")
+        .style("padding", "12px")
+        .style("border-radius", "8px")
+        .style("font-size", "14px")
+        .style("pointer-events", "none")
+        .style("opacity", 0)
+        .style("z-index", "1000");
+
+    // Draw lines and areas for each team
+    teams.forEach((team, index) => {
+        // Add subtle area fill
+        if (index < 3) { // Only for top 3 teams to avoid clutter
+            g.append("path")
+                .datum(team.data)
+                .attr("fill", team.color)
+                .attr("fill-opacity", 0.1)
+                .attr("d", area);
+        }
+
+        // Add line
+        const path = g.append("path")
+            .datum(team.data)
+            .attr("fill", "none")
+            .attr("stroke", team.color)
+            .attr("stroke-width", 3)
+            .attr("d", line)
+            .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.1))");
+
+        // Animate line drawing
+        const totalLength = path.node().getTotalLength();
+        path
+            .attr("stroke-dasharray", totalLength + " " + totalLength)
+            .attr("stroke-dashoffset", totalLength)
+            .transition()
+            .duration(1500)
+            .ease(d3.easeLinear)
+            .attr("stroke-dashoffset", 0);
+
+        // Add data points
+        g.selectAll(`.point-${index}`)
+            .data(team.data)
+            .enter().append("circle")
+            .attr("class", `point-${index}`)
+            .attr("cx", d => xScale(d.game))
+            .attr("cy", d => yScale(d[metricKey]))
+            .attr("r", 0)
+            .attr("fill", team.color)
+            .attr("stroke", "white")
+            .attr("stroke-width", 2)
+            .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))")
+            .on("mouseover", function(event, d) {
+                d3.select(this).transition().duration(150).attr("r", 8);
+
+                tooltip.transition().duration(200).style("opacity", 1);
+                tooltip.html(`
+                    <div style="font-weight: bold; margin-bottom: 8px;">${team.name}</div>
+                    <div>Game ${d.game}</div>
+                    <div>Win Rate: ${d.winRate.toFixed(1)}%</div>
+                    <div>Goals: ${d.goals}</div>
+                    <div>Points: ${d.points}</div>
+                `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+                d3.select(this).transition().duration(150).attr("r", 5);
+                tooltip.transition().duration(200).style("opacity", 0);
+            })
+            .transition()
+            .delay((d, i) => i * 100 + index * 50)
+            .duration(800)
+            .attr("r", 5);
+    });
+
+    // Create legend
+    const legend = d3.select("#chartLegend");
+    teams.forEach(team => {
+        const legendItem = legend.append("div")
+            .attr("class", "flex items-center gap-2 px-3 py-2 bg-slate-50 rounded-lg");
+
+        legendItem.append("div")
+            .style("width", "16px")
+            .style("height", "3px")
+            .style("background-color", team.color)
+            .style("border-radius", "2px");
+
+        legendItem.append("span")
+            .style("font-size", "14px")
+            .style("color", "#475569")
+            .text(team.name);
+    });
+
+    // Update performance indicators
+    updatePerformanceIndicators(teams);
+}
+
+function updatePerformanceIndicators(teams) {
+    // Calculate top performers
+    const lastGameData = teams.map(team => ({
+        name: team.name,
+        lastWinRate: team.data[team.data.length - 1].winRate,
+        totalGoals: team.data[team.data.length - 1].goals,
+        totalPoints: team.data[team.data.length - 1].points,
+        consistency: calculateConsistency(team.data)
+    }));
+
+    // Best recent form (highest win rate)
+    const topForm = lastGameData.reduce((prev, current) =>
+        (prev.lastWinRate > current.lastWinRate) ? prev : current);
+    document.getElementById('topFormTeam').textContent = topForm.name;
+
+    // Most consistent (lowest variance in win rate)
+    const mostConsistent = lastGameData.reduce((prev, current) =>
+        (prev.consistency < current.consistency) ? prev : current);
+    document.getElementById('mostConsistent').textContent = mostConsistent.name;
+
+    // Biggest improver (best trend)
+    const biggestImprover = teams.reduce((prev, current) => {
+        const prevTrend = calculateTrend(prev.data);
+        const currentTrend = calculateTrend(current.data);
+        return (prevTrend > currentTrend) ? prev : current;
+    });
+    document.getElementById('improvingTeam').textContent = biggestImprover.name;
+}
+
+function calculateConsistency(data) {
+    const winRates = data.map(d => d.winRate);
+    const mean = winRates.reduce((a, b) => a + b) / winRates.length;
+    const variance = winRates.reduce((sum, rate) => sum + Math.pow(rate - mean, 2), 0) / winRates.length;
+    return Math.sqrt(variance);
+}
+
+function calculateTrend(data) {
+    const n = data.length;
+    const sumX = data.reduce((sum, d, i) => sum + i, 0);
+    const sumY = data.reduce((sum, d) => sum + d.winRate, 0);
+    const sumXY = data.reduce((sum, d, i) => sum + i * d.winRate, 0);
+    const sumXX = data.reduce((sum, d, i) => sum + i * i, 0);
+
+    return (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+}
+
+function switchMetric(metric) {
+    currentMetric = metric;
+
+    // Update button states
+    document.querySelectorAll('#winRateBtn, #goalsBtn, #pointsBtn').forEach(btn => {
+        btn.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900';
+    });
+
+    document.getElementById(metric + 'Btn').className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white';
+
+    createFormTrendsChart();
+}
+
+function switchTimeframe(timeframe) {
+    currentTimeframe = timeframe;
+
+    // Update button states
+    document.querySelectorAll('#lastFiveBtn, #lastTenBtn').forEach(btn => {
+        btn.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900';
+    });
+
+    document.getElementById(timeframe === 'last5' ? 'lastFiveBtn' : 'lastTenBtn').className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-yellow-500 text-gray-900';
+
+    createFormTrendsChart();
+}
+
+// Auto-refresh functionality
+function refreshTeamsData() {
+    console.log('Teams data refresh check');
+    // Refresh chart data
+    if (document.getElementById('formTrendsChart')) {
+        createFormTrendsChart();
+    }
+}
+
+// Refresh every 15 minutes
+setInterval(refreshTeamsData, 900000);
+
+// Initial load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Teams page loaded with live API data');
+    console.log('Teams loaded:', {{ teams|length }});
+
+    // Initialize form trends chart
+    setTimeout(() => {
+        createFormTrendsChart();
+    }, 500);
+});
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    if (document.getElementById('formTrendsChart')) {
+        setTimeout(createFormTrendsChart, 100);
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,268 @@
+/* Site-wide Optimized CSS - Consolidated from all templates */
+
+/* ========================================
+   Image Aspect Ratio Helpers
+   ======================================== */
+.aspect-logo {
+  aspect-ratio: 2 / 1;
+  object-fit: contain;
+}
+
+.aspect-phone {
+  aspect-ratio: 788 / 1024;
+  object-fit: contain;
+}
+
+.aspect-card-logo {
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+}
+
+/* ========================================
+   FAQ Accordion Styles
+   ======================================== */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+details[open] summary ~ * {
+  animation: slideDown 0.2s ease-out;
+}
+
+details[open] summary svg {
+  transform: rotate(45deg);
+}
+
+details summary svg {
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   Slider Styles
+   ======================================== */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-track,
+.slider::-moz-range-track {
+  background: #e2e8f0;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #3b82f6;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  margin-top: -8px;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background 0.2s;
+}
+
+.slider::-moz-range-thumb {
+  appearance: none;
+  background: #3b82f6;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background 0.2s;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: #2563eb;
+}
+
+.slider::-moz-range-thumb:hover {
+  background: #2563eb;
+}
+
+.slider::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, #3b82f6 0%, #3b82f6 var(--value), #e2e8f0 var(--value), #e2e8f0 100%);
+}
+
+/* ========================================
+   Table Scroll Indicators
+   ======================================== */
+.table-container {
+  position: relative;
+}
+
+.table-container::before,
+.table-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.table-container::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
+}
+
+.table-container::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0));
+}
+
+.table-container.scrolled-left::before {
+  opacity: 1;
+}
+
+.table-container.scrolled-right::after {
+  opacity: 0;
+}
+
+@media (min-width: 1024px) {
+  .table-container::before,
+  .table-container::after {
+    display: none;
+  }
+}
+
+/* ========================================
+   Number Input Spinners
+   ======================================== */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ========================================
+   Tab Navigation
+   ======================================== */
+.tab-button {
+  position: relative;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #3b82f6;
+}
+
+.tab-content {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   Performance Optimizations
+   ======================================== */
+.hover\:bg-slate-50:hover,
+.hover\:bg-slate-200:hover,
+.hover\:bg-blue-700:hover {
+  will-change: background-color;
+}
+
+.transition-transform {
+  will-change: transform;
+}
+
+details[open] summary ~ * {
+  will-change: auto;
+}
+
+/* ========================================
+   Focus Styles for Accessibility
+   ======================================== */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+details summary:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* ========================================
+   Card Hover Effects
+   ======================================== */
+.card-hover {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* ========================================
+   Smooth Scrolling
+   ======================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ========================================
+   Loading States
+   ======================================== */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

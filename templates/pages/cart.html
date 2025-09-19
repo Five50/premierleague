@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Shopping Cart" %} | Allsvenskan Shop{% endblock %}
+
+{% block meta_description %}{% trans "Review your Allsvenskan merchandise order and proceed to secure checkout." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50">
+    <!-- Page Header -->
+    <div class="bg-blue-700 text-white">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">
+                    {% trans "Shopping Cart" %}
+                </h1>
+                <p class="text-blue-100">
+                    {% trans "Review your items and proceed to checkout" %}
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart Content -->
+    <div class="container mx-auto px-4 py-12">
+        <!-- Breadcrumb -->
+        <nav class="mb-8">
+            <ol class="flex items-center space-x-2 text-sm text-slate-600">
+                <li><a href="{% url 'home' %}" class="hover:text-blue-700">{% trans "Home" %}</a></li>
+                <li>/</li>
+                <li><a href="{% url 'shop' %}" class="hover:text-blue-700">{% trans "Shop" %}</a></li>
+                <li>/</li>
+                <li class="text-slate-900">{% trans "Cart" %}</li>
+            </ol>
+        </nav>
+
+        {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg mb-4">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Cart Items -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-slate-900">{% trans "Cart Items" %}</h2>
+                        <span class="text-sm text-slate-600">{{ total_items }} {% trans "items" %}</span>
+                    </div>
+
+                    {% if items %}
+                        <!-- Cart Items -->
+                        <div class="space-y-6">
+                            {% for item in items %}
+                                <div class="border-b border-slate-200 pb-6 last:border-b-0 last:pb-0">
+                                    <div class="flex items-start space-x-4">
+                                        <!-- Product Image -->
+                                        <div class="flex-shrink-0">
+                                            <div class="w-20 h-20 bg-slate-100 rounded-lg overflow-hidden">
+                                                <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=200&h=200&fit=crop&q=80"
+                                                     alt="{{ item.product_name }}" class="w-full h-full object-cover">
+                                            </div>
+                                        </div>
+
+                                        <!-- Product Details -->
+                                        <div class="flex-1">
+                                            <h3 class="font-semibold text-slate-900 mb-1">{{ item.product_name }}</h3>
+                                            {% if item.variations_display %}
+                                                <div class="text-sm text-slate-600 mb-2">
+                                                    {{ item.variations_display }}
+                                                </div>
+                                            {% endif %}
+                                            <div class="text-sm text-slate-600 mb-3">
+                                                {% trans "Product Type:" %}
+                                                <span class="capitalize">{{ item.get_product_type_display }}</span>
+                                            </div>
+
+                                            <!-- Quantity and Price -->
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center space-x-2">
+                                                    <form method="post" action="{% url 'cart:update_cart_item' item.id %}" class="flex items-center space-x-2">
+                                                        {% csrf_token %}
+                                                        <label class="text-sm text-slate-600">{% trans "Qty:" %}</label>
+                                                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1"
+                                                               class="w-16 px-2 py-1 border border-slate-200 rounded text-center">
+                                                        <button type="submit" class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition">
+                                                            {% trans "Update" %}
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="font-bold text-slate-900">{{ item.total_price }} SEK</div>
+                                                    <div class="text-sm text-slate-600">{{ item.price }} SEK {% trans "each" %}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Remove Button -->
+                                        <div class="flex-shrink-0">
+                                            <a href="{% url 'cart:remove_from_cart' item.id %}"
+                                               class="text-red-600 hover:text-red-800 p-2"
+                                               onclick="return confirm('{% trans "Remove this item from cart?" %}')">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <!-- Empty Cart State -->
+                        <div class="text-center py-12">
+                            <svg class="w-16 h-16 mx-auto text-slate-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m4.5-5v6m-2-3h4"/>
+                            </svg>
+                            <p class="text-xl text-slate-900 mb-2">{% trans "Your cart is empty" %}</p>
+                            <p class="text-slate-600 mb-4">{% trans "Add some items to get started" %}</p>
+                            <a href="{% url 'shop' %}" class="inline-block px-6 py-3 bg-blue-700 text-white rounded-lg font-semibold hover:bg-blue-800 transition">
+                                {% trans "Continue Shopping" %}
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 sticky top-4">
+                    <h2 class="text-xl font-bold text-slate-900 mb-6">{% trans "Order Summary" %}</h2>
+
+                    <!-- Summary Details -->
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between text-slate-700">
+                            <span>{% trans "Subtotal" %}</span>
+                            <span>{{ total_price }} SEK</span>
+                        </div>
+
+                        <div class="flex justify-between text-slate-700">
+                            <span>{% trans "Delivery" %}</span>
+                            <span>
+                                {% if total_price >= 1000 %}
+                                    {% trans "FREE" %}
+                                {% else %}
+                                    99 SEK
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <hr class="border-slate-200">
+
+                        <div class="flex justify-between text-lg font-bold text-slate-900">
+                            <span>{% trans "Total" %}</span>
+                            <span>
+                                {% if total_price >= 1000 %}
+                                    {{ total_price }} SEK
+                                {% else %}
+                                    {% widthratio total_price 1 1|add:99 %} SEK
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    {% if items %}
+                        <!-- Checkout Button -->
+                        <a href="{% url 'cart:checkout' %}" class="block w-full text-center px-6 py-3 bg-blue-700 text-white rounded-lg font-semibold hover:bg-blue-800 transition mb-4">
+                            {% trans "Proceed to Checkout" %}
+                        </a>
+                    {% endif %}
+
+                    <!-- Continue Shopping -->
+                    <a href="{% url 'shop' %}" class="block text-center text-blue-700 hover:text-blue-800 transition-colors">
+                        {% trans "Continue Shopping" %}
+                    </a>
+
+                    <!-- Trust Badges -->
+                    <div class="mt-6 pt-6 border-t border-slate-200">
+                        <div class="space-y-3 text-sm text-slate-600">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
+                                </svg>
+                                {% trans "Secure payment" %}
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
+                                </svg>
+                                {% trans "Fast delivery" %}
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
+                                </svg>
+                                {% trans "Free returns" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

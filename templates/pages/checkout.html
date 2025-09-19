@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Checkout" %} | Allsvenskan Shop{% endblock %}
+
+{% block meta_description %}{% trans "Secure checkout for premium football merchandise. Fast shipping across Sweden and Scandinavia." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50">
+    <!-- Page Header -->
+    <div class="bg-blue-700 text-white">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">
+                    {% trans "Secure Checkout" %}
+                </h1>
+                <p class="text-blue-100">
+                    {% trans "Complete your order securely" %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Content -->
+    <div class="container mx-auto px-4 py-12">
+        <!-- Breadcrumb -->
+        <nav class="mb-8">
+            <ol class="flex items-center space-x-2 text-sm text-slate-600">
+                <li><a href="{% url 'home' %}" class="hover:text-blue-700">{% trans "Home" %}</a></li>
+                <li>/</li>
+                <li><a href="{% url 'shop' %}" class="hover:text-blue-700">{% trans "Shop" %}</a></li>
+                <li>/</li>
+                <li><a href="{% url 'cart:view_cart' %}" class="hover:text-blue-700">{% trans "Cart" %}</a></li>
+                <li>/</li>
+                <li class="text-slate-900">{% trans "Checkout" %}</li>
+            </ol>
+        </nav>
+
+        {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg mb-4">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Checkout Form -->
+            <div class="lg:col-span-2">
+                <form method="post" class="space-y-6" x-data="{
+                    sameAsShipping: true,
+                    paymentMethod: 'card',
+                    shipping: {
+                        firstName: '',
+                        lastName: '',
+                        email: '',
+                        phone: '',
+                        address: '',
+                        apartment: '',
+                        city: '',
+                        postalCode: '',
+                        country: 'SE'
+                    }
+                }">
+                    {% csrf_token %}
+
+                    <!-- Contact Information -->
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                        <h2 class="text-xl font-bold text-slate-900 mb-6">{% trans "Contact Information" %}</h2>
+
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">
+                                    {% trans "First Name" %} <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="first_name" x-model="shipping.firstName" required
+                                       class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700"
+                                       placeholder="Erik">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">
+                                    {% trans "Last Name" %} <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="last_name" x-model="shipping.lastName" required
+                                       class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700"
+                                       placeholder="Andersson">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">
+                                    {% trans "Email Address" %} <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" name="email" x-model="shipping.email" required
+                                       class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700"
+                                       placeholder="erik@example.com">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">
+                                    {% trans "Phone Number" %} <span class="text-red-500">*</span>
+                                </label>
+                                <input type="tel" name="phone" x-model="shipping.phone" required
+                                       class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700"
+                                       placeholder="+46 70 123 45 67">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                        <h2 class="text-xl font-bold text-slate-900 mb-6">{% trans "Shipping Address" %}</h2>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">
+                                    {% trans "Street Address" %} <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="address" x-model="shipping.address" required
+                                       class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700"
+                                       placeholder="Storgatan 15">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">
+                                    {% trans "Apartment, Suite, etc." %}
+                                </label>
+                                <input type="text" name="apartment" x-model="shipping.apartment"
+                                       class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700"
+                                       placeholder="Lgh 12">
+                            </div>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">
+                                        {% trans "City" %} <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" name="city" x-model="shipping.city" required
+                                           class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700"
+                                           placeholder="Stockholm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">
+                                        {% trans "Postal Code" %} <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" name="postal_code" x-model="shipping.postalCode" required
+                                           class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700"
+                                           placeholder="11122">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">
+                                        {% trans "Country" %} <span class="text-red-500">*</span>
+                                    </label>
+                                    <select name="country" x-model="shipping.country" required
+                                            class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700">
+                                        <option value="SE">{% trans "Sweden" %}</option>
+                                        <option value="NO">{% trans "Norway" %}</option>
+                                        <option value="DK">{% trans "Denmark" %}</option>
+                                        <option value="FI">{% trans "Finland" %}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                        <h2 class="text-xl font-bold text-slate-900 mb-6">{% trans "Payment Method" %}</h2>
+
+                        <div class="space-y-4">
+                            <!-- Credit Card -->
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-slate-50"
+                                   :class="paymentMethod === 'card' ? 'border-blue-700 bg-blue-50' : 'border-slate-200'">
+                                <input type="radio" x-model="paymentMethod" value="card" name="payment_method" class="mr-3">
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <p class="font-medium text-slate-900">{% trans "Credit Card" %}</p>
+                                            <p class="text-sm text-slate-600">{% trans "Visa, Mastercard, American Express" %}</p>
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" class="h-6">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" class="h-6">
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <!-- Swish -->
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-slate-50"
+                                   :class="paymentMethod === 'swish' ? 'border-blue-700 bg-blue-50' : 'border-slate-200'">
+                                <input type="radio" x-model="paymentMethod" value="swish" name="payment_method" class="mr-3">
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <p class="font-medium text-slate-900">{% trans "Swish" %}</p>
+                                            <p class="text-sm text-slate-600">{% trans "Instant payment with your phone" %}</p>
+                                        </div>
+                                        <div class="w-12 h-8 bg-purple-600 rounded flex items-center justify-center">
+                                            <span class="text-white font-bold text-xs">SWISH</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <!-- Klarna -->
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-slate-50"
+                                   :class="paymentMethod === 'klarna' ? 'border-blue-700 bg-blue-50' : 'border-slate-200'">
+                                <input type="radio" x-model="paymentMethod" value="klarna" name="payment_method" class="mr-3">
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <p class="font-medium text-slate-900">{% trans "Klarna" %}</p>
+                                            <p class="text-sm text-slate-600">{% trans "Pay in 30 days or in installments" %}</p>
+                                        </div>
+                                        <div class="w-16 h-8 bg-pink-500 rounded flex items-center justify-center">
+                                            <span class="text-white font-bold text-xs">klarna</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Credit Card Form -->
+                        <div x-show="paymentMethod === 'card'" class="mt-6 space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">
+                                    {% trans "Card Number" %} <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="card_number" placeholder="1234 5678 9012 3456"
+                                       class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">
+                                    {% trans "Cardholder Name" %} <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="card_name" placeholder="Erik Andersson"
+                                       class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">
+                                        {% trans "Expiry Date" %} <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" name="card_expiry" placeholder="MM/YY"
+                                           class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">
+                                        {% trans "CVV" %} <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" name="card_cvv" placeholder="123"
+                                           class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Notes -->
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                        <h2 class="text-xl font-bold text-slate-900 mb-6">{% trans "Order Notes" %}</h2>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">
+                                {% trans "Special Instructions" %}
+                            </label>
+                            <textarea name="order_notes" rows="3"
+                                      class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-700"
+                                      placeholder="{% trans 'Any special delivery instructions or notes about your order...' %}"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Place Order Button -->
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                        <div class="mb-4">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="terms_accepted" required class="mt-1 mr-3 text-blue-700 rounded">
+                                <span class="text-sm text-slate-700">
+                                    {% trans "I agree to the" %}
+                                    <a href="#" class="text-blue-700 hover:text-blue-800">{% trans "Terms and Conditions" %}</a>
+                                    {% trans "and" %}
+                                    <a href="#" class="text-blue-700 hover:text-blue-800">{% trans "Privacy Policy" %}</a>
+                                </span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="w-full px-6 py-4 bg-blue-700 text-white rounded-lg font-semibold hover:bg-blue-800 transition text-lg">
+                            {% trans "Place Order" %} • {{ total_price }} SEK
+                        </button>
+
+                        <div class="mt-4 flex items-center justify-center text-sm text-slate-600">
+                            <svg class="w-4 h-4 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                            {% trans "Your payment information is encrypted and secure" %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 sticky top-4">
+                    <h2 class="text-xl font-bold text-slate-900 mb-6">{% trans "Order Summary" %}</h2>
+
+                    <!-- Cart Items -->
+                    <div class="space-y-4 mb-6">
+                        {% for item in items %}
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0">
+                                    <div class="w-16 h-16 bg-slate-100 rounded-lg overflow-hidden">
+                                        <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=150&h=150&fit=crop&q=80"
+                                             alt="{{ item.product_name }}" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-medium text-slate-900 text-sm">{{ item.product_name }}</h3>
+                                    {% if item.variations_display %}
+                                        <p class="text-xs text-slate-600">{{ item.variations_display }}</p>
+                                    {% endif %}
+                                    <div class="flex justify-between items-center mt-1">
+                                        <span class="text-xs text-slate-600">{% trans "Qty:" %} {{ item.quantity }}</span>
+                                        <span class="font-medium text-slate-900 text-sm">{{ item.total_price }} SEK</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Order Totals -->
+                    <div class="space-y-3 border-t border-slate-200 pt-4">
+                        <div class="flex justify-between text-slate-700">
+                            <span>{% trans "Subtotal" %}</span>
+                            <span>{{ subtotal }} SEK</span>
+                        </div>
+                        <div class="flex justify-between text-slate-700">
+                            <span>{% trans "Delivery" %}</span>
+                            <span>
+                                {% if delivery_fee == 0 %}
+                                    {% trans "FREE" %}
+                                {% else %}
+                                    {{ delivery_fee }} SEK
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="flex justify-between text-lg font-bold text-slate-900 border-t border-slate-200 pt-3">
+                            <span>{% trans "Total" %}</span>
+                            <span>{{ total_price }} SEK</span>
+                        </div>
+                    </div>
+
+                    <!-- Free Delivery Notice -->
+                    {% if subtotal < free_delivery_threshold %}
+                        <div class="mt-4 p-3 bg-blue-50 rounded-lg text-center">
+                            <p class="text-sm text-blue-800">
+                                {% trans "Add" %} {{ amount_for_free_delivery|floatformat:0 }} SEK {% trans "more for free delivery!" %}
+                            </p>
+                        </div>
+                    {% endif %}
+
+                    <!-- Trust Badges -->
+                    <div class="mt-6 pt-6 border-t border-slate-200">
+                        <div class="space-y-3 text-sm text-slate-600">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
+                                </svg>
+                                {% trans "Secure payment" %}
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
+                                </svg>
+                                {% trans "2-5 business days delivery" %}
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
+                                </svg>
+                                {% trans "30 days return policy" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

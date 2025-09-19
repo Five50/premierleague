@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Malmö FF's Championship Strategy: A Tactical Deep Dive" %} | Allsvenskan Insikter{% endblock %}
+
+{% block meta_description %}{% trans "An in-depth analysis of Malmö FF's tactical evolution and strategic approach that has positioned them as serious championship contenders in Allsvenskan 2025." %}{% endblock %}
+
+{% block content %}
+<!-- Article Header Organism -->
+{% include 'organisms/article-header.html' with article=article_data %}
+
+<!-- Article Content with Sidebar Layout -->
+<article class="py-12">
+    <div class="container mx-auto px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <!-- Main Content -->
+                <div class="lg:col-span-2">
+                    <div class="prose prose-lg prose-slate max-w-none">
+                        <!-- Featured Image -->
+                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&h=600&fit=crop&q=80"
+                             alt="{% trans 'Malmö FF tactical formation on football pitch' %}"
+                             class="w-full rounded-lg shadow-lg mb-8">
+
+                        <!-- Introduction -->
+                        <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                            {% trans "Malmö FF's transformation from a struggling mid-table team to championship contenders represents one of Allsvenskan's most remarkable tactical evolutions. Under new management, the club has implemented a sophisticated playing philosophy that combines traditional Swedish football values with modern tactical innovations, creating a blueprint that other clubs are beginning to emulate." %}
+                        </p>
+
+                        <!-- Section 1: Tactical Foundation -->
+                        {% include 'organisms/tactical-analysis-section.html' with section=tactical_foundation %}
+
+                        <!-- Section 2: Key Players -->
+                        {% include 'organisms/tactical-analysis-section.html' with section=key_players %}
+
+                        <!-- Expert Commentary Section -->
+                        <div class="bg-gradient-to-r from-slate-50 to-blue-50 p-8 rounded-lg border border-slate-200 my-8">
+                            <h3 class="text-xl font-semibold text-slate-900 mb-4 flex items-center">
+                                <span class="text-blue-600 mr-2">👨‍🏫</span>
+                                {% trans "Expert Commentary: The Tactical Revolution" %}
+                            </h3>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                {% for expert in expert_commentary %}
+                                    <div>
+                                        <div class="flex items-start mb-4">
+                                            {% include 'atoms/author-avatar.html' with src=expert.avatar alt=expert.name size="sm" class="mr-3" %}
+                                            <div>
+                                                <h4 class="font-semibold text-slate-900 text-sm">{{ expert.name }}</h4>
+                                                <p class="text-xs text-slate-600">{{ expert.title }}</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-slate-700 italic text-sm">{{ expert.quote }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Set Pieces -->
+                        {% include 'organisms/tactical-analysis-section.html' with section=set_pieces %}
+
+                        <!-- Section 4: Future Evolution -->
+                        {% include 'organisms/tactical-analysis-section.html' with section=future_evolution %}
+
+                        <!-- Conclusion -->
+                        {% include 'atoms/section-anchor.html' with id="conclusion" %}
+                        <h2 class="text-2xl font-bold text-slate-900 mt-8 mb-4">{% trans "The Championship Blueprint" %}</h2>
+                        <p class="mb-6">
+                            {% trans "Malmö FF's tactical transformation demonstrates that success in modern football requires more than individual talent—it demands a comprehensive understanding of tactical principles, meticulous preparation, and the discipline to execute a game plan consistently across an entire season." %}
+                        </p>
+                        <p class="mb-6">
+                            {% trans "Their approach serves as a template for other Allsvenskan clubs: invest in tactical education, recruit players who fit the system, and maintain unwavering commitment to the chosen philosophy. In an era of tactical evolution, Malmö FF has positioned itself at the forefront of Swedish football's strategic renaissance." %}
+                        </p>
+                    </div>
+
+                    <!-- Author Bios -->
+                    <div class="grid md:grid-cols-2 gap-6 mt-12">
+                        {% for author in authors %}
+                            {% include 'molecules/author-card.html' with author=author %}
+                        {% endfor %}
+                    </div>
+
+                    <!-- Share Buttons -->
+                    <div class="border-t border-b border-slate-200 py-6 mt-12 mb-8">
+                        <div class="flex items-center justify-between">
+                            <p class="text-slate-600">{% trans "Share this analysis:" %}</p>
+                            <div class="flex space-x-3">
+                                {% include 'atoms/button.html' with text="Facebook" variant="primary" size="sm" class="bg-blue-600 hover:bg-blue-700" %}
+                                {% include 'atoms/button.html' with text="Twitter" variant="primary" size="sm" class="bg-sky-500 hover:bg-sky-600" %}
+                                {% include 'atoms/button.html' with text="WhatsApp" variant="primary" size="sm" class="bg-green-600 hover:bg-green-700" %}
+                                {% include 'atoms/button.html' with text="Email" variant="primary" size="sm" class="bg-slate-600 hover:bg-slate-700" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Related Articles -->
+                    <div class="mt-12">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-6">{% trans "More Tactical Analysis" %}</h2>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            {% for article in related_articles %}
+                                <article class="bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-lg transition group">
+                                    <img src="{{ article.image }}" alt="{{ article.alt }}" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+                                    <div class="p-4">
+                                        <h3 class="font-semibold text-slate-900 mb-2 group-hover:text-blue-600 transition">{{ article.title }}</h3>
+                                        <p class="text-sm text-slate-600">{{ article.description }}</p>
+                                        {% include 'atoms/read-time.html' with minutes=article.read_time class="text-xs text-blue-600 font-medium" %}
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Organism -->
+                {% include 'organisms/blog-sidebar.html' with sidebar_data=sidebar_data %}
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- Newsletter Section -->
+<section class="py-12 bg-slate-50 border-t border-slate-200">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white p-8 rounded-lg shadow-sm border border-slate-200">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">{% trans "Get Tactical Insights Delivered" %}</h3>
+                <p class="text-slate-700 mb-6">
+                    {% trans "Join our exclusive newsletter for weekly tactical analysis, match breakdowns, and expert insights into Allsvenskan's evolving strategies." %}
+                </p>
+                <form class="flex flex-col sm:flex-row gap-4">
+                    {% include 'atoms/input.html' with type="email" placeholder="Your email address" class="flex-1" %}
+                    {% include 'atoms/button.html' with text="Subscribe" variant="primary" type="submit" class="bg-blue-600 hover:bg-blue-700" %}
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Sample data structure for the atomic components
+// This would typically come from the Django context
+
+const articleData = {
+    back_url: 'blog',
+    back_text: '{% trans "Back to News" %}',
+    tags: [
+        { text: '{% trans "Tactical Analysis" %}', variant: 'analysis' },
+        { text: '{% trans "Featured" %}', variant: 'featured' }
+    ],
+    title: '{% trans "Malmö FF\'s Championship Strategy: A Tactical Deep Dive" %}',
+    subtitle: '{% trans "How the Swedish giants transformed their playing style and tactical approach to dominate Allsvenskan and establish themselves as serious contenders for European competition." %}',
+    authors: [
+        {
+            name: 'Erik Lindström',
+            title: '{% trans "Football Analyst" %}',
+            avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face&q=80'
+        },
+        {
+            name: 'Lars Andersson',
+            title: '{% trans "Former Sweden International" %}',
+            avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face&q=80'
+        }
+    ],
+    date: '{% trans "September 18, 2025" %}',
+    read_time: '15',
+    rating: '4.8'
+};
+
+const sidebarData = {
+    toc_sections: [
+        { id: 'tactical-foundation', title: '{% trans "The 4-3-3 Foundation" %}' },
+        { id: 'key-players', title: '{% trans "Tactical Catalysts" %}' },
+        { id: 'set-pieces', title: '{% trans "Set Piece Mastery" %}' },
+        { id: 'future-evolution', title: '{% trans "Future Evolution" %}' },
+        { id: 'conclusion', title: '{% trans "Championship Blueprint" %}' }
+    ],
+    experts: [
+        {
+            name: 'Erik Lindström',
+            title: '{% trans "Football Analyst" %}',
+            credentials: '{% trans "15+ years analyzing Allsvenskan tactics" %}',
+            avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face&q=80'
+        },
+        {
+            name: 'Lars Andersson',
+            title: '{% trans "Former Sweden International" %}',
+            credentials: '{% trans "73 caps for Sweden, UEFA coaching license" %}',
+            avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face&q=80'
+        }
+    ],
+    stats_title: '{% trans "Key Statistics" %}',
+    statistics: [
+        { label: '{% trans "Possession Average" %}', value: '63.2%' },
+        { label: '{% trans "Pass Accuracy" %}', value: '87.4%' },
+        { label: '{% trans "Goals from Set Pieces" %}', value: '47%' },
+        { label: '{% trans "Clean Sheets" %}', value: '14/22' }
+    ],
+    related_articles: [
+        {
+            title: '{% trans "AIK\'s Counter-Attacking Strategy" %}',
+            image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=300&h=150&fit=crop&q=80',
+            read_time: '5',
+            url: '#'
+        },
+        {
+            title: '{% trans "Hammarby\'s High-Press System" %}',
+            image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=150&fit=crop&q=80',
+            read_time: '8',
+            url: '#'
+        },
+        {
+            title: '{% trans "Djurgården\'s Youth Development" %}',
+            image: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=300&h=150&fit=crop&q=80',
+            read_time: '12',
+            url: '#'
+        }
+    ]
+};
+</script>
+{% endblock %}

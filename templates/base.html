@@ -1,0 +1,218 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    {% include 'atoms/meta-tags.html' %}
+    {% include 'atoms/css-links.html' %}
+    {% include 'atoms/view-transitions.html' %}
+
+    <!-- Initialize Alpine functionality -->
+    <script>
+        // Initialize global cart state
+        window.cartOpen = false;
+
+        document.addEventListener('alpine:init', () => {
+            console.log('Allsvenskan website initializing...');
+            
+            // Add skip to content link for accessibility
+            const skipLink = document.createElement('a');
+            skipLink.href = '#main-content';
+            skipLink.textContent = '{% trans "Skip to main content" %}';
+            skipLink.className = 'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-blue-600 focus:text-white focus:px-4 focus:py-2 focus:rounded';
+            document.body.insertBefore(skipLink, document.body.firstChild);
+            
+            // Initialize cart store for global cart state
+            Alpine.store('cart', {
+                open: false,
+                items: [],
+                subtotal: 0,
+                shipping: 0,
+                total: 0,
+                item_count: 0,
+
+                toggle() {
+                    this.open = !this.open;
+                },
+
+                show() {
+                    this.open = true;
+                },
+
+                hide() {
+                    this.open = false;
+                }
+            });
+
+            // Initialize favorites store for favorite teams/players
+            Alpine.store('favorites', {
+                teams: [],
+                players: [],
+                
+                init() {
+                    // Load favorite teams from localStorage
+                    const storedTeams = localStorage.getItem('favorite_teams');
+                    if (storedTeams) {
+                        try {
+                            this.teams = JSON.parse(storedTeams);
+                        } catch (e) {
+                            console.error('Error loading favorite teams:', e);
+                            this.teams = [];
+                        }
+                    }
+                    
+                    // Load favorite players from localStorage
+                    const storedPlayers = localStorage.getItem('favorite_players');
+                    if (storedPlayers) {
+                        try {
+                            this.players = JSON.parse(storedPlayers);
+                        } catch (e) {
+                            console.error('Error loading favorite players:', e);
+                            this.players = [];
+                        }
+                    }
+                    console.log('Favorites initialized with', this.teams.length, 'teams and', this.players.length, 'players');
+                },
+                
+                get teamCount() {
+                    return this.teams.length;
+                },
+                
+                get playerCount() {
+                    return this.players.length;
+                },
+                
+                isFavoriteTeam(teamId) {
+                    return this.teams.some(team => team.id === teamId);
+                },
+                
+                isFavoritePlayer(playerId) {
+                    return this.players.some(player => player.id === playerId);
+                },
+                
+                toggleTeam(team) {
+                    const index = this.teams.findIndex(t => t.id === team.id);
+                    if (index >= 0) {
+                        this.teams.splice(index, 1);
+                        this.showNotification(team.name + ' {% trans "removed from favorite teams" %}');
+                    } else {
+                        this.teams.push(team);
+                        this.showNotification(team.name + ' {% trans "added to favorite teams" %}');
+                    }
+                    this.saveTeams();
+                },
+                
+                togglePlayer(player) {
+                    const index = this.players.findIndex(p => p.id === player.id);
+                    if (index >= 0) {
+                        this.players.splice(index, 1);
+                        this.showNotification(player.name + ' {% trans "removed from favorite players" %}');
+                    } else {
+                        this.players.push(player);
+                        this.showNotification(player.name + ' {% trans "added to favorite players" %}');
+                    }
+                    this.savePlayers();
+                },
+                
+                saveTeams() {
+                    localStorage.setItem('favorite_teams', JSON.stringify(this.teams));
+                },
+                
+                savePlayers() {
+                    localStorage.setItem('favorite_players', JSON.stringify(this.players));
+                },
+                
+                showNotification(message) {
+                    const toast = document.createElement('div');
+                    toast.className = 'fixed bottom-4 left-4 bg-blue-600 text-white px-6 py-3 rounded-lg border border-blue-700 z-[10000] animate-fade-in';
+                    toast.innerHTML = `
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                            </svg>
+                            ${message}
+                        </div>
+                    `;
+                    document.body.appendChild(toast);
+                    
+                    setTimeout(() => {
+                        toast.classList.add('animate-fade-out');
+                        setTimeout(() => toast.remove(), 300);
+                    }, 3000);
+                }
+            });
+            
+            console.log('Allsvenskan favorites store initialized');
+
+            // Load cart data on page load
+            if (typeof window.loadCartData === 'function') {
+                window.loadCartData();
+            } else {
+                // If loadCartData is not yet available, wait for it
+                document.addEventListener('DOMContentLoaded', function() {
+                    if (typeof window.loadCartData === 'function') {
+                        window.loadCartData();
+                    }
+                });
+            }
+        });
+
+        // Form validation helper
+        function validateRequiredFields(form) {
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    field.classList.remove('border-red-500');
+                }
+            });
+
+            return isValid;
+        }
+    </script>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="min-h-screen flex flex-col bg-white text-gray-900" x-data>
+    {% include 'atoms/skip-link.html' %}
+    
+    {% include 'organisms/header.html' %}
+
+    <!-- Main Content -->
+    <main id="main-content" class="flex-grow" role="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'organisms/base-footer.html' %}
+
+    <!-- Cart Drawer -->
+    {% include 'molecules/cart-drawer.html' %}
+
+    
+    <!-- Toast Animation Styles -->
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(1rem); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(1rem); }
+        }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out; }
+        .animate-fade-out { animation: fadeOut 0.3s ease-out; }
+    </style>
+    
+    {% include 'atoms/gsap-scripts.html' %}
+    {% include 'atoms/alpine-script.html' %}
+    {% include 'molecules/gsap-animations.html' %}
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

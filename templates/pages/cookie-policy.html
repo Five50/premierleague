@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Cookie Policy" %} | Allsvenskan Insikter{% endblock %}
+
+{% block meta_description %}{% trans "Learn about how Allsvenskan Insikter uses cookies and similar technologies to improve your browsing experience." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50">
+    <!-- Page Header -->
+    <div class="bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    {% trans "Cookie Policy" %}
+                </h1>
+                <p class="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                    {% trans "Learn about how we use cookies and similar technologies to enhance your experience on our website." %}
+                </p>
+                <p class="text-blue-200 mt-4">
+                    {% trans "Last updated: December 1, 2024" %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-4xl mx-auto">
+
+            <!-- Table of Contents -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8" x-data="{ tocOpen: false }">
+                <button @click="tocOpen = !tocOpen"
+                        class="flex items-center justify-between w-full text-left font-semibold text-blue-900 hover:text-blue-700 transition-colors">
+                    <span class="flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                        </svg>
+                        {% trans "Table of Contents" %}
+                    </span>
+                    <svg class="w-5 h-5 transition-transform duration-200"
+                         :class="{ 'rotate-180': tocOpen }"
+                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+
+                <div x-show="tocOpen" x-collapse class="mt-4 space-y-2">
+                    <nav class="text-sm space-y-1">
+                        <a href="#what-are-cookies" class="block text-blue-700 hover:text-blue-900 py-1">1. {% trans "What Are Cookies?" %}</a>
+                        <a href="#how-we-use-cookies" class="block text-blue-700 hover:text-blue-900 py-1">2. {% trans "How We Use Cookies" %}</a>
+                        <a href="#types-of-cookies" class="block text-blue-700 hover:text-blue-900 py-1">3. {% trans "Types of Cookies We Use" %}</a>
+                        <a href="#third-party-cookies" class="block text-blue-700 hover:text-blue-900 py-1">4. {% trans "Third-Party Cookies" %}</a>
+                        <a href="#managing-cookies" class="block text-blue-700 hover:text-blue-900 py-1">5. {% trans "Managing Cookies" %}</a>
+                        <a href="#cookie-consent" class="block text-blue-700 hover:text-blue-900 py-1">6. {% trans "Cookie Consent" %}</a>
+                        <a href="#updates" class="block text-blue-700 hover:text-blue-900 py-1">7. {% trans "Updates to This Policy" %}</a>
+                        <a href="#contact-us" class="block text-blue-700 hover:text-blue-900 py-1">8. {% trans "Contact Us" %}</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100">
+                <div class="p-8 space-y-8">
+
+                    <!-- What Are Cookies -->
+                    <section id="what-are-cookies">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">1. {% trans "What Are Cookies?" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "Cookies are small text files that are stored on your device (computer, tablet, or mobile) when you visit a website. They are widely used to make websites work more efficiently and provide a better user experience." %}</p>
+                            <p>{% trans "Cookies can store information about your preferences, login status, and browsing behavior to enhance your experience during future visits." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- How We Use Cookies -->
+                    <section id="how-we-use-cookies">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">2. {% trans "How We Use Cookies" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "Allsvenskan Insikter uses cookies to:" %}</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "Ensure our website functions properly" %}</li>
+                                <li>{% trans "Remember your preferences and settings" %}</li>
+                                <li>{% trans "Analyze website traffic and user behavior" %}</li>
+                                <li>{% trans "Provide personalized content and advertisements" %}</li>
+                                <li>{% trans "Improve our website performance and user experience" %}</li>
+                                <li>{% trans "Enable social media integration" %}</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Types of Cookies -->
+                    <section id="types-of-cookies">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">3. {% trans "Types of Cookies We Use" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Essential Cookies" %}</h3>
+                            <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+                                <p class="mb-2"><strong>{% trans "Purpose:" %}</strong> {% trans "Necessary for basic website functionality" %}</p>
+                                <p class="mb-2"><strong>{% trans "Duration:" %}</strong> {% trans "Session cookies (deleted when you close your browser)" %}</p>
+                                <p><strong>{% trans "Examples:" %}</strong> {% trans "Login authentication, shopping cart contents, security features" %}</p>
+                            </div>
+
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Functional Cookies" %}</h3>
+                            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+                                <p class="mb-2"><strong>{% trans "Purpose:" %}</strong> {% trans "Enhance website functionality and personalization" %}</p>
+                                <p class="mb-2"><strong>{% trans "Duration:" %}</strong> {% trans "Persistent cookies (up to 2 years)" %}</p>
+                                <p><strong>{% trans "Examples:" %}</strong> {% trans "Language preferences, theme settings, previous search queries" %}</p>
+                            </div>
+
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Analytics Cookies" %}</h3>
+                            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                                <p class="mb-2"><strong>{% trans "Purpose:" %}</strong> {% trans "Collect information about website usage and performance" %}</p>
+                                <p class="mb-2"><strong>{% trans "Duration:" %}</strong> {% trans "Persistent cookies (up to 2 years)" %}</p>
+                                <p><strong>{% trans "Examples:" %}</strong> {% trans "Google Analytics, page views, time spent on site, bounce rate" %}</p>
+                            </div>
+
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Marketing Cookies" %}</h3>
+                            <div class="bg-purple-50 border-l-4 border-purple-400 p-4 mb-4">
+                                <p class="mb-2"><strong>{% trans "Purpose:" %}</strong> {% trans "Deliver relevant advertisements and track campaign effectiveness" %}</p>
+                                <p class="mb-2"><strong>{% trans "Duration:" %}</strong> {% trans "Persistent cookies (up to 1 year)" %}</p>
+                                <p><strong>{% trans "Examples:" %}</strong> {% trans "Social media pixels, advertising networks, retargeting campaigns" %}</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Third Party Cookies -->
+                    <section id="third-party-cookies">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">4. {% trans "Third-Party Cookies" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "We work with trusted third-party services that may set cookies on your device:" %}</p>
+
+                            <div class="overflow-x-auto mt-4">
+                                <table class="min-w-full border border-gray-200 rounded-lg">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="border border-gray-200 px-4 py-3 text-left font-semibold">{% trans "Service" %}</th>
+                                            <th class="border border-gray-200 px-4 py-3 text-left font-semibold">{% trans "Purpose" %}</th>
+                                            <th class="border border-gray-200 px-4 py-3 text-left font-semibold">{% trans "Privacy Policy" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="border border-gray-200 px-4 py-3">Google Analytics</td>
+                                            <td class="border border-gray-200 px-4 py-3">{% trans "Website analytics and performance tracking" %}</td>
+                                            <td class="border border-gray-200 px-4 py-3">
+                                                <a href="https://policies.google.com/privacy" class="text-blue-600 hover:text-blue-500 underline" target="_blank">Google Privacy Policy</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-200 px-4 py-3">Google AdSense</td>
+                                            <td class="border border-gray-200 px-4 py-3">{% trans "Advertising and content personalization" %}</td>
+                                            <td class="border border-gray-200 px-4 py-3">
+                                                <a href="https://policies.google.com/privacy" class="text-blue-600 hover:text-blue-500 underline" target="_blank">Google Privacy Policy</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-200 px-4 py-3">Facebook Pixel</td>
+                                            <td class="border border-gray-200 px-4 py-3">{% trans "Social media integration and advertising" %}</td>
+                                            <td class="border border-gray-200 px-4 py-3">
+                                                <a href="https://www.facebook.com/privacy/explanation" class="text-blue-600 hover:text-blue-500 underline" target="_blank">Facebook Privacy Policy</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-200 px-4 py-3">YouTube</td>
+                                            <td class="border border-gray-200 px-4 py-3">{% trans "Video content and embedded players" %}</td>
+                                            <td class="border border-gray-200 px-4 py-3">
+                                                <a href="https://policies.google.com/privacy" class="text-blue-600 hover:text-blue-500 underline" target="_blank">Google Privacy Policy</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Managing Cookies -->
+                    <section id="managing-cookies">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">5. {% trans "Managing Cookies" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "You have control over cookies and can manage them through:" %}</p>
+
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Browser Settings" %}</h3>
+                            <p>{% trans "Most browsers allow you to:" %}</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "View and delete existing cookies" %}</li>
+                                <li>{% trans "Block cookies from specific websites" %}</li>
+                                <li>{% trans "Block all cookies" %}</li>
+                                <li>{% trans "Get notified when cookies are set" %}</li>
+                            </ul>
+
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3 mt-6">{% trans "Browser-Specific Instructions" %}</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold mb-2">Chrome</h4>
+                                    <p class="text-sm">Settings → Privacy and Security → Cookies and other site data</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold mb-2">Firefox</h4>
+                                    <p class="text-sm">Options → Privacy & Security → Cookies and Site Data</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold mb-2">Safari</h4>
+                                    <p class="text-sm">Preferences → Privacy → Manage Website Data</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold mb-2">Edge</h4>
+                                    <p class="text-sm">Settings → Cookies and site permissions → Cookies and site data</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-orange-50 border-l-4 border-orange-400 p-4 mt-6">
+                                <p><strong>{% trans "Important:" %}</strong> {% trans "Disabling certain cookies may impact website functionality and your user experience." %}</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Cookie Consent -->
+                    <section id="cookie-consent">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">6. {% trans "Cookie Consent" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "When you first visit our website, you'll see a cookie consent banner. You can:" %}</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "Accept all cookies for the full website experience" %}</li>
+                                <li>{% trans "Customize your cookie preferences by category" %}</li>
+                                <li>{% trans "Reject non-essential cookies" %}</li>
+                            </ul>
+                            <p>{% trans "You can change your cookie preferences at any time by clicking the 'Cookie Settings' link in our website footer." %}</p>
+
+                            <div class="bg-blue-50 p-4 rounded-lg mt-4">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    {% trans "Manage Cookie Preferences" %}
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Updates -->
+                    <section id="updates">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">7. {% trans "Updates to This Policy" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "We may update this Cookie Policy from time to time to reflect changes in our practices or for legal reasons. We will notify you of any material changes by posting the updated policy on our website." %}</p>
+                            <p>{% trans "We recommend reviewing this policy periodically to stay informed about our cookie practices." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- Contact -->
+                    <section id="contact-us">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">8. {% trans "Contact Us" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "If you have questions about our use of cookies, please contact us:" %}</p>
+                            <div class="bg-gray-50 p-4 rounded-lg mt-4">
+                                <p><strong>Allsvenskan Insikter AB</strong></p>
+                                <p>Email: privacy@allsvenskaninsikter.se</p>
+                                <p>{% trans "Phone:" %} +46 8 123 45 67</p>
+                                <p>{% trans "Address:" %} Storgatan 123, 111 22 Stockholm, Sweden</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Cookie preference management
+document.addEventListener('DOMContentLoaded', function() {
+    const manageButton = document.querySelector('button:contains("Manage Cookie Preferences")');
+    if (manageButton) {
+        manageButton.addEventListener('click', function() {
+            // This would open your cookie consent manager
+            // For now, we'll just show an alert
+            alert('{% trans "Cookie preference manager would open here." %}');
+        });
+    }
+});
+</script>
+{% endblock %}

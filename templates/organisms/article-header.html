@@ -1,0 +1,24 @@
+{% comment %}
+Article Header Organism
+Usage: {% include 'organisms/article-header.html' with article=article %}
+{% endcomment %}
+
+{% load i18n %}
+
+<section class="bg-gradient-to-br from-blue-50 to-slate-50 py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-7xl mx-auto">
+            {% include 'molecules/article-breadcrumb.html' with back_url=article.back_url back_text=article.back_text tags=article.tags %}
+
+            <h1 class="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+                {{ article.title }}
+            </h1>
+
+            <p class="text-xl text-slate-600 mb-8 max-w-4xl leading-relaxed">
+                {{ article.subtitle }}
+            </p>
+
+            {% include 'molecules/article-header-meta.html' with authors=article.authors date=article.date read_time=article.read_time rating=article.rating %}
+        </div>
+    </div>
+</section>

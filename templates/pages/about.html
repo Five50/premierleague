@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "About Us" %} | Allsvenskan Insikter{% endblock %}
+
+{% block meta_description %}{% trans "Learn about Allsvenskan Insikter - Sweden's premier source for football analysis, statistics, and insights. Our mission, team, and commitment to Swedish football." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50">
+    <!-- Page Header -->
+    <div class="bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    {% trans "About Allsvenskan Insikter" %}
+                </h1>
+                <p class="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                    {% trans "Sweden's most trusted source for Allsvenskan analysis, statistics, and football insights since 2018." %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-4xl mx-auto">
+
+            <!-- Mission Section -->
+            <section class="mb-12">
+                <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-900">{% trans "Our Mission" %}</h2>
+                    </div>
+                    <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+                        <p class="mb-4">
+                            {% trans "At Allsvenskan Insikter, we believe that Swedish football deserves world-class analysis and coverage. Our mission is to provide football fans, analysts, and enthusiasts with the most comprehensive, accurate, and insightful coverage of the Allsvenskan league." %}
+                        </p>
+                        <p class="mb-4">
+                            {% trans "We combine cutting-edge data analysis with traditional football knowledge to deliver content that goes beyond the surface. From tactical breakdowns to player performance metrics, we help our readers understand the beautiful game at a deeper level." %}
+                        </p>
+                        <p>
+                            {% trans "Our commitment extends beyond just reporting scores and standings. We're dedicated to promoting Swedish football culture, supporting grassroots development, and connecting fans with the stories that matter most." %}
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- What We Do Section -->
+            <section class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">{% trans "What We Do" %}</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Match Analysis -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow">
+                        <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">{% trans "Match Analysis" %}</h3>
+                        <p class="text-gray-600">
+                            {% trans "In-depth tactical analysis of every Allsvenskan match, including formation breakdowns, key moments, and player performances." %}
+                        </p>
+                    </div>
+
+                    <!-- Statistics & Data -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow">
+                        <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">{% trans "Statistics & Data" %}</h3>
+                        <p class="text-gray-600">
+                            {% trans "Comprehensive statistics, league tables, player rankings, and performance metrics updated in real-time throughout the season." %}
+                        </p>
+                    </div>
+
+                    <!-- Transfer News -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow">
+                        <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">{% trans "Transfer News" %}</h3>
+                        <p class="text-gray-600">
+                            {% trans "Breaking transfer news, rumours, and analysis of player movements within the Allsvenskan and international markets." %}
+                        </p>
+                    </div>
+
+                    <!-- Betting Insights -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow">
+                        <div class="w-12 h-12 bg-yellow-600 rounded-lg flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">{% trans "Betting Insights" %}</h3>
+                        <p class="text-gray-600">
+                            {% trans "Expert betting tips, odds analysis, and responsible gambling guidance for Allsvenskan matches." %}
+                        </p>
+                    </div>
+
+                    <!-- Youth Development -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow">
+                        <div class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">{% trans "Youth Development" %}</h3>
+                        <p class="text-gray-600">
+                            {% trans "Tracking and reporting on Sweden's next generation of football talent through youth leagues and academy systems." %}
+                        </p>
+                    </div>
+
+                    <!-- Fan Engagement -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow">
+                        <div class="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">{% trans "Fan Engagement" %}</h3>
+                        <p class="text-gray-600">
+                            {% trans "Building a community of passionate Allsvenskan fans through interactive content, polls, and fan-generated discussions." %}
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Values Section -->
+            <section class="mb-12">
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl text-white p-8">
+                    <h2 class="text-3xl font-bold mb-8 text-center">{% trans "Our Values" %}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">{% trans "Accuracy" %}</h3>
+                                <p class="text-blue-100">
+                                    {% trans "We prioritize factual reporting and data accuracy above all else, ensuring our readers can trust every statistic and analysis we provide." %}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">{% trans "Independence" %}</h3>
+                                <p class="text-blue-100">
+                                    {% trans "Our editorial independence ensures unbiased coverage, free from club affiliations or commercial influences that could compromise our integrity." %}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">{% trans "Innovation" %}</h3>
+                                <p class="text-blue-100">
+                                    {% trans "We embrace new technologies and analytical methods to provide fresh perspectives on the game we all love." %}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 mt-1">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">{% trans "Community" %}</h3>
+                                <p class="text-blue-100">
+                                    {% trans "We believe football brings people together, and we strive to build an inclusive community where all fans feel welcome." %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section class="mb-12">
+                <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-8">{% trans "Our Story" %}</h2>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-6 flex-shrink-0">
+                                2018
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-2">{% trans "Foundation" %}</h3>
+                                <p class="text-gray-600">
+                                    {% trans "Allsvenskan Insikter was founded by a group of passionate football analysts and journalists who saw a gap in comprehensive Swedish football coverage. Starting as a small blog, we quickly gained recognition for our detailed match analysis." %}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-6 flex-shrink-0">
+                                2020
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-2">{% trans "Expansion" %}</h3>
+                                <p class="text-gray-600">
+                                    {% trans "We launched our statistical database and began providing real-time match data. Our team grew to include former professional players and coaches, bringing insider knowledge to our analysis." %}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-6 flex-shrink-0">
+                                2022
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-2">{% trans "Innovation" %}</h3>
+                                <p class="text-gray-600">
+                                    {% trans "We introduced advanced analytics, tactical heat maps, and predictive modeling to our coverage. Our betting insights section launched with a focus on responsible gambling education." %}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-6 flex-shrink-0">
+                                2024
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-2">{% trans "Today" %}</h3>
+                                <p class="text-gray-600">
+                                    {% trans "Today, we're proud to be one of Sweden's most trusted sources for Allsvenskan coverage, serving hundreds of thousands of readers each month with in-depth analysis, statistics, and insights." %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact CTA -->
+            <section class="text-center">
+                <div class="bg-gray-100 rounded-2xl p-8">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">{% trans "Get in Touch" %}</h2>
+                    <p class="text-xl text-gray-600 mb-6">
+                        {% trans "Have questions, suggestions, or feedback? We'd love to hear from you." %}
+                    </p>
+                    <a href="{% url 'contact' %}"
+                       class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                        {% trans "Contact Us" %}
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

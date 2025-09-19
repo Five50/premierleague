@@ -1,0 +1,13 @@
+{% comment %}
+Expert Quote Molecule
+Usage: {% include 'molecules/expert-quote.html' with quote="Quote text" author="Author Name" title="Author Title" %}
+{% endcomment %}
+
+{% load i18n %}
+
+<blockquote class="bg-blue-50 border-l-4 border-blue-600 p-6 my-8 italic text-slate-700">
+    <p class="text-lg mb-4">
+        {{ quote }}
+    </p>
+    <footer class="text-slate-600 font-semibold">— {{ author }}, {{ title }}</footer>
+</blockquote>

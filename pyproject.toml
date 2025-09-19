@@ -1,0 +1,86 @@
+[project]
+name = "premierleague"
+version = "0.1.0"
+description = "Premier League website with Django, e-commerce and betting affiliate features"
+authors = [
+    {name = "Premier League Dev", email = "dev@premierleague.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=5.1.0",
+    "python-decouple>=3.8",
+    "django-environ>=0.11.2",
+    "whitenoise>=6.6.0",
+    "pillow>=10.4.0",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=24.0.0",
+    "ruff>=0.6.0",
+    "pre-commit>=3.8.0",
+    "django-debug-toolbar>=4.4.0",
+    "django-extensions>=3.2.3",
+    "ipython>=8.26.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["apps", "config"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"*" = ["*.html", "*.txt", "*.css", "*.js", "*.jpg", "*.png", "*.gif", "*.ico", "*.svg", "*.json"]
+
+[tool.black]
+line-length = 88
+target-version = ['py313']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | migrations
+)/
+'''
+
+[tool.ruff]
+target-version = "py313"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "F403",  # star imports in settings files are acceptable
+    "F405",  # star imports in settings files are acceptable
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"config/settings/*.py" = ["F403", "F405", "E402"]  # Allow star imports and late imports in settings
+
+[tool.ruff.lint.isort]
+known-first-party = ["apps", "config"]

@@ -1,0 +1,168 @@
+/* Business Loans Optimized CSS */
+/* Critical styles extracted for inline use */
+
+/* Table of Contents Animation */
+details[open] summary .toc-icon {
+  transform: rotate(45deg);
+}
+
+/* Slider Styles - Optimized */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-track,
+.slider::-moz-range-track {
+  background: #e2e8f0;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #3b82f6;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  margin-top: -8px;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background 0.2s;
+}
+
+.slider::-moz-range-thumb {
+  appearance: none;
+  background: #3b82f6;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background 0.2s;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: #2563eb;
+}
+
+.slider::-moz-range-thumb:hover {
+  background: #2563eb;
+}
+
+/* Range input progress fill */
+.slider::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, #3b82f6 0%, #3b82f6 var(--value), #e2e8f0 var(--value), #e2e8f0 100%);
+}
+
+/* Remove spinner from number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* FAQ Accordion Animations - Optimized */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary {
+  list-style: none;
+}
+
+/* Use CSS transform for better performance */
+details[open] summary ~ * {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth arrow rotation */
+details summary svg {
+  transition: transform 0.2s ease;
+}
+
+/* Focus styles for accessibility */
+details summary:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Table scroll shadows - Performance optimized */
+.table-container {
+  position: relative;
+}
+
+.table-container::before,
+.table-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.table-container::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
+}
+
+.table-container::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0));
+}
+
+.table-container.scrolled-left::before {
+  opacity: 1;
+}
+
+.table-container.scrolled-right::after {
+  opacity: 0;
+}
+
+@media (min-width: 1024px) {
+  .table-container::before,
+  .table-container::after {
+    display: none;
+  }
+}
+
+/* Optimize hover states with will-change */
+.hover\:bg-slate-50:hover,
+.hover\:bg-slate-200:hover,
+.hover\:bg-blue-700:hover {
+  will-change: background-color;
+}
+
+/* Optimize transforms */
+.transition-transform {
+  will-change: transform;
+}
+
+/* Remove will-change after animation */
+details[open] summary ~ * {
+  will-change: auto;
+}

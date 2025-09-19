@@ -1,0 +1,222 @@
+{
+  "fixtures": [
+    {
+      "id": 1,
+      "gameweek": 9,
+      "date": "2024-09-14",
+      "time": "15:00",
+      "home_team": {
+        "id": 1,
+        "name": {
+          "en": "Arsenal",
+          "sv": "Arsenal"
+        },
+        "short_name": "ARS",
+        "colors": {
+          "primary": "#EF0107",
+          "secondary": "#023474"
+        }
+      },
+      "away_team": {
+        "id": 2,
+        "name": {
+          "en": "Chelsea", 
+          "sv": "Chelsea"
+        },
+        "short_name": "CHE",
+        "colors": {
+          "primary": "#034694",
+          "secondary": "#6CABDD"
+        }
+      },
+      "venue": {
+        "en": "Emirates Stadium",
+        "sv": "Emirates Stadium"
+      },
+      "status": "FT",
+      "score": {
+        "home": 2,
+        "away": 1
+      },
+      "events": [
+        {
+          "minute": 23,
+          "type": "goal",
+          "player": "Bukayo Saka",
+          "team": "home"
+        },
+        {
+          "minute": 67,
+          "type": "goal", 
+          "player": "Cole Palmer",
+          "team": "away"
+        },
+        {
+          "minute": 89,
+          "type": "goal",
+          "player": "Gabriel Jesus",
+          "team": "home"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "gameweek": 9,
+      "date": "2024-09-14",
+      "time": "17:30",
+      "home_team": {
+        "id": 3,
+        "name": {
+          "en": "Liverpool",
+          "sv": "Liverpool"
+        },
+        "short_name": "LIV",
+        "colors": {
+          "primary": "#C8102E",
+          "secondary": "#00B2A9"
+        }
+      },
+      "away_team": {
+        "id": 5,
+        "name": {
+          "en": "Manchester United",
+          "sv": "Manchester United"
+        },
+        "short_name": "MUN",
+        "colors": {
+          "primary": "#DA020E",
+          "secondary": "#FBE122"
+        }
+      },
+      "venue": {
+        "en": "Anfield",
+        "sv": "Anfield"
+      },
+      "status": "FT",
+      "score": {
+        "home": 3,
+        "away": 0
+      },
+      "events": [
+        {
+          "minute": 12,
+          "type": "goal",
+          "player": "Mohamed Salah",
+          "team": "home"
+        },
+        {
+          "minute": 34,
+          "type": "goal",
+          "player": "Luis Díaz",
+          "team": "home"
+        },
+        {
+          "minute": 78,
+          "type": "goal",
+          "player": "Darwin Núñez",
+          "team": "home"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "gameweek": 10,
+      "date": "2024-09-21",
+      "time": "15:00",
+      "home_team": {
+        "id": 4,
+        "name": {
+          "en": "Manchester City",
+          "sv": "Manchester City"
+        },
+        "short_name": "MCI",
+        "colors": {
+          "primary": "#6CABDD",
+          "secondary": "#1C2C5B"
+        }
+      },
+      "away_team": {
+        "id": 6,
+        "name": {
+          "en": "Tottenham Hotspur",
+          "sv": "Tottenham Hotspur"
+        },
+        "short_name": "TOT",
+        "colors": {
+          "primary": "#132257",
+          "secondary": "#FFFFFF"
+        }
+      },
+      "venue": {
+        "en": "Etihad Stadium",
+        "sv": "Etihad Stadium"
+      },
+      "status": "SCHEDULED",
+      "betting_odds": {
+        "home_win": 1.45,
+        "draw": 4.20,
+        "away_win": 6.50
+      }
+    },
+    {
+      "id": 4,
+      "gameweek": 10,
+      "date": "2024-09-21",
+      "time": "17:30",
+      "home_team": {
+        "id": 2,
+        "name": {
+          "en": "Chelsea",
+          "sv": "Chelsea"
+        },
+        "short_name": "CHE",
+        "colors": {
+          "primary": "#034694",
+          "secondary": "#6CABDD"
+        }
+      },
+      "away_team": {
+        "id": 3,
+        "name": {
+          "en": "Liverpool",
+          "sv": "Liverpool"
+        },
+        "short_name": "LIV",
+        "colors": {
+          "primary": "#C8102E",
+          "secondary": "#00B2A9"
+        }
+      },
+      "venue": {
+        "en": "Stamford Bridge",
+        "sv": "Stamford Bridge"
+      },
+      "status": "SCHEDULED",
+      "betting_odds": {
+        "home_win": 2.80,
+        "draw": 3.40,
+        "away_win": 2.45
+      }
+    }
+  ],
+  "gameweeks": {
+    "current": 9,
+    "total": 38
+  },
+  "status_labels": {
+    "en": {
+      "SCHEDULED": "Scheduled",
+      "LIVE": "Live", 
+      "HT": "Half Time",
+      "FT": "Full Time",
+      "POSTPONED": "Postponed"
+    },
+    "sv": {
+      "SCHEDULED": "Planerad",
+      "LIVE": "Pågår",
+      "HT": "Halvtid", 
+      "FT": "Slutat",
+      "POSTPONED": "Uppskjuten"
+    }
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "upcoming_matches": [
+    {
+      "match_id": 1,
+      "home_team": {
+        "en": "AIK",
+        "sv": "AIK"
+      },
+      "away_team": {
+        "en": "Malmö FF",
+        "sv": "Malmö FF"
+      },
+      "date": "2024-09-21 19:00",
+      "odds": {
+        "match_result": {
+          "home_win": "2.40",
+          "draw": "3.20",
+          "away_win": "2.80"
+        },
+        "both_teams_score": {
+          "yes": "1.75",
+          "no": "2.05"
+        },
+        "over_under": {
+          "over_2_5": "1.85",
+          "under_2_5": "1.95"
+        },
+        "first_goalscorer": {
+          "Isaac Kiese Thelin": "4.20",
+          "Erik Botheim": "3.80",
+          "Sebastian Nanasi": "5.50",
+          "Anders Christiansen": "6.00"
+        }
+      }
+    },
+    {
+      "match_id": 2,
+      "home_team": {
+        "en": "Hammarby IF",
+        "sv": "Hammarby IF"
+      },
+      "away_team": {
+        "en": "BK Häcken",
+        "sv": "BK Häcken"
+      },
+      "date": "2024-09-22 15:00",
+      "odds": {
+        "match_result": {
+          "home_win": "2.10",
+          "draw": "3.40",
+          "away_win": "3.20"
+        },
+        "both_teams_score": {
+          "yes": "1.65",
+          "no": "2.20"
+        },
+        "over_under": {
+          "over_2_5": "1.75",
+          "under_2_5": "2.05"
+        },
+        "first_goalscorer": {
+          "Jusef Erabi": "3.50",
+          "Nahir Besara": "4.80",
+          "Even Hovland": "5.20",
+          "Mikkel Rygaard": "6.50"
+        }
+      }
+    },
+    {
+      "match_id": 3,
+      "home_team": {
+        "en": "Djurgården",
+        "sv": "Djurgården"
+      },
+      "away_team": {
+        "en": "IFK Göteborg",
+        "sv": "IFK Göteborg"
+      },
+      "date": "2024-09-22 17:30",
+      "odds": {
+        "match_result": {
+          "home_win": "1.95",
+          "draw": "3.60",
+          "away_win": "3.80"
+        },
+        "both_teams_score": {
+          "yes": "1.70",
+          "no": "2.10"
+        },
+        "over_under": {
+          "over_2_5": "1.80",
+          "under_2_5": "2.00"
+        },
+        "first_goalscorer": {
+          "Deniz Hümmet": "3.20",
+          "Gustav Wikheim": "4.50",
+          "Arber Zeneli": "5.00",
+          "Marcus Berg": "6.20"
+        }
+      }
+    }
+  ],
+  "season_specials": {
+    "premier_league_winner": {
+      "Manchester City": 2.10,
+      "Arsenal": 4.50,
+      "Liverpool": 5.20,
+      "Chelsea": 12.00,
+      "Manchester United": 18.00,
+      "Tottenham Hotspur": 25.00
+    },
+    "top_4_finish": {
+      "Manchester City": 1.01,
+      "Arsenal": 1.25,
+      "Liverpool": 1.30,
+      "Chelsea": 2.80,
+      "Manchester United": 3.50,
+      "Tottenham Hotspur": 4.20
+    },
+    "relegation": {
+      "Southampton": 2.20,
+      "Ipswich Town": 2.50,
+      "Leicester City": 3.80,
+      "Nottingham Forest": 5.50,
+      "Brentford": 8.00
+    },
+    "golden_boot": {
+      "Erling Haaland": 2.50,
+      "Mohamed Salah": 5.00,
+      "Cole Palmer": 8.00,
+      "Bukayo Saka": 12.00,
+      "Son Heung-min": 15.00
+    }
+  },
+  "betting_tips": [
+    {
+      "id": 1,
+      "title": {
+        "en": "Manchester City vs Tottenham: Betting Preview",
+        "sv": "Manchester City vs Tottenham: Spelförhandsvisning"
+      },
+      "tip": {
+        "en": "City to win and over 2.5 goals at 2.05 odds looks solid value. Haaland first goalscorer at 3.20 is tempting.",
+        "sv": "City att vinna och över 2,5 mål på 2,05 odds ser ut som solidkvalitet. Haaland första målskytt på 3,20 är lockande."
+      },
+      "confidence": 8.5,
+      "match_id": 3
+    },
+    {
+      "id": 2,
+      "title": {
+        "en": "Chelsea vs Liverpool: High-Scoring Affair Expected", 
+        "sv": "Chelsea vs Liverpool: Målrik Affär Förväntas"
+      },
+      "tip": {
+        "en": "Both teams to score and over 2.5 goals combined at 2.45 odds. These attacking sides should produce goals.",
+        "sv": "Båda lagen att göra mål och över 2,5 mål kombinerat på 2,45 odds. Dessa anfallsinriktade lag borde producera mål."
+      },
+      "confidence": 7.8,
+      "match_id": 4
+    },
+    {
+      "id": 3,
+      "title": {
+        "en": "Season Long Bets: Value in Arsenal Top 4",
+        "sv": "Säsongslånga Spel: Värde i Arsenal Topp 4"
+      },
+      "tip": {
+        "en": "Arsenal top 4 finish at 1.25 odds offers good value. Their squad depth looks strong for a long campaign.",
+        "sv": "Arsenal topp 4 slutposition på 1,25 odds erbjuder bra värde. Deras lagdjup ser starkt ut för en lång kampanj."
+      },
+      "confidence": 9.0,
+      "type": "season_long"
+    }
+  ],
+  "bookmakers": [
+    {
+      "name": "Bet365",
+      "logo": "/static/images/bookmakers/bet365.png",
+      "bonus": {
+        "en": "Bet £10 Get £30 in Free Bets",
+        "sv": "Satsa £10 Få £30 i Gratissatsningar"
+      },
+      "affiliate_url": "https://bet365.com?affiliate=pl2024",
+      "rating": 4.5
+    },
+    {
+      "name": "William Hill",
+      "logo": "/static/images/bookmakers/williamhill.png", 
+      "bonus": {
+        "en": "£20 Risk Free First Bet",
+        "sv": "£20 Riskfri Första Satsning"
+      },
+      "affiliate_url": "https://williamhill.com?ref=pl2024",
+      "rating": 4.3
+    },
+    {
+      "name": "Paddy Power",
+      "logo": "/static/images/bookmakers/paddypower.png",
+      "bonus": {
+        "en": "£20 Back as Cash if First Bet Loses",
+        "sv": "£20 Tillbaka som Kontanter om Första Satsning Förlorar"
+      },
+      "affiliate_url": "https://paddypower.com?promo=pl2024",
+      "rating": 4.4
+    }
+  ],
+  "responsible_gambling": {
+    "en": {
+      "title": "Gamble Responsibly",
+      "message": "Remember to gamble responsibly. Only bet what you can afford to lose. If you need help, contact BeGambleAware.",
+      "helpline": "0808 8020 133"
+    },
+    "sv": {
+      "title": "Spela Ansvarsfullt", 
+      "message": "Kom ihåg att spela ansvarsfullt. Satsa bara vad du har råd att förlora. Om du behöver hjälp, kontakta Stödlinjen.",
+      "helpline": "020-819 100"
+    }
+  }
+}

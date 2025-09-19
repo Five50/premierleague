@@ -1,0 +1,25 @@
+{% comment %}
+Feature Card Molecule - PayUp style
+Usage: {% include 'molecules/feature-card.html' with title="Title" description="Description" icon_name="check" %}
+{% endcomment %}
+
+<div class="group relative bg-white rounded-xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100">
+    <div class="absolute inset-0 bg-gradient-to-r from-emerald-50 to-indigo-50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    <div class="relative">
+        {% if icon_name %}
+            <div class="w-14 h-14 bg-emerald-100 rounded-lg flex items-center justify-center mb-5">
+                {% include 'atoms/icon.html' with name=icon_name size="lg" class="text-emerald-800" %}
+            </div>
+        {% endif %}
+        
+        <h3 class="text-xl font-semibold text-slate-900 mb-3">{{ title }}</h3>
+        <p class="text-slate-600 leading-relaxed">{{ description }}</p>
+        
+        {% if cta_text %}
+            <a href="{{ cta_href|default:'#' }}" class="inline-flex items-center mt-4 text-emerald-800 font-medium hover:text-emerald-900 transition-colors">
+                {{ cta_text }}
+                {% include 'atoms/icon.html' with name="arrow-right" size="sm" class="ml-2" %}
+            </a>
+        {% endif %}
+    </div>
+</div>

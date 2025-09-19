@@ -1,0 +1,721 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Team Kit" %} | Allsvenskan Shop{% endblock %}
+
+{% block meta_description %}{% trans "Official Allsvenskan team kits available in all sizes. Show your support for your favorite Swedish football club with authentic jerseys." %}{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<!-- Breadcrumb -->
+<section class="bg-slate-50 py-4">
+    <div class="container mx-auto px-4">
+        <nav class="flex items-center space-x-2 text-sm">
+            <a href="{% url 'home' %}" class="text-slate-600 hover:text-blue-700">{% trans "Home" %}</a>
+            <span class="text-slate-400">/</span>
+            <a href="{% url 'shop' %}" class="text-slate-600 hover:text-blue-700">{% trans "Shop" %}</a>
+            <span class="text-slate-400">/</span>
+            <a href="#" class="text-slate-600 hover:text-blue-700">{% trans "Team Kits" %}</a>
+            <span class="text-slate-400">/</span>
+            <span class="text-slate-900 font-medium">{% trans "Team Kit" %}</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Product Detail -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12">
+            <!-- Product Images -->
+            <div x-data="{ activeImage: 0 }">
+                <!-- Main Image -->
+                <div class="relative mb-4 bg-slate-50 rounded-lg overflow-hidden">
+                    <span class="absolute top-4 left-4 px-3 py-1 bg-blue-700 text-white text-sm font-semibold rounded-full z-10">
+                        {% trans "Official" %}
+                    </span>
+                    <span class="absolute top-4 right-4 px-3 py-1 bg-yellow-500 text-slate-900 text-sm font-semibold rounded-full z-10">
+                        {% trans "Bestseller" %}
+                    </span>
+                    <img x-show="activeImage === 0" src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop&q=80"
+                         alt="Team Kit Front" class="w-full h-[500px] object-cover">
+                    <img x-show="activeImage === 1" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&q=80"
+                         alt="Team Kit Back" class="w-full h-[500px] object-cover">
+                    <img x-show="activeImage === 2" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=600&fit=crop&q=80"
+                         alt="Kit Details" class="w-full h-[500px] object-cover">
+                    <img x-show="activeImage === 3" src="https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&h=600&fit=crop&q=80"
+                         alt="Size Guide" class="w-full h-[500px] object-cover">
+                </div>
+
+                <!-- Thumbnail Gallery -->
+                <div class="grid grid-cols-4 gap-2">
+                    <button @click="activeImage = 0" class="border-2 rounded-lg overflow-hidden"
+                            :class="activeImage === 0 ? 'border-blue-700' : 'border-slate-200'">
+                        <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=200&h=150&fit=crop&q=80"
+                             alt="Front View" class="w-full h-24 object-cover hover:opacity-80 transition">
+                    </button>
+                    <button @click="activeImage = 1" class="border-2 rounded-lg overflow-hidden"
+                            :class="activeImage === 1 ? 'border-blue-700' : 'border-slate-200'">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=150&fit=crop&q=80"
+                             alt="Back View" class="w-full h-24 object-cover hover:opacity-80 transition">
+                    </button>
+                    <button @click="activeImage = 2" class="border-2 rounded-lg overflow-hidden"
+                            :class="activeImage === 2 ? 'border-blue-700' : 'border-slate-200'">
+                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=200&h=150&fit=crop&q=80"
+                             alt="Details" class="w-full h-24 object-cover hover:opacity-80 transition">
+                    </button>
+                    <button @click="activeImage = 3" class="border-2 rounded-lg overflow-hidden"
+                            :class="activeImage === 3 ? 'border-blue-700' : 'border-slate-200'">
+                        <img src="https://images.unsplash.com/photo-1552667466-07770ae110d0?w=200&h=150&fit=crop&q=80"
+                             alt="Size Guide" class="w-full h-24 object-cover hover:opacity-80 transition">
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div x-data="productData()">
+                <!-- Title and Rating -->
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-3" x-text="currentTeam.name + ' {% trans "Home Kit 2025/26" %}'">
+                        {% trans "Team Home Kit 2025/26" %}
+                    </h1>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <span class="text-amber-400">★★★★★</span>
+                            <span class="text-slate-600 ml-2">(287 {% trans "Reviews" %})</span>
+                        </div>
+                        <span class="text-slate-400">|</span>
+                        <span class="text-green-600 font-medium">✓ {% trans "In Stock" %}</span>
+                        <span class="text-slate-400">|</span>
+                        <span class="text-slate-600" x-text="'SKU: ' + productType.toUpperCase()">SKU: TEAM-KIT</span>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-6 pb-6 border-b border-slate-200">
+                    <div class="flex items-baseline space-x-3">
+                        <span class="text-4xl font-bold text-slate-900" x-text="currentTeam.price + ' SEK'">
+                            899 SEK
+                        </span>
+                        <span class="text-xl line-through text-slate-400" x-text="(currentTeam.price + 100) + ' SEK'">
+                            999 SEK
+                        </span>
+                        <span class="px-3 py-1 bg-red-100 text-red-700 text-sm font-semibold rounded-full">
+                            {% trans "Save 100 SEK" %}
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-600 mt-2">
+                        {% trans "Free shipping on orders over 1000 SEK" %}
+                    </p>
+                </div>
+
+                <!-- Size Selection -->
+                <div class="mb-6">
+                    <h3 class="font-semibold text-slate-900 mb-3">{% trans "Select Size" %} <span class="text-red-500">*</span></h3>
+                    <div class="relative">
+                        <select x-model="selectedSize" class="w-full p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white">
+                            <option value="S">S - {% trans "Small" %}</option>
+                            <option value="M" selected>M - {% trans "Medium" %} ({% trans "Most Popular" %})</option>
+                            <option value="L">L - {% trans "Large" %}</option>
+                            <option value="XL">XL - {% trans "X-Large" %}</option>
+                            <option value="XXL">XXL - {% trans "XX-Large" %}</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What's Included -->
+                <div class="mb-6">
+                    <h3 class="font-semibold text-slate-900 mb-3">{% trans "What's Included" %}</h3>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Official club crest" %}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Sponsor logos" %}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Nike Dri-FIT technology" %}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Player name customization" %}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Authentic match design" %}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Allsvenskan league patch" %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Purchase Options -->
+                <div class="mb-6">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">{% trans "Quantity" %}</label>
+                            <div class="flex items-center border border-slate-200 rounded-lg">
+                                <button @click="quantity = Math.max(1, quantity - 1)"
+                                        class="px-3 py-2 hover:bg-slate-50 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </button>
+                                <input type="number" x-model="quantity" min="1"
+                                       class="w-16 text-center border-x border-slate-200 py-2 focus:outline-none">
+                                <button @click="quantity++"
+                                        class="px-3 py-2 hover:bg-slate-50 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-slate-600 mb-1">{% trans "Total Price:" %}</p>
+                            <p class="text-2xl font-bold text-slate-900" x-text="(currentTeam.price * quantity) + ' SEK'">899 SEK</p>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-3">
+                        <button @click="addToCart()"
+                                :disabled="isLoading"
+                                :class="isLoading ? 'bg-slate-400 cursor-not-allowed' : 'bg-blue-700 hover:bg-blue-800'"
+                                class="flex-1 px-6 py-3 text-white rounded-lg font-semibold transition">
+                            <svg x-show="!isLoading" class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            </svg>
+                            <svg x-show="isLoading" class="w-5 h-5 inline mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span x-text="isLoading ? '{% trans "Adding..." %}' : '{% trans "Add to Cart" %}'">{% trans "Add to Cart" %}</span>
+                        </button>
+                        <button class="px-6 py-3 bg-yellow-500 text-slate-900 rounded-lg font-semibold hover:bg-yellow-600 transition">
+                            {% trans "Buy Now" %}
+                        </button>
+                        <button class="px-4 py-3 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                    <div class="text-center p-3 bg-slate-50 rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-1 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                        <p class="text-xs text-slate-700 font-medium">{% trans "Authentic Guaranteed" %}</p>
+                    </div>
+                    <div class="text-center p-3 bg-slate-50 rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-1 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path>
+                        </svg>
+                        <p class="text-xs text-slate-700 font-medium">{% trans "Free Shipping" %}</p>
+                    </div>
+                    <div class="text-center p-3 bg-slate-50 rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-1 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="text-xs text-slate-700 font-medium">{% trans "Same Day Dispatch" %}</p>
+                    </div>
+                </div>
+
+                <!-- Team Info -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-blue-700 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <p class="font-semibold text-blue-900 mb-1" x-text="'Official ' + currentTeam.name + ' Kit'">
+                                {% trans "Official Team Kit" %}
+                            </p>
+                            <p class="text-sm text-blue-800" x-text="currentTeam.description">
+                                {% trans "Official home kit representing your favorite Allsvenskan club with authentic design and premium quality." %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Information Tabs -->
+        <div class="mt-12" x-data="{ activeTab: 'description' }">
+            <!-- Tab Headers -->
+            <div class="border-b border-slate-200">
+                <nav class="flex space-x-8">
+                    <button @click="activeTab = 'description'"
+                            :class="activeTab === 'description' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Description" %}
+                    </button>
+                    <button @click="activeTab = 'sizing'"
+                            :class="activeTab === 'sizing' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Size Guide" %}
+                    </button>
+                    <button @click="activeTab = 'care'"
+                            :class="activeTab === 'care' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Care Instructions" %}
+                    </button>
+                    <button @click="activeTab = 'reviews'"
+                            :class="activeTab === 'reviews' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Reviews" %} (287)
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="py-8">
+                <!-- Description Tab -->
+                <div x-show="activeTab === 'description'" class="prose max-w-none text-slate-700">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "Official Allsvenskan Team Kit" %}</h3>
+                    <p>
+                        {% trans "Show your support for your favorite Allsvenskan team with this authentic home kit. Featuring the same design worn by players on the pitch, this jersey combines traditional club colors with modern Nike technology for ultimate comfort and performance." %}
+                    </p>
+
+                    <h4 class="text-lg font-semibold text-slate-900 mt-6 mb-3">{% trans "Premium Features" %}</h4>
+                    <ul class="space-y-2">
+                        <li>{% trans "Nike Dri-FIT technology wicks away moisture to keep you dry" %}</li>
+                        <li>{% trans "Authentic club crest and sponsor logos" %}</li>
+                        <li>{% trans "Official Allsvenskan league patch" %}</li>
+                        <li>{% trans "Premium polyester fabric for durability" %}</li>
+                        <li>{% trans "Ribbed collar and cuffs for comfortable fit" %}</li>
+                        <li>{% trans "Machine washable for easy care" %}</li>
+                    </ul>
+
+                    <h4 class="text-lg font-semibold text-slate-900 mt-6 mb-3">{% trans "Perfect For" %}</h4>
+                    <ul class="space-y-2">
+                        <li>{% trans "Match day support at the stadium" %}</li>
+                        <li>{% trans "Casual wear showing team pride" %}</li>
+                        <li>{% trans "Playing football with friends" %}</li>
+                        <li>{% trans "Gift for fellow supporters" %}</li>
+                        <li>{% trans "Collecting official team merchandise" %}</li>
+                    </ul>
+                </div>
+
+                <!-- Size Guide Tab -->
+                <div x-show="activeTab === 'sizing'">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "Size Guide" %}</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-slate-200">
+                            <thead>
+                                <tr class="bg-slate-50">
+                                    <th class="border border-slate-200 px-4 py-2 text-left">{% trans "Size" %}</th>
+                                    <th class="border border-slate-200 px-4 py-2 text-left">{% trans "Chest (cm)" %}</th>
+                                    <th class="border border-slate-200 px-4 py-2 text-left">{% trans "Length (cm)" %}</th>
+                                    <th class="border border-slate-200 px-4 py-2 text-left">{% trans "Sleeve (cm)" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-slate-200 px-4 py-2 font-medium">S</td>
+                                    <td class="border border-slate-200 px-4 py-2">96</td>
+                                    <td class="border border-slate-200 px-4 py-2">69</td>
+                                    <td class="border border-slate-200 px-4 py-2">20</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 px-4 py-2 font-medium">M</td>
+                                    <td class="border border-slate-200 px-4 py-2">104</td>
+                                    <td class="border border-slate-200 px-4 py-2">72</td>
+                                    <td class="border border-slate-200 px-4 py-2">21</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 px-4 py-2 font-medium">L</td>
+                                    <td class="border border-slate-200 px-4 py-2">112</td>
+                                    <td class="border border-slate-200 px-4 py-2">75</td>
+                                    <td class="border border-slate-200 px-4 py-2">22</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 px-4 py-2 font-medium">XL</td>
+                                    <td class="border border-slate-200 px-4 py-2">120</td>
+                                    <td class="border border-slate-200 px-4 py-2">78</td>
+                                    <td class="border border-slate-200 px-4 py-2">23</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 px-4 py-2 font-medium">XXL</td>
+                                    <td class="border border-slate-200 px-4 py-2">128</td>
+                                    <td class="border border-slate-200 px-4 py-2">81</td>
+                                    <td class="border border-slate-200 px-4 py-2">24</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-sm text-slate-600 mt-4">
+                        {% trans "All measurements are approximate. For the best fit, we recommend measuring a shirt that fits you well and comparing with our size chart." %}
+                    </p>
+                </div>
+
+                <!-- Care Instructions Tab -->
+                <div x-show="activeTab === 'care'">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "Care Instructions" %}</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-slate-900 mb-3">{% trans "Washing" %}</h4>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>• {% trans "Machine wash cold (30°C maximum)" %}</li>
+                                <li>• {% trans "Turn inside out before washing" %}</li>
+                                <li>• {% trans "Wash with similar colors" %}</li>
+                                <li>• {% trans "Use mild detergent only" %}</li>
+                                <li>• {% trans "Do not use fabric softener" %}</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-slate-900 mb-3">{% trans "Drying" %}</h4>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>• {% trans "Do not tumble dry" %}</li>
+                                <li>• {% trans "Hang dry in shade" %}</li>
+                                <li>• {% trans "Do not wring or twist" %}</li>
+                                <li>• {% trans "Reshape while damp" %}</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-slate-900 mb-3">{% trans "Ironing" %}</h4>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>• {% trans "Iron on low heat if needed" %}</li>
+                                <li>• {% trans "Do not iron over printed areas" %}</li>
+                                <li>• {% trans "Use pressing cloth for protection" %}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Tab -->
+                <div x-show="activeTab === 'reviews'">
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "Customer Reviews" %}</h3>
+
+                        <!-- Review Summary -->
+                        <div class="bg-slate-50 rounded-lg p-6 mb-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <div class="flex items-baseline space-x-3 mb-2">
+                                        <span class="text-4xl font-bold text-slate-900">4.8</span>
+                                        <div>
+                                            <div class="flex text-amber-400">★★★★★</div>
+                                            <p class="text-sm text-slate-600">{% trans "Based on 287 reviews" %}</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-slate-600 mt-2">
+                                        <span class="font-semibold">94%</span> {% trans "would recommend this kit" %}
+                                    </p>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">5★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 78%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">224</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">4★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 16%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">46</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">3★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 4%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">12</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">2★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 1%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">3</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">1★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 1%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Individual Reviews -->
+                        <div class="space-y-6">
+                            <div class="border-b border-slate-200 pb-6">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div>
+                                        <div class="flex items-center mb-1">
+                                            <span class="text-amber-400">★★★★★</span>
+                                            <span class="ml-2 font-semibold text-slate-900">Erik S.</span>
+                                            <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-900 text-xs rounded">{% trans "Verified Purchase" %}</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600">{% trans "Size M • 2 weeks ago" %}</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-700 mt-3">
+                                    {% trans "Perfect kit! The quality is outstanding and the fit is exactly what I expected. Wore it to the last Malmö match and got so many compliments. The Nike material feels premium and the club crest looks amazing." %}
+                                </p>
+                            </div>
+
+                            <div class="border-b border-slate-200 pb-6">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div>
+                                        <div class="flex items-center mb-1">
+                                            <span class="text-amber-400">★★★★★</span>
+                                            <span class="ml-2 font-semibold text-slate-900">Anna L.</span>
+                                            <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-900 text-xs rounded">{% trans "Verified Purchase" %}</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600">{% trans "Size L • 1 month ago" %}</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-700 mt-3">
+                                    {% trans "Bought this as a gift for my boyfriend who's a huge fan. He absolutely loves it! The sizing was perfect and the delivery was super fast. Will definitely shop here again." %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Products -->
+<section class="py-12 bg-slate-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold text-slate-900 mb-8">{% trans "Complete Your Fan Collection" %}</h2>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Related Product 1 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=400&h=300&fit=crop&q=80" alt="Football Scarf" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "Team Scarf" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "Show your support" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">299 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Product 2 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&q=80" alt="Match Ball" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "Official Match Ball" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "FIFA Quality Pro" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">1,899 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Product 3 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=400&h=300&fit=crop&q=80" alt="Training Kit" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "Training Kit" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "Professional quality" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">1,299 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Product 4 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=400&h=300&fit=crop&q=80" alt="Team Cap" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "Team Cap" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "Official merchandise" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">249 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function productData() {
+    return {
+        selectedSize: 'M',
+        quantity: 1,
+        productType: new URLSearchParams(window.location.search).get('product') || 'malmo-ff-home-kit',
+        isLoading: false,
+        teamData: {
+            'malmo-ff-home-kit': {
+                name: 'Malmö FF',
+                color: 'sky-500',
+                price: 899,
+                description: 'Official home kit with sky blue colors representing Sweden\'s most successful club in European competition.'
+            },
+            'aik-home-kit': {
+                name: 'AIK',
+                color: 'slate-900',
+                price: 859,
+                description: 'Classic black and yellow stripes representing Stockholm\'s historic football club founded in 1891.'
+            },
+            'hammarby-home-kit': {
+                name: 'Hammarby IF',
+                color: 'green-600',
+                price: 879,
+                description: 'Iconic green and white stripes representing Södermalm\'s football pride and tradition.'
+            },
+            'djurgarden-home-kit': {
+                name: 'Djurgården IF',
+                color: 'blue-800',
+                price: 869,
+                description: 'Royal blue home shirt with traditional club values and Stockholm heritage.'
+            },
+            'ifk-goteborg-home-kit': {
+                name: 'IFK Göteborg',
+                color: 'blue-600',
+                price: 849,
+                description: 'Classic blue and white colors representing Sweden\'s most successful European club.'
+            },
+            'hacken-home-kit': {
+                name: 'BK Häcken',
+                color: 'yellow-600',
+                price: 839,
+                description: 'Vibrant yellow home kit representing the ambitious Gothenburg club.'
+            }
+        },
+        get currentTeam() {
+            return this.teamData[this.productType] || this.teamData['malmo-ff-home-kit'];
+        },
+        async addToCart() {
+            if (this.isLoading) return;
+
+            this.isLoading = true;
+
+            try {
+                const response = await fetch('{% url "cart:add_to_cart" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '',
+                    },
+                    body: JSON.stringify({
+                        product_type: 'variable',
+                        product_id: this.productType,
+                        product_name: this.currentTeam.name + ' {% trans "Home Kit 2025/26" %}',
+                        price: this.currentTeam.price,
+                        quantity: this.quantity,
+                        variations: {
+                            size: this.selectedSize
+                        }
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    this.showNotification(data.message, 'success');
+                    this.updateCartCounter(data.cart_total_items);
+                } else {
+                    this.showNotification(data.error || '{% trans "Error adding to cart" %}', 'error');
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                this.showNotification('{% trans "Error adding to cart" %}', 'error');
+            } finally {
+                this.isLoading = false;
+            }
+        },
+        showNotification(message, type) {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-600' : 'bg-red-600';
+            toast.className = 'fixed bottom-4 left-4 ' + bgColor + ' text-white px-6 py-3 rounded-lg border z-[10000] animate-fade-in';
+
+            const content = document.createElement('div');
+            content.className = 'flex items-center';
+
+            const icon = document.createElement('svg');
+            icon.className = 'w-5 h-5 mr-2';
+            icon.setAttribute('fill', 'currentColor');
+            icon.setAttribute('viewBox', '0 0 20 20');
+            icon.innerHTML = '<path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>';
+
+            const text = document.createTextNode(message);
+
+            content.appendChild(icon);
+            content.appendChild(text);
+            toast.appendChild(content);
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('animate-fade-out');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        },
+        updateCartCounter(totalItems) {
+            // Update the cart badge
+            const cartBadge = document.querySelector('.bg-yellow-400');
+            if (cartBadge) {
+                cartBadge.textContent = totalItems;
+                if (totalItems > 0) {
+                    cartBadge.style.display = 'flex';
+                } else {
+                    cartBadge.style.display = 'none';
+                }
+            }
+
+            // Update the mobile cart text
+            const mobileCartLink = document.querySelector('a[href="/cart/"]');
+            if (mobileCartLink && mobileCartLink.textContent.includes('Cart')) {
+                mobileCartLink.textContent = `Cart (${totalItems})`;
+            }
+
+            // Log success for debugging
+            console.log('Cart updated successfully:', totalItems);
+        }
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,218 @@
+{% load i18n %}
+<!-- Final Testimonials Section -->
+<section class="py-20 bg-gray-50" aria-labelledby="testimonials-heading">
+    <div class="container mx-auto px-4">
+        <!-- Section Header -->
+        <header class="text-center mb-16">
+            <h2 id="testimonials-heading" class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                {% trans "What Our Clients Say" %}
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                {% trans "Real stories from real people who have transformed their lives through our addiction treatment programs in South Florida." %}
+            </p>
+        </header>
+        
+        <!-- Testimonials Carousel -->
+        <div class="relative" x-data="testimonialsCarousel()">
+            <div class="overflow-hidden rounded-2xl">
+                <div class="flex transition-transform duration-500 ease-in-out" :style="`transform: translateX(-${currentTestimonial * 100}%)`">
+                    <!-- Testimonial 1 -->
+                    <div class="w-full flex-shrink-0">
+                        <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mx-4">
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                                <div class="lg:col-span-2">
+                                    <div class="mb-6">
+                                        <svg class="w-12 h-12 text-emerald-700 mb-4" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">
+                                            <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"/>
+                                        </svg>
+                                    </div>
+                                    <blockquote class="text-xl md:text-2xl text-gray-800 leading-relaxed mb-6">
+                                        "{% trans 'South Florida Rehab gave me my life back. The staff treated me like family, and the oceanfront setting made recovery feel like a healing retreat rather than a hospital stay. Three years later, I\'m still grateful for their compassionate care.' %}"
+                                    </blockquote>
+                                    <footer>
+                                        <cite class="text-lg font-semibold text-gray-900 not-italic">{% trans "Maria C." %}</cite>
+                                        <div class="text-emerald-700 font-medium">{% trans "Miami Beach Center Graduate" %}</div>
+                                        <div class="text-gray-500 text-sm">{% trans "3 Years in Recovery" %}</div>
+                                    </footer>
+                                </div>
+                                <div class="text-center">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b377?w=300&h=300&fit=crop&crop=face" 
+                                         alt="{% trans 'Maria C. - Recovery success story' %}" 
+                                         class="w-32 h-32 rounded-full mx-auto mb-4 shadow-lg border-4 border-emerald-200">
+                                    <div class="flex justify-center mb-4">
+                                        <!-- 5 Star Rating -->
+                                        <template x-for="i in 5" :key="i">
+                                            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                        </template>
+                                    </div>
+                                    <div class="text-emerald-700 text-sm font-semibold">{% trans "Now helping others as a peer counselor" %}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 2 -->
+                    <div class="w-full flex-shrink-0">
+                        <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mx-4">
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                                <div class="lg:col-span-2">
+                                    <div class="mb-6">
+                                        <svg class="w-12 h-12 text-emerald-700 mb-4" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">
+                                            <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"/>
+                                        </svg>
+                                    </div>
+                                    <blockquote class="text-xl md:text-2xl text-gray-800 leading-relaxed mb-6">
+                                        "{% trans 'The dual diagnosis program at Fort Lauderdale changed everything. They didn\'t just treat my addiction - they helped me understand and manage my anxiety. The therapeutic gardens became my sanctuary for healing.' %}"
+                                    </blockquote>
+                                    <footer>
+                                        <cite class="text-lg font-semibold text-gray-900 not-italic">{% trans "James R." %}</cite>
+                                        <div class="text-emerald-700 font-medium">{% trans "Fort Lauderdale Center Graduate" %}</div>
+                                        <div class="text-gray-500 text-sm">{% trans "18 Months in Recovery" %}</div>
+                                    </footer>
+                                </div>
+                                <div class="text-center">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face" 
+                                         alt="{% trans 'James R. - Recovery success story' %}" 
+                                         class="w-32 h-32 rounded-full mx-auto mb-4 shadow-lg border-4 border-emerald-200">
+                                    <div class="flex justify-center mb-4">
+                                        <!-- 5 Star Rating -->
+                                        <template x-for="i in 5" :key="i">
+                                            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                        </template>
+                                    </div>
+                                    <div class="text-emerald-700 text-sm font-semibold">{% trans "Back to work as a software engineer" %}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 3 -->
+                    <div class="w-full flex-shrink-0">
+                        <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mx-4">
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                                <div class="lg:col-span-2">
+                                    <div class="mb-6">
+                                        <svg class="w-12 h-12 text-emerald-700 mb-4" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">
+                                            <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"/>
+                                        </svg>
+                                    </div>
+                                    <blockquote class="text-xl md:text-2xl text-gray-800 leading-relaxed mb-6">
+                                        "{% trans 'The executive program at West Palm Beach was perfect for my needs as a business owner. I could stay connected to my company while focusing on recovery. The discretion and professionalism were exceptional.' %}"
+                                    </blockquote>
+                                    <footer>
+                                        <cite class="text-lg font-semibold text-gray-900 not-italic">{% trans "David K." %}</cite>
+                                        <div class="text-emerald-700 font-medium">{% trans "West Palm Beach Executive Center Graduate" %}</div>
+                                        <div class="text-gray-500 text-sm">{% trans "2 Years in Recovery" %}</div>
+                                    </footer>
+                                </div>
+                                <div class="text-center">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face" 
+                                         alt="{% trans 'David K. - Recovery success story' %}" 
+                                         class="w-32 h-32 rounded-full mx-auto mb-4 shadow-lg border-4 border-emerald-200">
+                                    <div class="flex justify-center mb-4">
+                                        <!-- 5 Star Rating -->
+                                        <template x-for="i in 5" :key="i">
+                                            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                        </template>
+                                    </div>
+                                    <div class="text-emerald-700 text-sm font-semibold">{% trans "CEO & recovery advocate" %}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-center mt-8 space-x-2">
+                <template x-for="(testimonial, index) in testimonials" :key="index">
+                    <button @click="currentTestimonial = index" 
+                            class="w-3 h-3 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                            :class="currentTestimonial === index ? 'bg-emerald-700' : 'bg-gray-300'"
+                            :aria-label="'{% trans "Go to testimonial" %} ' + (index + 1)">
+                    </button>
+                </template>
+            </div>
+        </div>
+        
+        <!-- Trust Indicators -->
+        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="text-3xl font-bold text-emerald-700 mb-2">4.9/5</div>
+                <div class="text-gray-600 text-sm">{% trans "Average Rating" %}</div>
+                <div class="flex justify-center mt-2">
+                    <template x-for="i in 5" :key="i">
+                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                    </template>
+                </div>
+            </div>
+            
+            <div>
+                <div class="text-3xl font-bold text-emerald-700 mb-2">500+</div>
+                <div class="text-gray-600 text-sm">{% trans "Reviews" %}</div>
+            </div>
+            
+            <div>
+                <div class="text-3xl font-bold text-emerald-700 mb-2">93%</div>
+                <div class="text-gray-600 text-sm">{% trans "Recommend Us" %}</div>
+            </div>
+            
+            <div>
+                <div class="text-3xl font-bold text-emerald-700 mb-2">15+</div>
+                <div class="text-gray-600 text-sm">{% trans "Years Experience" %}</div>
+            </div>
+        </div>
+        
+        <!-- CTA -->
+        <div class="mt-16 text-center">
+            <h3 class="text-3xl font-bold text-gray-900 mb-6">
+                {% trans "Ready to Start Your Recovery Journey?" %}
+            </h3>
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                {% trans "Join hundreds of individuals who have transformed their lives through our comprehensive treatment programs." %}
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#help-form" class="inline-flex items-center px-8 py-4 bg-emerald-700 text-white rounded-xl font-semibold text-lg hover:bg-emerald-800 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-200">
+                    {% trans "Get Free Assessment" %}
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </a>
+                <a href="tel:1-800-REHAB" class="inline-flex items-center px-8 py-4 border-2 border-emerald-700 text-emerald-700 rounded-xl font-semibold text-lg hover:bg-emerald-50 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                    {% trans "Call (800) 555-REHAB" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function testimonialsCarousel() {
+    return {
+        currentTestimonial: 0,
+        testimonials: [0, 1, 2],
+        
+        init() {
+            // Auto-advance testimonials every 10 seconds
+            setInterval(() => {
+                this.nextTestimonial();
+            }, 10000);
+        },
+        
+        nextTestimonial() {
+            this.currentTestimonial = (this.currentTestimonial + 1) % this.testimonials.length;
+        }
+    }
+}
+</script>

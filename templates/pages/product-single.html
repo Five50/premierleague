@@ -1,0 +1,644 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Retro Kit" %} | Allsvenskan Shop{% endblock %}
+
+{% block meta_description %}{% trans "Limited edition retro Allsvenskan kits commemorating historic moments in Swedish football. Authentic designs from legendary seasons." %}{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<section class="bg-slate-50 py-4">
+    <div class="container mx-auto px-4">
+        <nav class="flex items-center space-x-2 text-sm">
+            <a href="{% url 'home' %}" class="text-slate-600 hover:text-blue-700">{% trans "Home" %}</a>
+            <span class="text-slate-400">/</span>
+            <a href="{% url 'shop' %}" class="text-slate-600 hover:text-blue-700">{% trans "Shop" %}</a>
+            <span class="text-slate-400">/</span>
+            <a href="#" class="text-slate-600 hover:text-blue-700">{% trans "Retro Kits" %}</a>
+            <span class="text-slate-400">/</span>
+            <span class="text-slate-900 font-medium">{% trans "Retro Kit" %}</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Product Detail -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12">
+            <!-- Product Images -->
+            <div x-data="{ activeImage: 0 }">
+                <!-- Main Image -->
+                <div class="relative mb-4 bg-slate-50 rounded-lg overflow-hidden">
+                    <span class="absolute top-4 left-4 px-3 py-1 bg-yellow-500 text-slate-900 text-sm font-semibold rounded-full z-10">
+                        {% trans "Limited Edition" %}
+                    </span>
+                    <span class="absolute top-4 right-4 px-3 py-1 bg-red-500 text-white text-sm font-semibold rounded-full z-10">
+                        {% trans "Historic" %}
+                    </span>
+                    <img x-show="activeImage === 0" src="https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=800&h=600&fit=crop&q=80"
+                         alt="Retro Kit Front" class="w-full h-[500px] object-cover">
+                    <img x-show="activeImage === 1" src="https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=800&h=600&fit=crop&q=80"
+                         alt="Retro Kit Back" class="w-full h-[500px] object-cover">
+                    <img x-show="activeImage === 2" src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&h=600&fit=crop&q=80"
+                         alt="Kit Details" class="w-full h-[500px] object-cover">
+                    <img x-show="activeImage === 3" src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&h=600&fit=crop&q=80"
+                         alt="Historical Context" class="w-full h-[500px] object-cover">
+                </div>
+
+                <!-- Thumbnail Gallery -->
+                <div class="grid grid-cols-4 gap-2">
+                    <button @click="activeImage = 0" class="border-2 rounded-lg overflow-hidden"
+                            :class="activeImage === 0 ? 'border-blue-700' : 'border-slate-200'">
+                        <img src="https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=200&h=150&fit=crop&q=80"
+                             alt="Front View" class="w-full h-24 object-cover hover:opacity-80 transition">
+                    </button>
+                    <button @click="activeImage = 1" class="border-2 rounded-lg overflow-hidden"
+                            :class="activeImage === 1 ? 'border-blue-700' : 'border-slate-200'">
+                        <img src="https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=200&h=150&fit=crop&q=80"
+                             alt="Back View" class="w-full h-24 object-cover hover:opacity-80 transition">
+                    </button>
+                    <button @click="activeImage = 2" class="border-2 rounded-lg overflow-hidden"
+                            :class="activeImage === 2 ? 'border-blue-700' : 'border-slate-200'">
+                        <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=200&h=150&fit=crop&q=80"
+                             alt="Details" class="w-full h-24 object-cover hover:opacity-80 transition">
+                    </button>
+                    <button @click="activeImage = 3" class="border-2 rounded-lg overflow-hidden"
+                            :class="activeImage === 3 ? 'border-blue-700' : 'border-slate-200'">
+                        <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=200&h=150&fit=crop&q=80"
+                             alt="Historical" class="w-full h-24 object-cover hover:opacity-80 transition">
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div x-data="{
+                quantity: 1,
+                productType: new URLSearchParams(window.location.search).get('product') || 'retro-kit',
+                retroData: {
+                    'malmo-ff-1979-kit': {
+                        name: 'Malmö FF',
+                        season: '1979 European Cup Final',
+                        price: 1299,
+                        description: 'Replica of the historic kit worn in the European Cup Final against Nottingham Forest.',
+                        story: 'This legendary kit represents Malmö FF\\'s greatest achievement in European football.'
+                    },
+                    'aik-2009-kit': {
+                        name: 'AIK',
+                        season: '2009 Championship',
+                        price: 1199,
+                        description: 'Commemorating AIK\\'s dramatic title win in the final match of the 2009 season.',
+                        story: 'The kit that witnessed one of the most thrilling championship finishes in Allsvenskan history.'
+                    },
+                    'ifk-goteborg-1982-kit': {
+                        name: 'IFK Göteborg',
+                        season: '1982 UEFA Cup Winners',
+                        price: 1399,
+                        description: 'Authentic replica of the kit worn during IFK\\'s first UEFA Cup triumph.',
+                        story: 'The kit that made Swedish football history in European competition.'
+                    },
+                    'hammarby-1990s-kit': {
+                        name: 'Hammarby IF',
+                        season: '1990s Classic Design',
+                        price: 1149,
+                        description: 'Iconic green and white stripes from Hammarby\\'s golden era in the 1990s.',
+                        story: 'A timeless design representing the passion of Södermalm supporters.'
+                    }
+                },
+                get currentRetro() {
+                    return this.retroData[this.productType] || this.retroData['malmo-ff-1979-kit'];
+                }
+            }">
+                <!-- Title and Rating -->
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-3" x-text="currentRetro.name + ' ' + currentRetro.season">
+                        {% trans "Retro Kit" %}
+                    </h1>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <span class="text-amber-400">★★★★★</span>
+                            <span class="text-slate-600 ml-2">(89 {% trans "Reviews" %})</span>
+                        </div>
+                        <span class="text-slate-400">|</span>
+                        <span class="text-orange-600 font-medium">⚠️ {% trans "Limited Stock" %}</span>
+                        <span class="text-slate-400">|</span>
+                        <span class="text-slate-600" x-text="'SKU: ' + productType.toUpperCase()">SKU: RETRO-KIT</span>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-6 pb-6 border-b border-slate-200">
+                    <div class="flex items-baseline space-x-3">
+                        <span class="text-4xl font-bold text-slate-900" x-text="currentRetro.price + ' SEK'">
+                            1,299 SEK
+                        </span>
+                        <span class="text-xl line-through text-slate-400" x-text="(currentRetro.price + 200) + ' SEK'">
+                            1,499 SEK
+                        </span>
+                        <span class="px-3 py-1 bg-red-100 text-red-700 text-sm font-semibold rounded-full">
+                            {% trans "Save 200 SEK" %}
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-600 mt-2">
+                        {% trans "Free shipping on all retro kits" %}
+                    </p>
+                </div>
+
+                <!-- Historical Features -->
+                <div class="mb-6">
+                    <h3 class="font-semibold text-slate-900 mb-3">{% trans "Historical Features" %}</h3>
+                    <ul class="space-y-2 text-slate-700">
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-700 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Exact replica of original design" %}
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-700 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Limited edition numbered certificate" %}
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-700 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Premium collector's packaging" %}
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-700 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Historical booklet included" %}
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Purchase Options -->
+                <div class="mb-6">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">{% trans "Quantity" %}</label>
+                            <div class="flex items-center border border-slate-200 rounded-lg">
+                                <button @click="quantity = Math.max(1, quantity - 1)"
+                                        class="px-3 py-2 hover:bg-slate-50 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </button>
+                                <input type="number" x-model="quantity" min="1" max="3"
+                                       class="w-16 text-center border-x border-slate-200 py-2 focus:outline-none">
+                                <button @click="quantity = Math.min(3, quantity + 1)"
+                                        class="px-3 py-2 hover:bg-slate-50 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-1">{% trans "Maximum 3 per customer" %}</p>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-slate-600 mb-1">{% trans "Total Price:" %}</p>
+                            <p class="text-2xl font-bold text-slate-900" x-text="(currentRetro.price * quantity) + ' SEK'">1,299 SEK</p>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-3">
+                        <button class="flex-1 px-6 py-3 bg-blue-700 text-white rounded-lg font-semibold hover:bg-blue-800 transition"
+                                onclick="addToCart(currentRetro.id, currentRetro.type, currentRetro.price * quantity, {size: currentRetro.size, condition: currentRetro.condition, year: currentRetro.year, quantity: quantity})">
+                            <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            </svg>
+                            {% trans "Add to Cart" %}
+                        </button>
+                        <button class="px-6 py-3 bg-yellow-500 text-slate-900 rounded-lg font-semibold hover:bg-yellow-600 transition">
+                            {% trans "Buy Now" %}
+                        </button>
+                        <button class="px-4 py-3 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                    <div class="text-center p-3 bg-slate-50 rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-1 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                        <p class="text-xs text-slate-700 font-medium">{% trans "Authenticity Guaranteed" %}</p>
+                    </div>
+                    <div class="text-center p-3 bg-slate-50 rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-1 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path>
+                        </svg>
+                        <p class="text-xs text-slate-700 font-medium">{% trans "Free Shipping" %}</p>
+                    </div>
+                    <div class="text-center p-3 bg-slate-50 rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-1 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="text-xs text-slate-700 font-medium">{% trans "Same Day Dispatch" %}</p>
+                    </div>
+                </div>
+
+                <!-- Historical Significance -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-blue-700 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <div>
+                            <p class="font-semibold text-blue-900 mb-1" x-text="'Historic ' + currentRetro.season + ' Kit'">
+                                {% trans "Historic Kit" %}
+                            </p>
+                            <p class="text-sm text-blue-800" x-text="currentRetro.story">
+                                {% trans "A piece of Swedish football history, commemorating one of the greatest moments in Allsvenskan heritage." %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Information Tabs -->
+        <div class="mt-12" x-data="{ activeTab: 'description' }">
+            <!-- Tab Headers -->
+            <div class="border-b border-slate-200">
+                <nav class="flex space-x-8">
+                    <button @click="activeTab = 'description'"
+                            :class="activeTab === 'description' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Historical Story" %}
+                    </button>
+                    <button @click="activeTab = 'specifications'"
+                            :class="activeTab === 'specifications' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Specifications" %}
+                    </button>
+                    <button @click="activeTab = 'authenticity'"
+                            :class="activeTab === 'authenticity' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Authenticity" %}
+                    </button>
+                    <button @click="activeTab = 'reviews'"
+                            :class="activeTab === 'reviews' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Reviews" %} (89)
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="py-8">
+                <!-- Historical Story Tab -->
+                <div x-show="activeTab === 'description'" class="prose max-w-none text-slate-700">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "A Piece of Football History" %}</h3>
+                    <p>
+                        {% trans "Step back in time with this authentic retro kit that represents one of the most significant moments in Swedish football history. Each kit tells a unique story of triumph, passion, and the beautiful game." %}
+                    </p>
+
+                    <h4 class="text-lg font-semibold text-slate-900 mt-6 mb-3">{% trans "Historical Context" %}</h4>
+                    <ul class="space-y-2">
+                        <li>{% trans "Exact reproduction of the original match-worn design" %}</li>
+                        <li>{% trans "Researched from museum archives and historical photographs" %}</li>
+                        <li>{% trans "Created in partnership with football historians" %}</li>
+                        <li>{% trans "Each kit represents a pivotal moment in club history" %}</li>
+                        <li>{% trans "Premium materials that honor the original craftsmanship" %}</li>
+                    </ul>
+
+                    <h4 class="text-lg font-semibold text-slate-900 mt-6 mb-3">{% trans "Why Collectors Love These Kits" %}</h4>
+                    <ul class="space-y-2">
+                        <li>{% trans "Limited production run with numbered certificates" %}</li>
+                        <li>{% trans "Investment value increases over time" %}</li>
+                        <li>{% trans "Perfect for displaying in home or office" %}</li>
+                        <li>{% trans "Conversation starter with fellow football fans" %}</li>
+                        <li>{% trans "Connects you to legendary moments in Swedish football" %}</li>
+                    </ul>
+                </div>
+
+                <!-- Specifications Tab -->
+                <div x-show="activeTab === 'specifications'">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "Kit Specifications" %}</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-slate-900 mb-3">{% trans "Materials & Construction" %}</h4>
+                            <dl class="space-y-2">
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Material" %}</dt>
+                                    <dd class="font-medium text-slate-900">100% Cotton</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Weight" %}</dt>
+                                    <dd class="font-medium text-slate-900">180 GSM</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Production" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "Limited Edition" %}</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Origin" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "Made in Europe" %}</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-slate-900 mb-3">{% trans "Package Contents" %}</h4>
+                            <dl class="space-y-2">
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Jersey" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "Retro replica kit" %}</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Certificate" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "Numbered authenticity" %}</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Booklet" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "Historical story" %}</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Packaging" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "Premium box" %}</dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Authenticity Tab -->
+                <div x-show="activeTab === 'authenticity'">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "Authenticity Guarantee" %}</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-slate-900 mb-3">{% trans "Research & Verification" %}</h4>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>• {% trans "Archived match footage analysis" %}</li>
+                                <li>• {% trans "Museum specimen examination" %}</li>
+                                <li>• {% trans "Club historian consultation" %}</li>
+                                <li>• {% trans "Original manufacturer records review" %}</li>
+                                <li>• {% trans "Player testimonials and verification" %}</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-slate-900 mb-3">{% trans "Quality Assurance" %}</h4>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>• {% trans "Numbered certificate of authenticity" %}</li>
+                                <li>• {% trans "Holographic security features" %}</li>
+                                <li>• {% trans "Official club endorsement" %}</li>
+                                <li>• {% trans "Limited production documentation" %}</li>
+                                <li>• {% trans "Lifetime authenticity guarantee" %}</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <p class="text-sm text-blue-800">
+                                <strong>{% trans "Collector's Guarantee:" %}</strong> {% trans "Each retro kit comes with a lifetime authenticity guarantee. If any aspect of the kit's historical accuracy is disputed, we offer a full refund with documentation proof." %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Tab -->
+                <div x-show="activeTab === 'reviews'">
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "Collector Reviews" %}</h3>
+
+                        <!-- Review Summary -->
+                        <div class="bg-slate-50 rounded-lg p-6 mb-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <div class="flex items-baseline space-x-3 mb-2">
+                                        <span class="text-4xl font-bold text-slate-900">4.9</span>
+                                        <div>
+                                            <div class="flex text-amber-400">★★★★★</div>
+                                            <p class="text-sm text-slate-600">{% trans "Based on 89 reviews" %}</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-slate-600 mt-2">
+                                        <span class="font-semibold">97%</span> {% trans "would recommend to collectors" %}
+                                    </p>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">5★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 89%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">79</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">4★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 8%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">7</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">3★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 2%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">2</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">2★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 1%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">1</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">1★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 0%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Individual Reviews -->
+                        <div class="space-y-6">
+                            <div class="border-b border-slate-200 pb-6">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div>
+                                        <div class="flex items-center mb-1">
+                                            <span class="text-amber-400">★★★★★</span>
+                                            <span class="ml-2 font-semibold text-slate-900">Magnus K.</span>
+                                            <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-900 text-xs rounded">{% trans "Verified Collector" %}</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600">{% trans "1979 European Cup Kit • 3 weeks ago" %}</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-700 mt-3">
+                                    {% trans "Absolutely incredible attention to detail! As someone who was at that historic match in 1979, I can confirm this replica is spot-on. The quality is outstanding and the certificate of authenticity is a nice touch. A must-have for any serious collector." %}
+                                </p>
+                            </div>
+
+                            <div class="border-b border-slate-200 pb-6">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div>
+                                        <div class="flex items-center mb-1">
+                                            <span class="text-amber-400">★★★★★</span>
+                                            <span class="ml-2 font-semibold text-slate-900">Helena T.</span>
+                                            <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-900 text-xs rounded">{% trans "Verified Purchase" %}</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600">{% trans "IFK Göteborg 1982 Kit • 1 month ago" %}</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-700 mt-3">
+                                    {% trans "Bought this as a gift for my father who's been supporting IFK since the 1970s. He was thrilled! The historical booklet brought back so many memories. Excellent quality and packaging." %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Products -->
+<section class="py-12 bg-slate-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold text-slate-900 mb-8">{% trans "More Historic Kits" %}</h2>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Related Product 1 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=400&h=300&fit=crop&q=80" alt="AIK 2009 Kit" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "AIK 2009 Championship" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "Historic title win" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">1,199 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Product 2 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=400&h=300&fit=crop&q=80" alt="IFK Göteborg 1982" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "IFK Göteborg 1982" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "UEFA Cup winners" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">1,399 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Product 3 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&h=300&fit=crop&q=80" alt="Hammarby 1990s" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "Hammarby 1990s Classic" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "Golden era design" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">1,149 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Product 4 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&q=80" alt="Current Season Kit" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "2025/26 Home Kit" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "Current season" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">899 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Global Cart Functions
+window.addToCart = async function(productId, productType, price, variations = {}) {
+    try {
+        const response = await fetch('{% url "cart:add_to_cart" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                product_type: productType,
+                price: price,
+                quantity: variations.quantity || 1,
+                variations: variations
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showToast('Product added to cart!', 'success');
+            updateCartCounter(data.cart_total_items);
+        } else {
+            showToast(data.error || 'Error adding to cart', 'error');
+        }
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        showToast('Error adding to cart', 'error');
+    }
+};
+
+// Toast notification function
+window.showToast = function(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg text-white font-medium transform transition-all duration-300 ${
+        type === 'success' ? 'bg-green-600' :
+        type === 'error' ? 'bg-red-600' : 'bg-blue-600'
+    }`;
+
+    const icon = document.createElement('span');
+    icon.innerHTML = type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ';
+    icon.className = 'mr-2';
+
+    const text = document.createTextNode(message);
+    toast.appendChild(icon);
+    toast.appendChild(text);
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.style.transform = 'translateX(0)', 10);
+    setTimeout(() => {
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+};
+
+// Update cart counter
+window.updateCartCounter = function(totalItems) {
+    const cartCounter = document.querySelector('[data-cart-count]');
+    if (cartCounter) {
+        cartCounter.textContent = totalItems || 0;
+    }
+};
+</script>
+{% csrf_token %}
+{% endblock %}

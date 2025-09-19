@@ -1,0 +1,41 @@
+{% load i18n %}
+{% comment %}
+Price display atom
+Usage: {% include 'atoms/price-display.html' with price=89.99 currency='GBP' size='large' %}
+Sizes: 'small', 'medium', 'large'
+{% endcomment %}
+
+{% with size=size|default:'medium' %}
+<div class="price-display 
+    {% if size == 'small' %}text-sm
+    {% elif size == 'medium' %}text-lg  
+    {% elif size == 'large' %}text-2xl
+    {% else %}text-lg{% endif %} font-bold pl-text">
+    
+    {% if currency == 'GBP' or currency == 'gbp' %}
+        <span class="currency-symbol">£</span>
+    {% elif currency == 'EUR' or currency == 'eur' %}
+        <span class="currency-symbol">€</span>
+    {% elif currency == 'USD' or currency == 'usd' %}
+        <span class="currency-symbol">$</span>
+    {% elif currency == 'SEK' or currency == 'sek' %}
+        <span class="currency-symbol">{{ price }} kr</span>
+    {% else %}
+        <span class="currency-symbol">£</span>
+    {% endif %}
+    
+    {% if currency != 'SEK' and currency != 'sek' %}
+        <span class="price-amount">{{ price }}</span>
+    {% endif %}
+    
+    {% if sale_price %}
+        <span class="original-price line-through text-slate-500 
+            {% if size == 'small' %}text-xs
+            {% elif size == 'medium' %}text-sm  
+            {% elif size == 'large' %}text-lg
+            {% else %}text-sm{% endif %} ml-2">
+            {% if currency == 'GBP' or currency == 'gbp' %}£{% endif %}{{ original_price }}
+        </span>
+    {% endif %}
+</div>
+{% endwith %}

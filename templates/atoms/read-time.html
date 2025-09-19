@@ -1,0 +1,10 @@
+{% comment %}
+Read Time Atom
+Usage: {% include 'atoms/read-time.html' with minutes="15" %}
+{% endcomment %}
+
+{% load i18n %}
+
+<span class="text-slate-600 text-sm">
+    {{ minutes }} {% trans "min read" %}
+</span>

@@ -1,0 +1,29 @@
+{% comment %}
+Card Molecule
+Usage: {% include 'molecules/card.html' with title="Card Title" description="Card description" %}
+Optional: icon_name, link_href, link_text, variant (default, hover, gradient)
+{% endcomment %}
+
+<div class="pl-card {{ class }}">
+    
+    {% if icon_name %}
+        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+            {% include 'atoms/icon.html' with name=icon_name size="md" class="text-blue-800" %}
+        </div>
+    {% endif %}
+        
+    {% if title %}
+        <h3 class="text-xl font-semibold text-slate-900 mb-2">{{ title }}</h3>
+    {% endif %}
+    
+    {% if description %}
+        <p class="text-slate-600 mb-4">{{ description }}</p>
+    {% endif %}
+    
+    {% if link_href %}
+        <a href="{{ link_href }}" class="inline-flex items-center text-blue-600 font-medium hover:text-blue-700 transition-colors">
+            {{ link_text|default:"Learn more" }}
+            {% include 'atoms/icon.html' with name="arrow-right" size="sm" class="ml-2" %}
+        </a>
+    {% endif %}
+</div>

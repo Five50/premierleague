@@ -1,0 +1,593 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Allsvenskan Fixtures & Results 2025 - Live Scores & Match Schedule" %}{% endblock %}
+
+{% block meta_description %}{% trans "Complete Allsvenskan fixture list, live scores, and results for 2025. Get real-time updates, match schedules, and detailed statistics for Swedish football's premier league." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-700 via-blue-600 to-blue-700 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="container mx-auto px-4 py-16 lg:py-24 relative z-10">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight">
+                    {% trans "Allsvenskan" %} <span class="text-yellow-400">{% trans "Fixtures" %}</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed">
+                    {% trans "Complete fixture list, live scores, and results for Sweden's premier football league" %}
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                        <span class="font-semibold">{% trans "Season" %} 2025</span>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                        <span class="font-semibold">30 {% trans "Rounds" %}</span>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                        <span class="font-semibold">16 {% trans "Teams" %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-8 lg:py-12">
+
+        <!-- Live Matches Section -->
+        {% if live_matches %}
+        <section class="mb-12">
+            <div class="bg-gradient-to-r from-red-500 to-red-600 text-white rounded-2xl p-6 mb-8 shadow-lg">
+                <div class="flex items-center justify-center space-x-3">
+                    <div class="w-4 h-4 bg-white rounded-full animate-pulse"></div>
+                    <h2 class="text-2xl font-bold">{% trans "Live Matches" %}</h2>
+                    <span class="bg-white text-red-600 px-3 py-1 rounded-full text-sm font-bold">{{ live_matches|length }}</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {% for match in live_matches %}
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-red-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-red-500 to-red-600 text-white p-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                                <span class="font-bold text-sm">{% trans "LIVE" %}</span>
+                            </div>
+                            <span class="text-sm font-medium">{{ match.fixture.status.elapsed|default:"0" }}'</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="text-center space-y-4">
+                            <!-- Home Team -->
+                            <div class="flex items-center justify-center space-x-3">
+                                {% if match.teams.home.logo %}
+                                <img src="{{ match.teams.home.logo }}" alt="{{ match.teams.home.name }}" class="w-10 h-10 object-contain">
+                                {% endif %}
+                                <span class="font-bold text-lg">{{ match.teams.home.name }}</span>
+                            </div>
+
+                            <!-- Score -->
+                            <div class="text-4xl font-black text-blue-700">
+                                {{ match.goals.home|default:0 }} - {{ match.goals.away|default:0 }}
+                            </div>
+
+                            <!-- Away Team -->
+                            <div class="flex items-center justify-center space-x-3">
+                                <span class="font-bold text-lg">{{ match.teams.away.name }}</span>
+                                {% if match.teams.away.logo %}
+                                <img src="{{ match.teams.away.logo }}" alt="{{ match.teams.away.name }}" class="w-10 h-10 object-contain">
+                                {% endif %}
+                            </div>
+
+                            {% if match.fixture.venue.name %}
+                            <div class="text-sm text-gray-500 pt-2 border-t">
+                                📍 {{ match.fixture.venue.name }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Fixtures & Results Tabs Section -->
+        <section class="mb-12">
+            <div class="mb-8">
+                <h2 class="text-3xl lg:text-4xl font-black text-gray-900 mb-4">{% trans "Fixtures & Results" %}</h2>
+                <p class="text-gray-600">{% trans "Complete overview of upcoming matches and recent results" %}</p>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden" x-data="{ activeTab: 'upcoming' }">
+                <div class="flex border-b border-gray-200">
+                    <button @click="activeTab = 'upcoming'"
+                            :class="activeTab === 'upcoming' ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'"
+                            class="flex-1 px-6 py-4 font-semibold text-center transition-all duration-200">
+                        <div class="flex items-center justify-center space-x-2">
+                            <span>📅</span>
+                            <span>{% trans "Upcoming Fixtures" %}</span>
+                            <span class="text-sm opacity-75">({{ upcoming_fixtures|length|default:"10" }})</span>
+                        </div>
+                    </button>
+                    <button @click="activeTab = 'results'"
+                            :class="activeTab === 'results' ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'"
+                            class="flex-1 px-6 py-4 font-semibold text-center transition-all duration-200">
+                        <div class="flex items-center justify-center space-x-2">
+                            <span>🏆</span>
+                            <span>{% trans "Recent Results" %}</span>
+                            <span class="text-sm opacity-75">({{ recent_results|length|default:"8" }})</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Upcoming Fixtures Tab Content -->
+                <div x-show="activeTab === 'upcoming'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-x-4" x-transition:enter-end="opacity-100 transform translate-x-0" class="p-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {% for fixture in upcoming_fixtures|slice:":10" %}
+                        <div class="bg-gray-50 rounded-xl p-6 hover:bg-blue-50 transition-all duration-300 border border-gray-200 hover:border-blue-200">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="text-center">
+                                    {% if fixture.fixture.date %}
+                                    <div class="text-sm font-semibold text-blue-600 uppercase tracking-wide">
+                                        {{ fixture.fixture.date|date:"l" }}
+                                    </div>
+                                    <div class="text-lg font-bold text-gray-900">
+                                        {{ fixture.fixture.date|date:"M j" }}
+                                    </div>
+                                    <div class="text-2xl font-black text-blue-700">
+                                        {{ fixture.fixture.date|date:"H:i" }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="flex-1 mx-6">
+                                    <!-- Home Team -->
+                                    <div class="flex items-center justify-between mb-4">
+                                        <div class="flex items-center space-x-3 flex-1">
+                                            {% if fixture.teams.home.logo %}
+                                            <img src="{{ fixture.teams.home.logo }}" alt="{{ fixture.teams.home.name }}" class="w-8 h-8 object-contain">
+                                            {% endif %}
+                                            <span class="font-bold text-lg">{{ fixture.teams.home.name }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center text-gray-400 font-bold mb-4">VS</div>
+
+                                    <!-- Away Team -->
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-3 flex-1">
+                                            {% if fixture.teams.away.logo %}
+                                            <img src="{{ fixture.teams.away.logo }}" alt="{{ fixture.teams.away.name }}" class="w-8 h-8 object-contain">
+                                            {% endif %}
+                                            <span class="font-bold text-lg">{{ fixture.teams.away.name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if fixture.fixture.venue.name %}
+                            <div class="flex items-center justify-center text-sm text-gray-500 pt-4 border-t border-gray-200">
+                                <span>📍 {{ fixture.fixture.venue.name }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Recent Results Tab Content -->
+                <div x-show="activeTab === 'results'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-x-4" x-transition:enter-end="opacity-100 transform translate-x-0" class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {% for result in recent_results|slice:":8" %}
+                        <div class="bg-gray-50 rounded-xl p-6 hover:bg-green-50 transition-all duration-300 border border-gray-200 hover:border-green-200">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="text-center">
+                                    {% if result.fixture.date %}
+                                    <div class="text-sm text-gray-500">{{ result.fixture.date|date:"M j" }}</div>
+                                    <div class="text-xs font-semibold text-green-600 uppercase tracking-wide">
+                                        {{ result.fixture.status.short }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="flex-1 mx-6">
+                                    <div class="flex items-center justify-between">
+                                        <!-- Home Team -->
+                                        <div class="flex items-center space-x-3">
+                                            {% if result.teams.home.logo %}
+                                            <img src="{{ result.teams.home.logo }}" alt="{{ result.teams.home.name }}" class="w-6 h-6 object-contain">
+                                            {% endif %}
+                                            <span class="font-bold">{{ result.teams.home.name }}</span>
+                                        </div>
+
+                                        <!-- Score -->
+                                        <div class="text-2xl font-black text-blue-700 mx-4">
+                                            {{ result.goals.home|default:0 }} - {{ result.goals.away|default:0 }}
+                                        </div>
+
+                                        <!-- Away Team -->
+                                        <div class="flex items-center space-x-3">
+                                            <span class="font-bold">{{ result.teams.away.name }}</span>
+                                            {% if result.teams.away.logo %}
+                                            <img src="{{ result.teams.away.logo }}" alt="{{ result.teams.away.name }}" class="w-6 h-6 object-contain">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if result.fixture.venue.name %}
+                            <div class="text-center text-sm text-gray-500 pt-4 border-t border-gray-200">
+                                📍 {{ result.fixture.venue.name }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Match Statistics Section -->
+        <section class="mb-12">
+            <div class="mb-8">
+                <h2 class="text-3xl lg:text-4xl font-black text-gray-900 mb-4">{% trans "Season Statistics" %}</h2>
+                <p class="text-gray-600">{% trans "Key metrics from the current Allsvenskan season" %}</p>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl p-6 text-center shadow-lg">
+                    <div class="text-3xl lg:text-4xl font-black mb-2">{{ upcoming_fixtures|length|default:"12" }}</div>
+                    <div class="text-sm font-medium opacity-90">{% trans "Upcoming Fixtures" %}</div>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-2xl p-6 text-center shadow-lg">
+                    <div class="text-3xl lg:text-4xl font-black mb-2">{{ recent_results|length|default:"28" }}</div>
+                    <div class="text-sm font-medium opacity-90">{% trans "Completed Matches" %}</div>
+                </div>
+
+                <div class="bg-gradient-to-br from-red-500 to-red-600 text-white rounded-2xl p-6 text-center shadow-lg">
+                    <div class="text-3xl lg:text-4xl font-black mb-2">{{ live_matches|length|default:"0" }}</div>
+                    <div class="text-sm font-medium opacity-90">{% trans "Live Matches" %}</div>
+                </div>
+
+                <div class="bg-gradient-to-br from-yellow-500 to-yellow-600 text-white rounded-2xl p-6 text-center shadow-lg">
+                    <div class="text-3xl lg:text-4xl font-black mb-2">2.4</div>
+                    <div class="text-sm font-medium opacity-90">{% trans "Goals per Match" %}</div>
+                </div>
+            </div>
+
+            <!-- Additional Statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                    <h3 class="font-bold text-lg mb-4 text-gray-900">{% trans "Top Scoring Teams" %}</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">Malmö FF</span>
+                            <span class="font-bold text-blue-600">24 {% trans "goals" %}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">Hammarby IF</span>
+                            <span class="font-bold text-blue-600">22 {% trans "goals" %}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">AIK</span>
+                            <span class="font-bold text-blue-600">20 {% trans "goals" %}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                    <h3 class="font-bold text-lg mb-4 text-gray-900">{% trans "Best Defense" %}</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">IFK Göteborg</span>
+                            <span class="font-bold text-green-600">8 {% trans "conceded" %}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">Djurgården IF</span>
+                            <span class="font-bold text-green-600">10 {% trans "conceded" %}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">BK Häcken</span>
+                            <span class="font-bold text-green-600">12 {% trans "conceded" %}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                    <h3 class="font-bold text-lg mb-4 text-gray-900">{% trans "Form Guide" %}</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">Malmö FF</span>
+                            <div class="flex space-x-1">
+                                <span class="w-6 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">W</span>
+                                <span class="w-6 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">W</span>
+                                <span class="w-6 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">W</span>
+                                <span class="w-6 h-6 bg-yellow-500 rounded text-white text-xs flex items-center justify-center font-bold">D</span>
+                                <span class="w-6 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">W</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">Hammarby IF</span>
+                            <div class="flex space-x-1">
+                                <span class="w-6 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">W</span>
+                                <span class="w-6 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">W</span>
+                                <span class="w-6 h-6 bg-red-500 rounded text-white text-xs flex items-center justify-center font-bold">L</span>
+                                <span class="w-6 h-6 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">W</span>
+                                <span class="w-6 h-6 bg-yellow-500 rounded text-white text-xs flex items-center justify-center font-bold">D</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comprehensive SEO Content Section -->
+        <section class="mb-12">
+            <div class="bg-white rounded-2xl shadow-lg p-8 lg:p-12 border border-gray-100">
+                <div class="max-w-5xl mx-auto">
+                    <h2 class="text-3xl lg:text-4xl font-black text-gray-900 mb-8 text-center">{% trans "Your Complete Guide to Allsvenskan Fixtures & Results" %}</h2>
+
+                    <!-- Introduction -->
+                    <div class="text-center mb-12">
+                        <p class="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+                            {% trans "Welcome to Sweden's most comprehensive Allsvenskan fixtures and results platform. Whether you're tracking your favorite team's next match or catching up on the latest scores, we provide everything you need to stay connected with Swedish football's premier competition." %}
+                        </p>
+                    </div>
+
+                    <!-- Main Content Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+                        <div class="space-y-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-4">{% trans "Complete Match Coverage" %}</h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                {% trans "Our platform serves as the definitive source for Allsvenskan fixtures and results, offering real-time updates, detailed match information, and comprehensive coverage of Sweden's top-flight football league. From the moment teams are announced to the final whistle, we ensure you have access to every crucial detail." %}
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                {% trans "Stay informed with live scores, upcoming fixture lists, team lineups, and detailed match statistics from all 16 Allsvenskan teams throughout the season. Our advanced data integration ensures that you receive the most accurate and up-to-date information available, sourced directly from official league channels." %}
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                {% trans "Whether you're following Malmö FF's title defense, Hammarby's European ambitions, or tracking the relegation battle, our comprehensive coverage keeps you connected to every storyline that matters in Swedish football." %}
+                            </p>
+                        </div>
+
+                        <div class="space-y-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-4">{% trans "Real-Time Match Updates" %}</h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                {% trans "Our advanced live scoring system provides instant updates during match days, ensuring you never miss a goal, booking, substitution, or any crucial moment in Allsvenskan action. The system refreshes automatically every 30 seconds during live matches, delivering real-time scores and match events as they happen." %}
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                {% trans "From kick-off times and team news to final results and post-match statistics, we deliver comprehensive coverage of every Allsvenskan fixture. Our data includes detailed venue information, weather conditions, attendance figures, and match officials, providing the complete picture of each game." %}
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                {% trans "The live match center features animated goal alerts, minute-by-minute commentary, and interactive statistics that bring you closer to the action, even when you can't be at the stadium." %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Season Structure & Format -->
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 mb-12">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">{% trans "Understanding the Allsvenskan Season Format" %}</h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h4 class="font-bold text-lg text-blue-700 mb-3">{% trans "Season Structure" %}</h4>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li><strong>16 teams</strong> {% trans "competing" %}</li>
+                                    <li><strong>30 rounds</strong> {% trans "of matches" %}</li>
+                                    <li><strong>240 total</strong> {% trans "league games" %}</li>
+                                    <li><strong>30 games</strong> {% trans "per team" %}</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h4 class="font-bold text-lg text-green-700 mb-3">{% trans "Season Timeline" %}</h4>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li><strong>{% trans "April" %}</strong> - {% trans "Season start" %}</li>
+                                    <li><strong>{% trans "June-July" %}</strong> - {% trans "Summer break" %}</li>
+                                    <li><strong>{% trans "August" %}</strong> - {% trans "Season resumes" %}</li>
+                                    <li><strong>{% trans "November" %}</strong> - {% trans "Season finale" %}</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h4 class="font-bold text-lg text-purple-700 mb-3">{% trans "European Spots" %}</h4>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li><strong>1st</strong> - {% trans "Champions League" %}</li>
+                                    <li><strong>2nd</strong> - {% trans "Champions League Q" %}</li>
+                                    <li><strong>3rd</strong> - {% trans "Europa League" %}</li>
+                                    <li><strong>4th</strong> - {% trans "Conference League" %}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-700 leading-relaxed">
+                            {% trans "The 2025 Allsvenskan season follows the traditional Swedish football calendar, with matches typically played on weekends and some midweek fixtures. Each team plays every other team twice - once at home and once away - creating a balanced 30-game season that determines the champion, European qualifiers, and relegation candidates." %}
+                        </p>
+                    </div>
+
+                    <!-- Team & Stadium Information -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">{% trans "Allsvenskan Teams & Stadiums" %}</h3>
+
+                        <p class="text-gray-700 leading-relaxed mb-6">
+                            {% trans "The 2025 Allsvenskan features Sweden's most prestigious football clubs, each with rich histories and passionate fan bases. Our fixtures page provides detailed information about every venue, from the atmospheric Friends Arena in Stockholm to the intimate settings of smaller stadiums across Sweden." %}
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Historic Clubs" %}</h4>
+                                <p class="text-gray-700 leading-relaxed mb-4">
+                                    {% trans "Traditional powerhouses like Malmö FF, IFK Göteborg, and AIK Stockholm continue to set the standard in Swedish football. These clubs bring decades of European experience and championship pedigree to every fixture, creating compelling matchups throughout the season." %}
+                                </p>
+                                <p class="text-gray-700 leading-relaxed">
+                                    {% trans "Malmö FF, as the most successful club in Allsvenskan history with over 20 titles, remains the benchmark for excellence. Their matches at Eleda Stadion consistently draw large crowds and showcase some of the league's finest talent." %}
+                                </p>
+                            </div>
+
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Modern Contenders" %}</h4>
+                                <p class="text-gray-700 leading-relaxed mb-4">
+                                    {% trans "Clubs like Hammarby IF, Djurgården IF, and BK Häcken represent the new generation of Swedish football, combining modern facilities with innovative playing styles. These teams have invested heavily in youth development and infrastructure, creating exciting prospects for the future." %}
+                                </p>
+                                <p class="text-gray-700 leading-relaxed">
+                                    {% trans "The Stockholm derby between Hammarby and Djurgården remains one of the most anticipated fixtures each season, with Tele2 Arena providing the perfect stage for this historic rivalry." %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics & Records -->
+                    <div class="bg-gray-50 rounded-xl p-8 mb-12">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">{% trans "Allsvenskan Records & Statistics" %}</h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="text-center">
+                                <div class="text-3xl font-black text-blue-600 mb-2">21</div>
+                                <div class="text-sm text-gray-600">{% trans "Malmö FF Championships" %}</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-black text-green-600 mb-2">2.4</div>
+                                <div class="text-sm text-gray-600">{% trans "Average Goals per Match" %}</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-black text-purple-600 mb-2">240</div>
+                                <div class="text-sm text-gray-600">{% trans "Total Season Matches" %}</div>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            {% trans "The Allsvenskan has evolved significantly since its inception in 1924, growing from a regional competition to Sweden's premier football showcase. Our comprehensive statistics tracking covers everything from historical records to current season trends, providing context for every fixture and result." %}
+                        </p>
+
+                        <p class="text-gray-700 leading-relaxed">
+                            {% trans "Modern Allsvenskan football emphasizes technical skill, tactical discipline, and physical conditioning. The league has produced numerous international stars who have gone on to success in Europe's top competitions, making every fixture a potential showcase for future talent." %}
+                        </p>
+                    </div>
+
+                    <!-- Match Day Experience -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">{% trans "The Complete Match Day Experience" %}</h3>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Stadium Atmosphere" %}</h4>
+                                <p class="text-gray-700 leading-relaxed mb-4">
+                                    {% trans "Swedish football stadiums offer unique experiences that blend modern amenities with traditional supporter culture. From the thunderous atmosphere at Gamla Ullevi during IFK Göteborg matches to the intimate setting of smaller venues, each stadium contributes to the league's character." %}
+                                </p>
+                                <p class="text-gray-700 leading-relaxed">
+                                    {% trans "Our fixture listings include detailed venue information, helping fans plan their match day experience. Whether you're attending your first Allsvenskan match or you're a seasoned supporter, we provide essential details about stadium access, facilities, and local amenities." %}
+                                </p>
+                            </div>
+
+                            <div>
+                                <h4 class="text-xl font-semibold text-gray-900 mb-4">{% trans "Broadcasting & Coverage" %}</h4>
+                                <p class="text-gray-700 leading-relaxed mb-4">
+                                    {% trans "Allsvenskan matches are broadcast across multiple platforms, ensuring fans worldwide can follow Swedish football. Our platform complements official broadcasts by providing real-time statistics, alternative commentary perspectives, and detailed post-match analysis." %}
+                                </p>
+                                <p class="text-gray-700 leading-relaxed">
+                                    {% trans "For international supporters, we provide kick-off times in multiple time zones, broadcast information, and cultural context that helps global audiences understand the significance of each fixture in the broader Swedish football landscape." %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technical Features -->
+                    <div class="border-t border-gray-200 pt-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">{% trans "Platform Features & Capabilities" %}</h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                            <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                <div class="text-2xl mb-2">⚡</div>
+                                <h4 class="font-semibold text-gray-900 mb-2">{% trans "Real-Time Updates" %}</h4>
+                                <p class="text-sm text-gray-600">{% trans "Live scores refresh every 30 seconds" %}</p>
+                            </div>
+
+                            <div class="text-center p-4 bg-green-50 rounded-lg">
+                                <div class="text-2xl mb-2">📱</div>
+                                <h4 class="font-semibold text-gray-900 mb-2">{% trans "Mobile Optimized" %}</h4>
+                                <p class="text-sm text-gray-600">{% trans "Perfect viewing on all devices" %}</p>
+                            </div>
+
+                            <div class="text-center p-4 bg-purple-50 rounded-lg">
+                                <div class="text-2xl mb-2">📊</div>
+                                <h4 class="font-semibold text-gray-900 mb-2">{% trans "Detailed Statistics" %}</h4>
+                                <p class="text-sm text-gray-600">{% trans "Comprehensive match data" %}</p>
+                            </div>
+
+                            <div class="text-center p-4 bg-yellow-50 rounded-lg">
+                                <div class="text-2xl mb-2">🌍</div>
+                                <h4 class="font-semibold text-gray-900 mb-2">{% trans "Multi-Language" %}</h4>
+                                <p class="text-sm text-gray-600">{% trans "Swedish and English support" %}</p>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-700 leading-relaxed">
+                            {% trans "Our technical infrastructure supports millions of page views during peak match days, ensuring reliable access to fixture information when you need it most. The platform automatically adapts to your device and connection speed, providing an optimal experience whether you're checking scores on mobile data or browsing detailed statistics on desktop." %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+// Auto-refresh live matches every 30 seconds
+function refreshLiveMatches() {
+    const liveMatchCount = {{ live_matches|length|default:0 }};
+    if (liveMatchCount > 0) {
+        fetch('/api/live-data/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Live matches updated:', data.count, 'matches');
+                    if (data.count !== liveMatchCount) {
+                        // Reload page if number of live matches changed
+                        location.reload();
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error refreshing live matches:', error);
+            });
+    }
+}
+
+// Set up auto-refresh for live matches
+setInterval(refreshLiveMatches, 30000);
+
+// Page load analytics
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Allsvenskan fixtures page loaded');
+    console.log('Live matches:', {{ live_matches|length|default:0 }});
+    console.log('Upcoming fixtures:', {{ upcoming_fixtures|length|default:0 }});
+    console.log('Recent results:', {{ recent_results|length|default:0 }});
+
+    // Add smooth scroll behavior for any anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+
+// Add loading states for better UX
+window.addEventListener('beforeunload', function() {
+    document.body.style.opacity = '0.7';
+});
+</script>
+{% endblock %}

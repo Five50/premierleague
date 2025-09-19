@@ -1,0 +1,25 @@
+{% comment %}
+Article Tag Atom
+Usage: {% include 'atoms/article-tag.html' with text="Featured" variant="featured" %}
+Variants: featured, category, analysis, breaking
+{% endcomment %}
+
+{% load i18n %}
+
+{% if variant == 'featured' %}
+    <span class="px-3 py-1 bg-red-100 text-red-900 text-sm font-medium rounded-full">
+        {{ text }}
+    </span>
+{% elif variant == 'breaking' %}
+    <span class="px-3 py-1 bg-red-600 text-white text-sm font-bold uppercase tracking-wide rounded">
+        {{ text }}
+    </span>
+{% elif variant == 'analysis' %}
+    <span class="px-3 py-1 bg-blue-100 text-blue-900 text-sm font-medium rounded-full">
+        {{ text }}
+    </span>
+{% else %}
+    <span class="px-3 py-1 bg-slate-100 text-slate-900 text-sm font-medium rounded-full">
+        {{ text }}
+    </span>
+{% endif %}

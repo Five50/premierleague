@@ -1,0 +1,428 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Allsvenskan Players 2025 - Player Profiles, Stats & Performance Data" %}{% endblock %}
+
+{% block meta_description %}{% trans "Discover all Allsvenskan players with detailed profiles, statistics, and performance data. Browse by team, position, and nationality with comprehensive player information for 2025 season." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-700 via-blue-600 to-blue-700 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="container mx-auto px-4 py-16 lg:py-20 relative z-10">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight">
+                    {% trans "Allsvenskan" %} <span class="text-yellow-400">{% trans "Players" %}</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed">
+                    {% trans "Explore comprehensive player profiles, statistics, and performance data from Sweden's premier football league" %}
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                        <span class="font-semibold">{{ players|length|default:"500+" }} {% trans "Players" %}</span>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                        <span class="font-semibold">16 {% trans "Teams" %}</span>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                        <span class="font-semibold">{% trans "Season" %} 2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-8 lg:py-12">
+        <!-- Top Statistics Bar -->
+        {% if players_available and players %}
+        <section class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="text-3xl font-black text-green-600 mb-2">
+                        {% if players.0.statistics.0.goals.total %}{{ players.0.statistics.0.goals.total }}{% else %}--{% endif %}
+                    </div>
+                    <div class="text-sm text-gray-600">{% trans "Top Scorer Goals" %}</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-black text-blue-600 mb-2">{{ players|length }}</div>
+                    <div class="text-sm text-gray-600">{% trans "Active Players" %}</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-black text-purple-600 mb-2">{{ available_teams|length|default:"16" }}</div>
+                    <div class="text-sm text-gray-600">{% trans "Teams" %}</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-black text-yellow-600 mb-2">4</div>
+                    <div class="text-sm text-gray-600">{% trans "Positions" %}</div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Main Content Layout -->
+        <div class="lg:flex lg:gap-8">
+            <!-- Sidebar Filters -->
+            <aside class="lg:w-80 mb-8 lg:mb-0" x-data="{
+                mobileFiltersOpen: false,
+                selectedPosition: '{{ selected_position|default:'' }}',
+                selectedTeam: '{{ selected_team|default:'' }}',
+                selectedNationality: '{{ selected_nationality|default:'' }}'
+            }">
+                <!-- Mobile Filter Toggle -->
+                <div class="lg:hidden mb-4">
+                    <button @click="mobileFiltersOpen = !mobileFiltersOpen"
+                            class="w-full bg-white rounded-xl shadow-lg border border-gray-200 p-4 flex items-center justify-between">
+                        <span class="font-semibold text-gray-900">{% trans "Filters" %}</span>
+                        <svg class="w-5 h-5 transition-transform duration-200" :class="mobileFiltersOpen ? 'rotate-180' : ''"
+                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Filters Panel -->
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden"
+                     :class="mobileFiltersOpen ? 'block' : 'hidden lg:block'">
+
+                    <!-- Quick Stats Navigation -->
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="font-bold text-lg text-gray-900 mb-4">{% trans "Quick Access" %}</h3>
+                        <div class="space-y-2">
+                            <a href="{% url 'players' %}"
+                               class="flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors {% if request.resolver_match.url_name == 'players' %}bg-blue-100 text-blue-700{% else %}text-gray-700{% endif %}">
+                                <span class="font-medium">{% trans "All Players" %}</span>
+                            </a>
+                            <a href="{% url 'top-scorers' %}"
+                               class="flex items-center p-3 rounded-lg hover:bg-green-50 transition-colors {% if request.resolver_match.url_name == 'top-scorers' %}bg-green-100 text-green-700{% else %}text-gray-700{% endif %}">
+                                <span class="font-medium">{% trans "Top Scorers" %}</span>
+                            </a>
+                            <a href="{% url 'assists' %}"
+                               class="flex items-center p-3 rounded-lg hover:bg-purple-50 transition-colors {% if request.resolver_match.url_name == 'assists' %}bg-purple-100 text-purple-700{% else %}text-gray-700{% endif %}">
+                                <span class="font-medium">{% trans "Assists Leaders" %}</span>
+                            </a>
+                            <a href="{% url 'clean-sheets' %}"
+                               class="flex items-center p-3 rounded-lg hover:bg-yellow-50 transition-colors {% if request.resolver_match.url_name == 'clean-sheets' %}bg-yellow-100 text-yellow-700{% else %}text-gray-700{% endif %}">
+                                <span class="font-medium">{% trans "Clean Sheets" %}</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Position Filter -->
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="font-bold text-lg text-gray-900 mb-4">{% trans "Filter by Position" %}</h3>
+                        <div class="space-y-2">
+                            <a href="{% url 'players' %}{% if selected_team %}?team={{ selected_team|urlencode }}{% endif %}"
+                               class="flex items-center justify-between p-3 rounded-lg transition-colors {% if not selected_position %}bg-blue-100 text-blue-700{% else %}hover:bg-gray-50 text-gray-700{% endif %}">
+                                <span class="font-medium">{% trans "All Positions" %}</span>
+                                {% if not selected_position %}<span class="text-xs bg-blue-200 text-blue-800 px-2 py-1 rounded-full">{% trans "Active" %}</span>{% endif %}
+                            </a>
+                            {% for position in available_positions %}
+                            <a href="?position={{ position|urlencode }}{% if selected_team %}&team={{ selected_team|urlencode }}{% endif %}"
+                               class="flex items-center justify-between p-3 rounded-lg transition-colors {% if selected_position == position %}bg-blue-100 text-blue-700{% else %}hover:bg-gray-50 text-gray-700{% endif %}">
+                                <span class="font-medium">{{ position }}</span>
+                                {% if selected_position == position %}<span class="text-xs bg-blue-200 text-blue-800 px-2 py-1 rounded-full">{% trans "Active" %}</span>{% endif %}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Team Filter -->
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="font-bold text-lg text-gray-900 mb-4">{% trans "Filter by Team" %}</h3>
+                        <div class="space-y-2 max-h-64 overflow-y-auto">
+                            <a href="{% if selected_position %}?position={{ selected_position|urlencode }}{% else %}{% url 'players' %}{% endif %}"
+                               class="flex items-center justify-between p-3 rounded-lg transition-colors {% if not selected_team %}bg-green-100 text-green-700{% else %}hover:bg-gray-50 text-gray-700{% endif %}">
+                                <span class="font-medium">{% trans "All Teams" %}</span>
+                                {% if not selected_team %}<span class="text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full">{% trans "Active" %}</span>{% endif %}
+                            </a>
+                            {% for team in available_teams %}
+                            <a href="?team={{ team|urlencode }}{% if selected_position %}&position={{ selected_position|urlencode }}{% endif %}"
+                               class="flex items-center justify-between p-3 rounded-lg transition-colors {% if selected_team == team %}bg-green-100 text-green-700{% else %}hover:bg-gray-50 text-gray-700{% endif %}">
+                                <span class="font-medium text-sm">{{ team }}</span>
+                                {% if selected_team == team %}<span class="text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full">{% trans "Active" %}</span>{% endif %}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Clear Filters -->
+                    {% if selected_position or selected_team %}
+                    <div class="p-6">
+                        <a href="{% url 'players' %}"
+                           class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-4 rounded-lg transition-colors text-center block">
+                            {% trans "Clear All Filters" %}
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="flex-1">
+                <!-- Results Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl lg:text-3xl font-black text-gray-900">
+                            {% if selected_position and selected_team %}
+                                {{ selected_team }} {{ selected_position }}s
+                            {% elif selected_position %}
+                                {{ selected_position }} {% trans "Players" %}
+                            {% elif selected_team %}
+                                {{ selected_team }} {% trans "Squad" %}
+                            {% else %}
+                                {% trans "All Players" %}
+                            {% endif %}
+                        </h2>
+                        <p class="text-gray-600 mt-1">
+                            {% if players %}
+                                {{ players|length }} {% trans "players found" %}
+                            {% else %}
+                                {% trans "No players found" %}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        {% trans "Season" %} 2025
+                    </div>
+                </div>
+
+                <!-- Players Grid -->
+                {% if players %}
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {% for player in players %}
+                    <a href="{% url 'player-detail' player.player.name|slugify %}"
+                       class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden group hover:border-blue-200 transform hover:-translate-y-1">
+
+                        <!-- Player Header -->
+                        <div class="relative p-6 pb-4">
+                            <!-- Club Badge Background -->
+                            {% if player.statistics.0.team.name %}
+                            <div class="absolute top-4 right-4">
+                                <div class="w-8 h-8 opacity-20">
+                                    <img src="{% static 'images/teams/' %}{{ player.statistics.0.team.name }}.png"
+                                         alt="{{ player.statistics.0.team.name }}"
+                                         class="w-full h-full object-contain filter grayscale"
+                                         onerror="this.style.display='none'">
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div class="flex items-start space-x-4">
+                                <!-- Player Photo -->
+                                <div class="relative">
+                                    {% if player.player.photo %}
+                                    <img src="{{ player.player.photo }}"
+                                         alt="{{ player.player.name }}"
+                                         class="w-16 h-16 rounded-full object-cover border-4 border-white shadow-lg">
+                                    {% else %}
+                                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                                        <span class="text-white font-bold text-lg">{{ player.player.name|slice:":2"|upper }}</span>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Position Badge -->
+                                    {% if player.statistics.0.games.position %}
+                                    <div class="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-lg">
+                                        <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <span class="text-xs">
+                                                {% if player.statistics.0.games.position == 'Goalkeeper' %}🥅
+                                                {% elif player.statistics.0.games.position == 'Defender' %}🛡️
+                                                {% elif player.statistics.0.games.position == 'Midfielder' %}⚽
+                                                {% elif player.statistics.0.games.position == 'Attacker' %}🎯
+                                                {% else %}⚽{% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Player Info -->
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-bold text-lg text-gray-900 mb-1 truncate">{{ player.player.name }}</h3>
+
+                                    <!-- Team -->
+                                    {% if player.statistics.0.team.name %}
+                                    <div class="flex items-center space-x-2 text-sm text-gray-600 mb-2">
+                                        <img src="{% static 'images/teams/' %}{{ player.statistics.0.team.name }}.png"
+                                             alt="{{ player.statistics.0.team.name }}"
+                                             class="w-4 h-4 object-contain"
+                                             onerror="this.style.display='none'">
+                                        <span>{{ player.statistics.0.team.name }}</span>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Player Details -->
+                                    <div class="flex flex-wrap gap-2 text-xs">
+                                        {% if player.player.age %}
+                                        <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
+                                            {{ player.player.age }} {% trans "years" %}
+                                        </span>
+                                        {% endif %}
+
+                                        {% if player.statistics.0.games.position %}
+                                        <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                                            {{ player.statistics.0.games.position }}
+                                        </span>
+                                        {% endif %}
+
+                                        {% if player.player.nationality %}
+                                        <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full flex items-center space-x-1">
+                                            <img src="https://flagcdn.com/16x12/{% if player.player.nationality == 'Sweden' %}se{% elif player.player.nationality == 'Norway' %}no{% elif player.player.nationality == 'Denmark' %}dk{% elif player.player.nationality == 'Finland' %}fi{% elif player.player.nationality == 'Iceland' %}is{% elif player.player.nationality == 'Brazil' %}br{% elif player.player.nationality == 'Argentina' %}ar{% elif player.player.nationality == 'Germany' %}de{% elif player.player.nationality == 'France' %}fr{% elif player.player.nationality == 'Spain' %}es{% elif player.player.nationality == 'England' %}gb{% elif player.player.nationality == 'Netherlands' %}nl{% elif player.player.nationality == 'Poland' %}pl{% elif player.player.nationality == 'Serbia' %}rs{% elif player.player.nationality == 'Croatia' %}hr{% elif player.player.nationality == 'Bosnia and Herzegovina' %}ba{% else %}{{ player.player.nationality|lower|slice:':2' }}{% endif %}.png"
+                                                 alt="{{ player.player.nationality }}"
+                                                 class="w-3 h-2 object-cover rounded-sm"
+                                                 onerror="this.style.display='none'">
+                                            <span>{{ player.player.nationality|slice:":3" }}</span>
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Section -->
+                        <div class="px-6 pb-6">
+                            <div class="grid grid-cols-4 gap-4 text-center">
+                                <div>
+                                    <div class="text-2xl font-black text-blue-600 mb-1">
+                                        {{ player.statistics.0.goals.total|default:0 }}
+                                    </div>
+                                    <div class="text-xs text-gray-500">{% trans "Goals" %}</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-black text-green-600 mb-1">
+                                        {{ player.statistics.0.goals.assists|default:0 }}
+                                    </div>
+                                    <div class="text-xs text-gray-500">{% trans "Assists" %}</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-black text-purple-600 mb-1">
+                                        {{ player.statistics.0.games.appearences|default:0 }}
+                                    </div>
+                                    <div class="text-xs text-gray-500">{% trans "Apps" %}</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-black text-yellow-600 mb-1">
+                                        {{ player.statistics.0.cards.yellow|default:0 }}
+                                    </div>
+                                    <div class="text-xs text-gray-500">{% trans "Cards" %}</div>
+                                </div>
+                            </div>
+
+                            <!-- View Profile Link -->
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <div class="text-center text-blue-600 text-sm font-medium group-hover:text-blue-700 transition-colors">
+                                    {% trans "View Full Profile" %} →
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <!-- Load More (if needed) -->
+                {% if players|length >= 30 %}
+                <div class="text-center mt-12">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors">
+                        {% trans "Load More Players" %}
+                    </button>
+                </div>
+                {% endif %}
+
+                {% else %}
+                <!-- No Players Found -->
+                <div class="text-center py-16">
+                    <div class="text-6xl mb-6">⚽</div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">{% trans "No Players Found" %}</h3>
+                    <p class="text-gray-600 mb-8 max-w-md mx-auto">
+                        {% trans "No players match your current filter criteria. Try adjusting your filters or browse all players." %}
+                    </p>
+                    <a href="{% url 'players' %}"
+                       class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors inline-block">
+                        {% trans "View All Players" %}
+                    </a>
+                </div>
+                {% endif %}
+            </main>
+        </div>
+
+        <!-- Season Statistics Section -->
+        {% if players_available %}
+        <section class="mt-16 bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-black text-gray-900 mb-4">{% trans "Season Overview" %}</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    {% trans "Comprehensive statistics and insights from the current Allsvenskan season featuring Sweden's top football talent." %}
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
+                    <div class="text-3xl font-black text-blue-600 mb-2">{{ players|length|default:"500+" }}</div>
+                    <div class="text-sm text-blue-700 font-medium">{% trans "Active Players" %}</div>
+                </div>
+
+                <div class="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl">
+                    <div class="text-3xl font-black text-green-600 mb-2">
+                        {% if players.0.statistics.0.goals.total %}{{ players.0.statistics.0.goals.total }}{% else %}--{% endif %}
+                    </div>
+                    <div class="text-sm text-green-700 font-medium">{% trans "Top Scorer Goals" %}</div>
+                </div>
+
+                <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl">
+                    <div class="text-3xl font-black text-purple-600 mb-2">{{ available_teams|length|default:"16" }}</div>
+                    <div class="text-sm text-purple-700 font-medium">{% trans "Teams" %}</div>
+                </div>
+
+                <div class="text-center p-6 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl">
+                    <div class="text-3xl font-black text-yellow-600 mb-2">30</div>
+                    <div class="text-sm text-yellow-700 font-medium">{% trans "Match Rounds" %}</div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+// Filter functionality
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Allsvenskan players page loaded');
+    console.log('Players displayed:', {{ players|length|default:0 }});
+
+    // Add search functionality (could be enhanced)
+    const urlParams = new URLSearchParams(window.location.search);
+    const position = urlParams.get('position');
+    const team = urlParams.get('team');
+
+    if (position || team) {
+        console.log('Active filters - Position:', position, 'Team:', team);
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Performance tracking
+    {% if players.0.player.name %}
+    console.log('Top player:', '{{ players.0.player.name }}', '({{ players.0.statistics.0.goals.total|default:0 }} goals)');
+    {% endif %}
+});
+
+// Add loading states for better UX
+window.addEventListener('beforeunload', function() {
+    document.body.style.opacity = '0.7';
+});
+</script>
+{% endblock %}

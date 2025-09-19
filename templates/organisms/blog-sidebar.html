@@ -1,0 +1,50 @@
+{% comment %}
+Blog Sidebar Organism
+Usage: {% include 'organisms/blog-sidebar.html' with sidebar_data=sidebar %}
+{% endcomment %}
+
+{% load i18n %}
+
+<div class="lg:col-span-1">
+    <div class="sticky top-8 space-y-8">
+        <!-- Table of Contents -->
+        {% include 'molecules/blog-table-of-contents.html' with sections=sidebar_data.toc_sections %}
+
+        <!-- Expert Authors -->
+        <div class="bg-white border border-slate-200 rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-slate-900 mb-4">{% trans "Expert Analysis" %}</h3>
+            <div class="space-y-4">
+                {% for expert in sidebar_data.experts %}
+                    <div class="flex items-start">
+                        {% include 'atoms/author-avatar.html' with src=expert.avatar alt=expert.name size="md" class="mr-3" %}
+                        <div>
+                            <h4 class="font-semibold text-slate-900 text-sm">{{ expert.name }}</h4>
+                            <p class="text-xs text-slate-600 mb-1">{{ expert.title }}</p>
+                            <p class="text-xs text-slate-500">{{ expert.credentials }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Key Statistics -->
+        {% include 'molecules/statistics-panel.html' with title=sidebar_data.stats_title stats=sidebar_data.statistics %}
+
+        <!-- Related Articles -->
+        <div class="bg-white border border-slate-200 rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-slate-900 mb-4">{% trans "Related Articles" %}</h3>
+            <div class="space-y-4">
+                {% for article in sidebar_data.related_articles %}
+                    <article class="group">
+                        <a href="{{ article.url }}" class="block">
+                            <img src="{{ article.image }}"
+                                 alt="{{ article.title }}" class="w-full h-20 object-cover rounded mb-2">
+                            <h4 class="font-medium text-slate-900 text-sm group-hover:text-blue-600 transition">{{ article.title }}</h4>
+                            {% include 'atoms/read-time.html' with minutes=article.read_time class="text-xs text-slate-500" %}
+                        </a>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

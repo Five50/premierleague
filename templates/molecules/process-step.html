@@ -1,0 +1,13 @@
+{% comment %}
+Process step molecule
+Usage: {% include 'molecules/process-step.html' with number="1" title="Title" description="Description" %}
+{% endcomment %}
+<div class="flex items-start space-x-4">
+  <div class="flex-shrink-0 w-10 h-10 bg-emerald-700 text-white rounded-full flex items-center justify-center font-bold">
+    {{ number }}
+  </div>
+  <div class="flex-1">
+    <h3 class="text-lg font-semibold text-slate-900 mb-1">{{ title }}</h3>
+    <p class="text-slate-600">{{ description }}</p>
+  </div>
+</div>

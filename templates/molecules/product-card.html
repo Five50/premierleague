@@ -1,0 +1,136 @@
+{% load static %}
+{% load i18n %}
+{% comment %}
+Product card molecule
+Usage: {% include 'molecules/product-card.html' with product=product_data %}
+{% endcomment %}
+
+<div class="product-card pl-card hover:shadow-lg transition-all duration-300 group">
+    <a href="/shop/product/{{ product.id }}/" class="block">
+        <!-- Product Image -->
+        <div class="product-image relative overflow-hidden rounded-t-xl">
+            {% if product.image %}
+                <img src="{{ product.image }}" alt="{{ product.name.en }}" 
+                     class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+            {% else %}
+                <div class="w-full h-48 bg-slate-200 flex items-center justify-center">
+                    <svg class="w-16 h-16 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+            {% endif %}
+            
+            <!-- Badges -->
+            <div class="absolute top-3 left-3 space-y-2">
+                {% if product.limited_edition %}
+                    <div class="bg-red-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                        {% trans "Limited Edition" %}
+                    </div>
+                {% endif %}
+                {% if product.new_arrival %}
+                    <div class="bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                        {% trans "New" %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <button class="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+                        onclick="toggleFavorite({{ product.id }}); event.preventDefault();">
+                    <svg class="w-5 h-5 pl-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Product Info -->
+        <div class="product-info p-4">
+            <!-- Team Logo (if applicable) -->
+            {% if product.team_id %}
+            <div class="flex items-center space-x-2 mb-2">
+                {% include 'atoms/team-logo.html' with team_id=product.team_id size='small' %}
+                <span class="text-xs pl-text opacity-75">{% trans "Official Product" %}</span>
+            </div>
+            {% endif %}
+            
+            <!-- Product Name -->
+            <h3 class="product-name text-lg font-semibold pl-text group-hover:text-blue-700 transition-colors mb-2 line-clamp-2">
+                {% if LANGUAGE_CODE == 'sv' %}
+                    {{ product.name.sv }}
+                {% else %}
+                    {{ product.name.en }}
+                {% endif %}
+            </h3>
+            
+            <!-- Product Rating -->
+            {% if product.rating %}
+            <div class="product-rating flex items-center space-x-2 mb-2">
+                <div class="stars flex">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= product.rating|floatformat:0 %}
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                        {% else %}
+                            <svg class="w-4 h-4 text-slate-300 fill-current" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <span class="text-sm pl-text opacity-75">({{ product.reviews_count }})</span>
+            </div>
+            {% endif %}
+            
+            <!-- Price -->
+            <div class="product-price mb-4">
+                {% include 'atoms/price-display.html' with price=product.price currency=product.currency size='large' %}
+                {% if product.sale_price %}
+                    {% include 'atoms/price-display.html' with price=product.sale_price currency=product.currency original_price=product.price size='small' %}
+                {% endif %}
+            </div>
+            
+            <!-- Stock Status -->
+            {% if not product.in_stock %}
+                <div class="stock-status text-sm text-red-600 mb-4">
+                    {% trans "Out of Stock" %}
+                </div>
+            {% elif product.stock_count and product.stock_count < 10 %}
+                <div class="stock-status text-sm text-orange-600 mb-4">
+                    {% trans "Only" %} {{ product.stock_count }} {% trans "left in stock" %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Add to Cart Button -->
+        <div class="product-actions p-4 pt-0">
+            {% if product.in_stock %}
+                <button class="pl-button w-full justify-center group-hover:bg-blue-800 transition-colors"
+                        onclick="addToCart({{ product.id }}); event.preventDefault();">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m4.5-5v6m-2-3h4"/>
+                    </svg>
+                    {% trans "Add to Cart" %}
+                </button>
+            {% else %}
+                <button class="pl-button-secondary w-full justify-center opacity-50 cursor-not-allowed" disabled>
+                    {% trans "Out of Stock" %}
+                </button>
+            {% endif %}
+        </div>
+    </a>
+</div>
+
+<script>
+function toggleFavorite(productId) {
+    // Add to favorites functionality
+    console.log('Toggle favorite for product:', productId);
+}
+
+function addToCart(productId) {
+    // Add to cart functionality
+    console.log('Add to cart product:', productId);
+}
+</script>

@@ -1,0 +1,29 @@
+{% load i18n %}
+{% comment %}
+Table of contents molecule
+Usage: {% include 'molecules/table-of-contents.html' with links=toc_links %}
+links should be a list of dicts with 'anchor' and 'text' keys
+{% endcomment %}
+
+<details>
+  <summary class="cursor-pointer text-xs transition-colors rounded-lg flex items-center gap-2">
+    <span class="font-medium">{% trans "Skip to Content" %}</span>
+    <svg class="w-4 h-4 transform transition-transform duration-200 toc-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m6-6H6"></path>
+    </svg>
+  </summary>
+  <nav class="py-4" aria-label="Table of contents">
+    <ol class="space-y-2 list-decimal list-inside">
+      {% for link in links %}
+      <li><a href="#{{ link.anchor }}" class="text-emerald-900 hover:text-emerald-900 transition-colors">{{ link.text }}</a></li>
+      {% endfor %}
+    </ol>
+  </nav>
+</details>
+
+<style>
+/* Custom styles for table of contents */
+details[open] summary .toc-icon {
+  transform: rotate(45deg);
+}
+</style>

@@ -1,0 +1,18 @@
+{% comment %}
+Tactical Breakdown Card Molecule
+Usage: {% include 'molecules/tactical-breakdown-card.html' with title="Defensive Phase" icon="⚽" points=defensive_points %}
+{% endcomment %}
+
+{% load i18n %}
+
+<div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+    <h4 class="font-semibold text-slate-900 mb-3 flex items-center">
+        <span class="text-blue-600 mr-2">{{ icon }}</span>
+        {{ title }}
+    </h4>
+    <ul class="space-y-2">
+        {% for point in points %}
+            {% include 'atoms/tactical-point.html' with text=point %}
+        {% endfor %}
+    </ul>
+</div>

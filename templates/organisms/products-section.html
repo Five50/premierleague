@@ -1,0 +1,579 @@
+{% load i18n %}
+<!-- Allsvenskan Shop Section -->
+<section class="py-20 bg-slate-50" aria-labelledby="products-heading">
+    <div class="container mx-auto px-4">
+        <!-- Section Header -->
+        <header class="text-center mb-16">
+            <h2 id="products-heading" class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+                {% trans "Allsvenskan Shop" %}
+            </h2>
+            <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                {% trans "Official Allsvenskan merchandise, team kits, and exclusive products from all 16 clubs." %}
+            </p>
+        </header>
+
+        <!-- Current Season Team Kits Carousel -->
+        <div class="mb-16">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-2xl md:text-3xl font-bold text-slate-900 flex items-center">
+                    {% trans "2025/26 Team Kits" %}
+                </h3>
+                <div class="flex items-center space-x-2">
+                    <button id="kits-prev" class="p-2 rounded-full bg-white border border-slate-200 hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <button id="kits-next" class="p-2 rounded-full bg-white border border-slate-200 hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative overflow-hidden">
+                <div id="kits-carousel" class="flex space-x-6 transition-transform duration-300 ease-in-out">
+                    <!-- Malmö FF Kit -->
+                    <div class="flex-none w-80 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-200 group">
+                        <a href="{% url 'product-detail' slug='malmo-ff-home-kit-2025' %}" class="block">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&q=80" alt="Malmö FF Home Kit 2025/26" class="w-full h-48 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300">
+                                <span class="absolute top-3 left-3 bg-sky-500 text-white px-2 py-1 text-xs font-bold rounded">{% trans "Home Kit" %}</span>
+                                <span class="absolute top-3 right-3 bg-yellow-400 text-slate-900 px-2 py-1 text-xs font-bold rounded">{% trans "Bestseller" %}</span>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center mr-3">
+                                        <span class="text-white text-xs font-bold">M</span>
+                                    </div>
+                                    <h4 class="font-bold text-slate-900">Malmö FF</h4>
+                                </div>
+                                <h5 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-sky-600 transition-colors">{% trans "Home Kit 2025/26" %}</h5>
+                                <p class="text-sm text-slate-600 mb-4">{% trans "Official home jersey with club crest and sponsor logos. Adult sizes S-XXL available." %}</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-sky-600">899 SEK</span>
+                                    <button type="button"
+                                            class="bg-sky-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-sky-700 transition-colors"
+                                            onclick="event.stopPropagation(); addToCart('malmo-ff-home-kit', 'Team Kit', 899, {size: 'M', team: 'Malmö FF', season: '2025/26'}, 'Malmö FF Home Kit 2025/26')">
+                                        {% trans "Add to Cart" %}
+                                    </button>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- AIK Kit -->
+                    <div class="flex-none w-80 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-200 group">
+                        <a href="{% url 'product-detail' slug='aik-home-kit-2025' %}" class="block">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&q=80" alt="AIK Home Kit 2025/26" class="w-full h-48 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300">
+                                <span class="absolute top-3 left-3 bg-black text-white px-2 py-1 text-xs font-bold rounded">{% trans "Home Kit" %}</span>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center mr-3">
+                                        <span class="text-white text-xs font-bold">A</span>
+                                    </div>
+                                    <h4 class="font-bold text-slate-900">AIK</h4>
+                                </div>
+                                <h5 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-slate-800 transition-colors">{% trans "Home Kit 2025/26" %}</h5>
+                                <p class="text-sm text-slate-600 mb-4">{% trans "Classic black and yellow stripes. Traditional Stockholm club heritage design." %}</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-slate-900">859 SEK</span>
+                                    <button type="button"
+                                            class="bg-slate-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-slate-800 transition-colors"
+                                            onclick="event.stopPropagation(); addToCart('aik-home-kit', 'Team Kit', 859, {size: 'M', team: 'AIK', season: '2025/26'})">
+                                        {% trans "Add to Cart" %}
+                                    </button>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Hammarby Kit -->
+                    <div class="flex-none w-80 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-200 group">
+                        <a href="{% url 'product-detail' slug='hammarby-home-kit-2025' %}" class="block">
+                            <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=300&fit=crop&q=80" alt="Hammarby IF Home Kit 2025/26" class="w-full h-48 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-3 left-3 bg-green-600 text-white px-2 py-1 text-xs font-bold rounded">{% trans "Home Kit" %}</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center mb-3">
+                                <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs font-bold">H</span>
+                                </div>
+                                <h4 class="font-bold text-slate-900">Hammarby IF</h4>
+                            </div>
+                            <h5 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-green-600 transition-colors">{% trans "Home Kit 2025/26" %}</h5>
+                            <p class="text-sm text-slate-600 mb-4">{% trans "Iconic green and white stripes representing Södermalm's football pride." %}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-bold text-green-600">879 SEK</span>
+                                <button type="button"
+                                        class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                                        onclick="event.stopPropagation(); addToCart('hammarby-home-kit', 'Team Kit', 879, {size: 'M', team: 'Hammarby IF', season: '2025/26'})">
+                                    {% trans "Add to Cart" %}
+                                </button>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+
+                    <!-- Djurgården Kit -->
+                    <div class="flex-none w-80 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-200 group">
+                        <a href="{% url 'product-detail' slug='djurgarden-home-kit-2025' %}" class="block">
+                            <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1552667466-07770ae110d0?w=400&h=300&fit=crop&q=80" alt="Djurgården IF Home Kit 2025/26" class="w-full h-48 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-3 left-3 bg-blue-800 text-white px-2 py-1 text-xs font-bold rounded">{% trans "Home Kit" %}</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center mb-3">
+                                <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs font-bold">D</span>
+                                </div>
+                                <h4 class="font-bold text-slate-900">Djurgården IF</h4>
+                            </div>
+                            <h5 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-blue-800 transition-colors">{% trans "Home Kit 2025/26" %}</h5>
+                            <p class="text-sm text-slate-600 mb-4">{% trans "Royal blue home shirt with traditional club values and Stockholm heritage." %}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-bold text-blue-800">869 SEK</span>
+                                <button type="button"
+                                        class="bg-blue-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-900 transition-colors"
+                                        onclick="event.stopPropagation(); addToCart('djurgarden-home-kit', 'Team Kit', 869, {size: 'M', team: 'Djurgården IF', season: '2025/26'})">
+                                    {% trans "Add to Cart" %}
+                                </button>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+
+                    <!-- IFK Göteborg Kit -->
+                    <div class="flex-none w-80 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-200 group">
+                        <a href="{% url 'product-detail' slug='ifk-goteborg-home-kit-2025' %}" class="block">
+                            <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400&h=300&fit=crop&q=80" alt="IFK Göteborg Home Kit 2025/26" class="w-full h-48 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-3 left-3 bg-blue-600 text-white px-2 py-1 text-xs font-bold rounded">{% trans "Home Kit" %}</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center mb-3">
+                                <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs font-bold">G</span>
+                                </div>
+                                <h4 class="font-bold text-slate-900">IFK Göteborg</h4>
+                            </div>
+                            <h5 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{% trans "Home Kit 2025/26" %}</h5>
+                            <p class="text-sm text-slate-600 mb-4">{% trans "Classic blue and white colors representing Sweden's most successful European club." %}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-bold text-blue-600">849 SEK</span>
+                                <button type="button"
+                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                                        onclick="event.stopPropagation(); addToCart('ifk-goteborg-home-kit', 'Team Kit', 849, {size: 'M', team: 'IFK Göteborg', season: '2025/26'})">
+                                    {% trans "Add to Cart" %}
+                                </button>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+
+                    <!-- BK Häcken Kit -->
+                    <div class="flex-none w-80 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-200 group">
+                        <a href="{% url 'product-detail' slug='hacken-home-kit-2025' %}" class="block">
+                            <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=400&h=300&fit=crop&q=80" alt="BK Häcken Home Kit 2025/26" class="w-full h-48 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-3 left-3 bg-yellow-600 text-white px-2 py-1 text-xs font-bold rounded">{% trans "Home Kit" %}</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center mb-3">
+                                <div class="w-8 h-8 bg-yellow-600 rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs font-bold">H</span>
+                                </div>
+                                <h4 class="font-bold text-slate-900">BK Häcken</h4>
+                            </div>
+                            <h5 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-yellow-600 transition-colors">{% trans "Home Kit 2025/26" %}</h5>
+                            <p class="text-sm text-slate-600 mb-4">{% trans "Vibrant yellow home kit representing the ambitious Gothenburg club." %}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-bold text-yellow-600">839 SEK</span>
+                                <button type="button"
+                                        class="bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-yellow-700 transition-colors"
+                                        onclick="event.stopPropagation(); addToCart('hacken-home-kit', 'Team Kit', 839, {size: 'M', team: 'BK Häcken', season: '2025/26'})">
+                                    {% trans "Add to Cart" %}
+                                </button>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination Dots -->
+            <div class="flex justify-center mt-6">
+                <div id="kits-pagination" class="flex space-x-2"></div>
+            </div>
+        </div>
+
+        <!-- Equipment & Accessories Carousel -->
+        <div class="mb-16">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-2xl md:text-3xl font-bold text-slate-900 flex items-center">
+                    {% trans "Equipment & Accessories" %}
+                </h3>
+                <div class="flex items-center space-x-2">
+                    <button id="equipment-prev" class="p-2 rounded-full bg-white border border-slate-200 hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <button id="equipment-next" class="p-2 rounded-full bg-white border border-slate-200 hover:bg-slate-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative overflow-hidden">
+                <div id="equipment-carousel" class="flex space-x-6 transition-transform duration-300 ease-in-out">
+                    <!-- Official Match Ball -->
+                    <div class="flex-none w-80 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-200 group">
+                        <a href="{% url 'product-detail' slug='allsvenskan-match-ball-2025' %}" class="block">
+                            <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=400&h=300&fit=crop&q=80" alt="Allsvenskan Official Match Ball" class="w-full h-48 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-3 left-3 bg-blue-600 text-white px-2 py-1 text-xs font-bold rounded">{% trans "Official" %}</span>
+                        </div>
+                        <div class="p-6">
+                            <h5 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{% trans "Allsvenskan Match Ball 2025" %}</h5>
+                            <p class="text-sm text-slate-600 mb-4">{% trans "Official match ball used in all Allsvenskan games. FIFA Quality Pro certification." %}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-bold text-blue-600">1,899 SEK</span>
+                                <button type="button"
+                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                                        onclick="event.stopPropagation(); addToCart('allsvenskan-match-ball', 'Equipment', 1899, {size: 'Official', quality: 'FIFA Pro'})">
+                                    {% trans "Add to Cart" %}
+                                </button>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+
+                    <!-- Training Cones Set -->
+                    <div class="flex-none w-80 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-200 group">
+                        <a href="{% url 'product-detail' slug='professional-training-set' %}" class="block">
+                            <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=300&fit=crop&q=80" alt="Training Equipment Set" class="w-full h-48 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-3 left-3 bg-orange-500 text-white px-2 py-1 text-xs font-bold rounded">{% trans "Training" %}</span>
+                        </div>
+                        <div class="p-6">
+                            <h5 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">{% trans "Professional Training Set" %}</h5>
+                            <p class="text-sm text-slate-600 mb-4">{% trans "Complete training equipment including cones, ladders, and agility poles." %}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-bold text-orange-600">2,499 SEK</span>
+                                <button type="button"
+                                        class="bg-orange-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-orange-700 transition-colors"
+                                        onclick="event.stopPropagation(); addToCart('training-equipment-set', 'Equipment', 2499, {type: 'Complete Set', level: 'Professional'})">
+                                    {% trans "Add to Cart" %}
+                                </button>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+
+                    <!-- Goalkeeper Gloves -->
+                    <div class="flex-none w-80 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-200 group">
+                        <a href="{% url 'product-detail' slug='pro-goalkeeper-gloves' %}" class="block">
+                            <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=400&h=300&fit=crop&q=80" alt="Professional Goalkeeper Gloves" class="w-full h-48 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-3 left-3 bg-green-600 text-white px-2 py-1 text-xs font-bold rounded">{% trans "Pro Quality" %}</span>
+                        </div>
+                        <div class="p-6">
+                            <h5 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-green-600 transition-colors">{% trans "Pro Goalkeeper Gloves" %}</h5>
+                            <p class="text-sm text-slate-600 mb-4">{% trans "Professional-grade goalkeeper gloves with superior grip and protection." %}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-bold text-green-600">1,299 SEK</span>
+                                <button type="button"
+                                        class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                                        onclick="event.stopPropagation(); addToCart('goalkeeper-gloves-pro', 'Equipment', 1299, {size: '9', type: 'Professional'})">
+                                    {% trans "Add to Cart" %}
+                                </button>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+
+                    <!-- Team Scarf Collection -->
+                    <div class="flex-none w-80 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-200 group">
+                        <a href="{% url 'product-detail' slug='team-scarf-collection' %}" class="block">
+                            <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400&h=300&fit=crop&q=80" alt="Team Scarves Collection" class="w-full h-48 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-3 left-3 bg-purple-600 text-white px-2 py-1 text-xs font-bold rounded">{% trans "Fan Gear" %}</span>
+                        </div>
+                        <div class="p-6">
+                            <h5 class="text-lg font-semibold text-slate-900 mb-2 group-hover:text-purple-600 transition-colors">{% trans "Team Scarves Collection" %}</h5>
+                            <p class="text-sm text-slate-600 mb-4">{% trans "Show your support with official team scarves from all 16 Allsvenskan clubs." %}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-2xl font-bold text-purple-600">299 SEK</span>
+                                <button type="button"
+                                        class="bg-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-700 transition-colors"
+                                        onclick="event.stopPropagation(); addToCart('team-scarf-collection', 'Fan Gear', 299, {team: 'All Teams', type: 'Official'})">
+                                    {% trans "Add to Cart" %}
+                                </button>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination Dots -->
+            <div class="flex justify-center mt-6">
+                <div id="equipment-pagination" class="flex space-x-2"></div>
+            </div>
+        </div>
+
+        <!-- Shop CTA -->
+        <div class="text-center bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-12 text-white">
+            <h3 class="text-3xl font-bold mb-6">
+                {% trans "Ready to Support Your Team?" %}
+            </h3>
+            <p class="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+                {% trans "Browse our complete collection of Allsvenskan merchandise and show your support for your favorite club." %}
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/shop/" class="inline-flex items-center px-8 py-4 bg-yellow-400 text-slate-900 rounded-xl font-semibold text-lg hover:bg-yellow-500 transition-colors duration-200">
+                    {% trans "Browse All Products" %}
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </a>
+                <a href="/teams/" class="inline-flex items-center px-8 py-4 border-2 border-white text-white rounded-xl font-semibold text-lg hover:bg-white hover:text-blue-700 transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                    {% trans "Explore Teams" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Include Cart Functionality Script -->
+<script>
+// Global Cart Functions for Product Section
+window.addToCart = async function(productId, productType, price, variations = {}, productName = null) {
+    try {
+        // If no product name provided, generate one from the productId
+        if (!productName) {
+            productName = productId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        const response = await fetch('{% url "cart:add_to_cart" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                product_type: productType,
+                product_name: productName,
+                price: price,
+                quantity: 1,
+                variations: variations
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // Show success toast
+            showToast('Product added to cart!', 'success');
+
+            // Update cart counter if it exists
+            const cartCounter = document.querySelector('[data-cart-count]');
+            if (cartCounter) {
+                cartCounter.textContent = data.cart_total_items || 0;
+            }
+
+            // Reload cart drawer if it's open
+            if (window.cartDrawer && window.cartDrawer.isOpen) {
+                window.cartDrawer.loadCartData();
+            }
+        } else {
+            showToast(data.error || 'Error adding to cart', 'error');
+        }
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        showToast('Error adding to cart', 'error');
+    }
+};
+
+// Toast notification function
+window.showToast = function(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg text-white font-medium transform transition-all duration-300 ${
+        type === 'success' ? 'bg-green-600' :
+        type === 'error' ? 'bg-red-600' : 'bg-blue-600'
+    }`;
+
+    const icon = document.createElement('span');
+    icon.innerHTML = type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ';
+    icon.className = 'mr-2';
+
+    const text = document.createTextNode(message);
+    toast.appendChild(icon);
+    toast.appendChild(text);
+
+    document.body.appendChild(toast);
+
+    // Animate in
+    setTimeout(() => toast.style.transform = 'translateX(0)', 10);
+
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+};
+
+// Product Carousel Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const carousels = [
+        { id: 'kits', container: '#kits-carousel', prev: '#kits-prev', next: '#kits-next', pagination: '#kits-pagination' },
+        { id: 'equipment', container: '#equipment-carousel', prev: '#equipment-prev', next: '#equipment-next', pagination: '#equipment-pagination' }
+    ];
+
+    carousels.forEach(carousel => {
+        const container = document.querySelector(carousel.container);
+        const prevBtn = document.querySelector(carousel.prev);
+        const nextBtn = document.querySelector(carousel.next);
+        const paginationContainer = document.querySelector(carousel.pagination);
+
+        if (!container || !prevBtn || !nextBtn || !paginationContainer) return;
+
+        let currentPage = 0;
+        let isAnimating = false;
+        const cardWidth = 320; // 320px (w-80)
+        const gapWidth = 24; // gap between cards (space-x-6 = 1.5rem = 24px)
+        const totalCardWidth = cardWidth + gapWidth;
+        const totalCards = container.children.length;
+
+        let cardsVisible = 4.25; // Default desktop
+        let cardsPerScroll = 2; // How many cards to scroll per click
+        let totalPages = 1;
+
+        // Get responsive settings based on screen size
+        function getResponsiveSettings() {
+            const width = window.innerWidth;
+            if (width >= 1024) {
+                return { visible: 4.25, scroll: 2 };
+            } else if (width >= 768) {
+                return { visible: 2.5, scroll: 1 };
+            } else {
+                return { visible: 1.5, scroll: 1 };
+            }
+        }
+
+        // Update responsive settings
+        function updateResponsiveSettings() {
+            const settings = getResponsiveSettings();
+            cardsVisible = settings.visible;
+            cardsPerScroll = settings.scroll;
+
+            const maxScroll = Math.max(0, totalCards - cardsVisible);
+            totalPages = Math.ceil(maxScroll / cardsPerScroll) + 1;
+
+            if (currentPage >= totalPages) {
+                currentPage = Math.max(0, totalPages - 1);
+            }
+        }
+
+        // Set initial position
+        container.style.transform = 'translateX(0)';
+
+        // Create pagination dots
+        function createPagination() {
+            paginationContainer.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-colors ${i === currentPage ? 'bg-blue-600' : 'bg-slate-300 hover:bg-slate-400'}`;
+                dot.addEventListener('click', () => goToPage(i));
+                paginationContainer.appendChild(dot);
+            }
+        }
+
+        // Update button and pagination states
+        function updateControls() {
+            prevBtn.disabled = currentPage <= 0;
+            nextBtn.disabled = currentPage >= totalPages - 1;
+
+            const dots = paginationContainer.children;
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = `w-2 h-2 rounded-full transition-colors ${i === currentPage ? 'bg-blue-600' : 'bg-slate-300 hover:bg-slate-400'}`;
+            }
+        }
+
+        // Go to specific page
+        function goToPage(page) {
+            if (page < 0 || page >= totalPages || isAnimating || page === currentPage) return;
+
+            isAnimating = true;
+            currentPage = page;
+
+            const scrollPosition = -(currentPage * cardsPerScroll * totalCardWidth);
+            container.style.transition = 'transform 0.6s ease-out';
+            container.style.transform = `translateX(${scrollPosition}px)`;
+
+            setTimeout(() => {
+                isAnimating = false;
+            }, 600);
+
+            updateControls();
+        }
+
+        // Navigation event listeners
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPage > 0 && !isAnimating) {
+                goToPage(currentPage - 1);
+            }
+        });
+
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPage < totalPages - 1 && !isAnimating) {
+                goToPage(currentPage + 1);
+            }
+        });
+
+        // Initialize
+        function init() {
+            updateResponsiveSettings();
+            createPagination();
+            updateControls();
+        }
+
+        init();
+
+        // Responsive behavior
+        function handleResize() {
+            updateResponsiveSettings();
+            createPagination();
+
+            if (!isAnimating) {
+                const scrollPosition = -(currentPage * cardsPerScroll * totalCardWidth);
+                container.style.transition = 'none';
+                container.style.transform = `translateX(${scrollPosition}px)`;
+            }
+
+            updateControls();
+        }
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(handleResize, 150);
+        });
+    });
+});
+</script>
+
+{% csrf_token %}

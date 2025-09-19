@@ -1,0 +1,30 @@
+{% load i18n %}
+<!-- Cart Item -->
+<div class="cart-item bg-white border border-stone-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+    <div class="flex gap-4">
+        <img :src="item.image" :alt="item.name" class="w-24 h-24 object-cover rounded-lg">
+        <div class="flex-1">
+            <h4 class="font-semibold text-slate-900 mb-1" x-text="item.name"></h4>
+            <template x-if="item.variations">
+                <p class="text-sm text-slate-600 mb-2" x-text="Object.entries(item.variations).map(([k,v]) => `${k}: ${v}`).join(', ')"></p>
+            </template>
+            <!-- Price Display -->
+            <div class="mb-3">
+                <p class="text-lg font-bold text-slate-900">$<span x-text="(item.price * item.quantity).toFixed(2)"></span></p>
+                <p class="text-sm text-slate-500">$<span x-text="item.price.toFixed(2)"></span> {% trans "each" %}</p>
+            </div>
+            
+            <!-- Quantity and Remove Controls -->
+            <div class="flex items-center justify-between">
+                {% include 'atoms/quantity-input.html' %}
+                <button @click="$store.cart.removeItem(item.cartItemId)" 
+                        class="text-sm text-red-600 hover:text-red-800 font-medium transition-colors">
+                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    {% trans "Remove" %}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

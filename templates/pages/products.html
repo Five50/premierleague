@@ -1,0 +1,807 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Recovery & Wellness Products" %} | Miami Elite Rehab{% endblock %}
+
+{% block meta_description %}{% trans "Premium recovery tools and wellness products recommended by Miami's top rehabilitation centers. Professional-grade equipment for continuing care at home." %}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-gradient-to-br from-emerald-800 to-emerald-950 text-white py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl">
+            <h1 class="text-4xl lg:text-5xl font-bold font-sans mb-4">{% trans "Recovery & Wellness Products" %}</h1>
+            <p class="text-xl text-white/90">{% trans "Professional-grade equipment and supplements recommended by luxury treatment centers" %}</p>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content Area -->
+<section class="py-8 bg-stone-50" x-data="{ 
+    filters: {
+        category: '',
+        priceRange: '',
+        brand: '',
+        rating: '',
+        features: []
+    },
+    sortBy: 'featured',
+    viewMode: 'grid',
+    showMobileFilters: false
+}">
+    <div class="container mx-auto px-4">
+        
+        <!-- Mobile Filter Toggle & Sort Bar -->
+        <div class="lg:hidden mb-6 bg-white rounded-lg shadow-sm border border-stone-200 p-4">
+            <div class="flex items-center justify-between mb-4">
+                <button @click="showMobileFilters = !showMobileFilters" 
+                        class="flex items-center px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                    </svg>
+                    {% trans "Filters" %}
+                </button>
+                <div class="flex items-center gap-4">
+                    <span class="text-slate-600 text-sm">{% trans "48 Products" %}</span>
+                    <select x-model="sortBy" class="px-3 py-2 bg-stone-100 text-slate-700 rounded-lg text-sm">
+                        <option value="featured">{% trans "Featured" %}</option>
+                        <option value="price-low">{% trans "Price: Low to High" %}</option>
+                        <option value="price-high">{% trans "Price: High to Low" %}</option>
+                        <option value="newest">{% trans "Newest First" %}</option>
+                        <option value="rating">{% trans "Best Rated" %}</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Mobile View Toggle -->
+            <div class="flex items-center justify-center">
+                <div class="flex bg-stone-100 rounded-lg p-1">
+                    <button @click="viewMode = 'grid'" 
+                            :class="viewMode === 'grid' ? 'bg-white shadow-sm' : ''"
+                            class="px-3 py-1 rounded text-sm font-medium transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                        </svg>
+                    </button>
+                    <button @click="viewMode = 'list'" 
+                            :class="viewMode === 'list' ? 'bg-white shadow-sm' : ''"
+                            class="px-3 py-1 rounded text-sm font-medium transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-8">
+            <!-- Left Sidebar - Filters -->
+            <aside class="hidden lg:block w-80 flex-shrink-0">
+                <div class="bg-white rounded-lg shadow-sm border border-stone-200 p-6 sticky top-24">
+                    
+                    <!-- Filter Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-semibold text-slate-900">{% trans "Filters" %}</h2>
+                        <button class="text-emerald-800 hover:text-emerald-900 text-sm font-medium">{% trans "Clear All" %}</button>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-slate-900 mb-3">{% trans "Categories" %}</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.category" value="" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "All Categories" %}</span>
+                                <span class="ml-auto text-xs text-slate-500">(48)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.category" value="recovery-tools" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Recovery Tools" %}</span>
+                                <span class="ml-auto text-xs text-slate-500">(12)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.category" value="meditation" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Meditation & Mindfulness" %}</span>
+                                <span class="ml-auto text-xs text-slate-500">(8)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.category" value="exercise" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Exercise Equipment" %}</span>
+                                <span class="ml-auto text-xs text-slate-500">(15)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.category" value="supplements" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Nutritional Supplements" %}</span>
+                                <span class="ml-auto text-xs text-slate-500">(6)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.category" value="therapy-aids" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Therapy Aids" %}</span>
+                                <span class="ml-auto text-xs text-slate-500">(4)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.category" value="books" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Books & Resources" %}</span>
+                                <span class="ml-auto text-xs text-slate-500">(3)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Price Range -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-slate-900 mb-3">{% trans "Price Range" %}</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.priceRange" value="" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Any Price" %}</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.priceRange" value="under-50" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Under $50" %}</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.priceRange" value="50-100" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">$50 - $100</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.priceRange" value="100-250" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">$100 - $250</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.priceRange" value="over-250" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Over $250" %}</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Brand -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-slate-900 mb-3">{% trans "Brand" %}</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">TheraBand</span>
+                                <span class="ml-auto text-xs text-slate-500">(8)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">Lifeline Fitness</span>
+                                <span class="ml-auto text-xs text-slate-500">(6)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">Gaiam</span>
+                                <span class="ml-auto text-xs text-slate-500">(12)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">Manduka</span>
+                                <span class="ml-auto text-xs text-slate-500">(5)</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">Recovery Plus</span>
+                                <span class="ml-auto text-xs text-slate-500">(3)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Customer Rating -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-slate-900 mb-3">{% trans "Customer Rating" %}</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.rating" value="5" class="mr-3 text-emerald-800">
+                                <div class="flex items-center">
+                                    <span class="text-amber-400 text-sm">★★★★★</span>
+                                    <span class="text-sm text-slate-700 ml-2">{% trans "5 Stars" %}</span>
+                                </div>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.rating" value="4" class="mr-3 text-emerald-800">
+                                <div class="flex items-center">
+                                    <span class="text-amber-400 text-sm">★★★★☆</span>
+                                    <span class="text-sm text-slate-700 ml-2">{% trans "4+ Stars" %}</span>
+                                </div>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" x-model="filters.rating" value="3" class="mr-3 text-emerald-800">
+                                <div class="flex items-center">
+                                    <span class="text-amber-400 text-sm">★★★☆☆</span>
+                                    <span class="text-sm text-slate-700 ml-2">{% trans "3+ Stars" %}</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-slate-900 mb-3">{% trans "Features" %}</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Center Recommended" %}</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Free Shipping" %}</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "Subscribe & Save" %}</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" class="mr-3 text-emerald-800">
+                                <span class="text-sm text-slate-700">{% trans "30-Day Return" %}</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Apply Filters Button -->
+                    <button class="w-full px-6 py-3 bg-emerald-700 text-white rounded-lg font-semibold hover:bg-emerald-900 transition">
+                        {% trans "Apply Filters" %}
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Mobile Filters Overlay -->
+            <div x-show="showMobileFilters" 
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 @click="showMobileFilters = false"
+                 class="lg:hidden fixed inset-0 bg-black/50 z-50"
+                 x-cloak>
+                <div x-show="showMobileFilters"
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="transform translate-x-full"
+                     x-transition:enter-end="transform translate-x-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="transform translate-x-0"
+                     x-transition:leave-end="transform translate-x-full"
+                     @click.stop
+                     class="absolute right-0 top-0 h-full w-80 bg-white shadow-xl overflow-y-auto">
+                    
+                    <!-- Mobile Filter Header -->
+                    <div class="p-6 border-b border-stone-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-xl font-semibold text-slate-900">{% trans "Filters" %}</h2>
+                            <button @click="showMobileFilters = false" class="p-2 hover:bg-stone-100 rounded-lg">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Filter Content (same as desktop) -->
+                    <div class="p-6">
+                        <!-- Same filter content as desktop sidebar -->
+                        <!-- Categories, Price Range, Brand, Rating, Features -->
+                        <!-- ... (same content as above) ... -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Content Area - Products -->
+            <main class="flex-1">
+                
+                <!-- Desktop Sort & View Toggle -->
+                <div class="hidden lg:flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-4">
+                        <h2 class="text-xl font-semibold text-slate-900">{% trans "Recovery & Wellness Products" %}</h2>
+                        <span class="text-slate-600">{% trans "48 products" %}</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <select x-model="sortBy" class="px-4 py-2 bg-white border border-stone-200 rounded-lg text-slate-700 focus:outline-none focus:border-emerald-700">
+                            <option value="featured">{% trans "Sort: Featured" %}</option>
+                            <option value="price-low">{% trans "Price: Low to High" %}</option>
+                            <option value="price-high">{% trans "Price: High to Low" %}</option>
+                            <option value="newest">{% trans "Newest First" %}</option>
+                            <option value="rating">{% trans "Best Rated" %}</option>
+                        </select>
+                        <div class="flex bg-stone-100 rounded-lg p-1">
+                            <button @click="viewMode = 'grid'" 
+                                    :class="viewMode === 'grid' ? 'bg-white shadow-sm' : ''"
+                                    class="p-2 rounded transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                                </svg>
+                            </button>
+                            <button @click="viewMode = 'list'" 
+                                    :class="viewMode === 'list' ? 'bg-white shadow-sm' : ''"
+                                    class="p-2 rounded transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Product Banner -->
+                <div class="mb-8 bg-gradient-to-r from-emerald-800 to-emerald-950 rounded-xl p-6 lg:p-8 text-white">
+                    <div class="grid md:grid-cols-2 gap-6 items-center">
+                        <div>
+                            <span class="inline-block px-3 py-1 bg-white/20 rounded-full text-sm font-medium mb-4">
+                                {% trans "Editor's Choice" %}
+                            </span>
+                            <h3 class="text-2xl lg:text-3xl font-bold mb-4">{% trans "Premium Recovery Bundle" %}</h3>
+                            <p class="text-white/90 mb-6 text-sm lg:text-base">
+                                {% trans "Complete home recovery kit recommended by 9 out of 10 luxury treatment centers. Everything you need for continuing care." %}
+                            </p>
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-2xl lg:text-3xl font-bold">$299</span>
+                                <span class="text-lg line-through text-white/60">$399</span>
+                                <span class="px-3 py-1 bg-emerald-700 rounded-full text-sm">{% trans "Save 25%" %}</span>
+                            </div>
+                            <button class="px-6 py-3 bg-white text-emerald-800 rounded-lg font-semibold hover:bg-stone-50 transition">
+                                {% trans "Shop Bundle" %}
+                            </button>
+                        </div>
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600" 
+                                 alt="Recovery Bundle" 
+                                 class="rounded-lg shadow-xl w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Grid/List -->
+                <div :class="viewMode === 'grid' ? 'grid md:grid-cols-2 xl:grid-cols-3 gap-6' : 'space-y-4'">
+                    
+                    <!-- Product Card 1 - Single Product -->
+                    <div :class="viewMode === 'grid' ? 'bg-white rounded-lg shadow-sm hover:shadow-lg transition group border border-stone-200' : 'bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-stone-200'">
+                        <template x-if="viewMode === 'grid'">
+                            <div>
+                                <a href="{% url 'product-single' %}" class="block">
+                                    <div class="relative">
+                                        <span class="absolute top-2 left-2 px-2 py-1 bg-emerald-700 text-white text-xs font-semibold rounded z-10">{% trans "Best Seller" %}</span>
+                                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400" alt="Meditation Cushion" class="w-full h-64 object-cover rounded-t-lg group-hover:opacity-90 transition">
+                                        <button @click.prevent.stop="$store.favorites.toggle({
+                                                id: 'med-cush-001',
+                                                name: '{% trans "Premium Meditation Cushion" %}',
+                                                price: 89.99,
+                                                image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400'
+                                            })"
+                                            :class="$store.favorites.isFavorite('med-cush-001') ? 'bg-pink-100' : 'bg-white'"
+                                            class="absolute top-2 right-2 p-2 rounded-full shadow-md hover:bg-pink-50 transition z-10">
+                                            <svg class="w-5 h-5" 
+                                                 :class="$store.favorites.isFavorite('med-cush-001') ? 'text-pink-600' : 'text-slate-600'"
+                                                 :fill="$store.favorites.isFavorite('med-cush-001') ? 'currentColor' : 'none'" 
+                                                 stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </a>
+                                <div class="p-4">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-amber-400">★★★★★</span>
+                                        <span class="text-xs text-slate-500 ml-2">(148)</span>
+                                    </div>
+                                    <a href="{% url 'product-single' %}" class="block hover:text-emerald-800 transition">
+                                        <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Premium Meditation Cushion" %}</h3>
+                                    </a>
+                                    <p class="text-slate-600 text-sm mb-3">{% trans "Organic buckwheat fill, washable cover" %}</p>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="text-2xl font-bold text-slate-900">$89.99</span>
+                                    </div>
+                                    <button @click="$store.cart.addItem({
+                                        id: 1,
+                                        name: '{% trans "Premium Meditation Cushion" %}',
+                                        price: 89.99,
+                                        image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400',
+                                        quantity: 1
+                                    })" class="w-full px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Add to Cart" %}</button>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-if="viewMode === 'list'">
+                            <div class="flex gap-4 p-4">
+                                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=200" alt="Meditation Cushion" class="w-32 h-32 object-cover rounded-lg flex-shrink-0">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-1">
+                                        <span class="text-amber-400 text-sm">★★★★★</span>
+                                        <span class="text-xs text-slate-500 ml-2">(148)</span>
+                                        <span class="ml-2 px-2 py-1 bg-emerald-700 text-white text-xs font-semibold rounded">{% trans "Best Seller" %}</span>
+                                    </div>
+                                    <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Premium Meditation Cushion" %}</h3>
+                                    <p class="text-slate-600 text-sm mb-2">{% trans "Organic buckwheat fill, washable cover" %}</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-2xl font-bold text-slate-900">$89.99</span>
+                                        <button @click="$store.cart.addItem({
+                                            id: 1,
+                                            name: '{% trans "Premium Meditation Cushion" %}',
+                                            price: 89.99,
+                                            image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400',
+                                            quantity: 1
+                                        })" class="px-6 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Add to Cart" %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Product Card 2 - Multi-Variable Product -->
+                    <div :class="viewMode === 'grid' ? 'bg-white rounded-lg shadow-sm hover:shadow-lg transition group border border-stone-200' : 'bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-stone-200'">
+                        <template x-if="viewMode === 'grid'">
+                            <div>
+                                <a href="{% url 'product-multi-variable' %}" class="block">
+                                    <div class="relative">
+                                        <span class="absolute top-2 left-2 px-2 py-1 bg-emerald-700 text-white text-xs font-semibold rounded z-10">{% trans "New" %}</span>
+                                        <span class="absolute top-2 left-16 px-2 py-1 bg-blue-500 text-white text-xs font-semibold rounded z-10">{% trans "5 Colors" %}</span>
+                                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400" alt="Yoga Mat" class="w-full h-64 object-cover rounded-t-lg group-hover:opacity-90 transition">
+                                        <button @click.prevent.stop="$store.favorites.toggle({
+                                                id: 'yoga-mat-001',
+                                                name: '{% trans "Professional Yoga Mat" %}',
+                                                price: 69.99,
+                                                image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400'
+                                            })"
+                                            :class="$store.favorites.isFavorite('yoga-mat-001') ? 'bg-pink-100' : 'bg-white'"
+                                            class="absolute top-2 right-2 p-2 rounded-full shadow-md hover:bg-pink-50 transition z-10">
+                                            <svg class="w-5 h-5" 
+                                                 :class="$store.favorites.isFavorite('yoga-mat-001') ? 'text-pink-600' : 'text-slate-600'"
+                                                 :fill="$store.favorites.isFavorite('yoga-mat-001') ? 'currentColor' : 'none'" 
+                                                 stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </a>
+                                <div class="p-4">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-amber-400">★★★★★</span>
+                                        <span class="text-xs text-slate-500 ml-2">(203)</span>
+                                    </div>
+                                    <a href="{% url 'product-multi-variable' %}" class="block hover:text-emerald-800 transition">
+                                        <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Professional Yoga Mat" %}</h3>
+                                    </a>
+                                    <p class="text-slate-600 text-sm mb-2">{% trans "Multiple colors & thickness options" %}</p>
+                                    <div class="flex gap-1 mb-3">
+                                        <span class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-700 to-emerald-900 border border-stone-200"></span>
+                                        <span class="w-6 h-6 rounded-full bg-gradient-to-br from-green-500 to-green-700 border border-stone-200"></span>
+                                        <span class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-pink-500 border border-stone-200"></span>
+                                        <span class="w-6 h-6 rounded-full bg-gradient-to-br from-gray-800 to-black border border-stone-200"></span>
+                                        <span class="w-6 h-6 rounded-full bg-gradient-to-br from-stone-300 to-stone-500 border border-stone-200"></span>
+                                    </div>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="text-2xl font-bold text-slate-900">$69.99 - $99.99</span>
+                                    </div>
+                                    <button class="w-full px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Select Options" %}</button>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-if="viewMode === 'list'">
+                            <div class="flex gap-4 p-4">
+                                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=200" alt="Yoga Mat" class="w-32 h-32 object-cover rounded-lg flex-shrink-0">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-1">
+                                        <span class="text-amber-400 text-sm">★★★★★</span>
+                                        <span class="text-xs text-slate-500 ml-2">(203)</span>
+                                        <span class="ml-2 px-2 py-1 bg-emerald-700 text-white text-xs font-semibold rounded">{% trans "New" %}</span>
+                                        <span class="ml-1 px-2 py-1 bg-blue-500 text-white text-xs font-semibold rounded">{% trans "5 Colors" %}</span>
+                                    </div>
+                                    <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Professional Yoga Mat" %}</h3>
+                                    <p class="text-slate-600 text-sm mb-2">{% trans "Multiple colors & thickness options" %}</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-2xl font-bold text-slate-900">$69.99 - $99.99</span>
+                                        <a href="{% url 'product-multi-variable' %}" class="px-6 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Select Options" %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Product Card 3 - Variable Product -->
+                    <div :class="viewMode === 'grid' ? 'bg-white rounded-lg shadow-sm hover:shadow-lg transition group border border-stone-200' : 'bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-stone-200'">
+                        <template x-if="viewMode === 'grid'">
+                            <div>
+                                <a href="{% url 'product-variable' %}" class="block">
+                                    <div class="relative">
+                                        <span class="absolute top-2 left-2 px-2 py-1 bg-amber-500 text-white text-xs font-semibold rounded z-10">{% trans "Limited Stock" %}</span>
+                                        <span class="absolute top-2 right-14 px-2 py-1 bg-green-500 text-white text-xs font-semibold rounded z-10">{% trans "Subscribe & Save" %}</span>
+                                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400" alt="Supplements" class="w-full h-64 object-cover rounded-t-lg group-hover:opacity-90 transition">
+                                        <button @click.prevent.stop="$store.favorites.toggle({
+                                                id: 'recovery-supp-001',
+                                                name: '{% trans "Recovery Supplement Pack" %}',
+                                                price: 129.99,
+                                                image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400'
+                                            })"
+                                            :class="$store.favorites.isFavorite('recovery-supp-001') ? 'bg-pink-100' : 'bg-white'"
+                                            class="absolute top-2 right-2 p-2 rounded-full shadow-md hover:bg-pink-50 transition z-10">
+                                            <svg class="w-5 h-5" 
+                                                 :class="$store.favorites.isFavorite('recovery-supp-001') ? 'text-pink-600' : 'text-slate-600'"
+                                                 :fill="$store.favorites.isFavorite('recovery-supp-001') ? 'currentColor' : 'none'" 
+                                                 stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </a>
+                                <div class="p-4">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-amber-400">★★★★★</span>
+                                        <span class="text-xs text-slate-500 ml-2">(312)</span>
+                                    </div>
+                                    <a href="{% url 'product-variable' %}" class="block hover:text-emerald-800 transition">
+                                        <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Recovery Supplement Pack" %}</h3>
+                                    </a>
+                                    <p class="text-slate-600 text-sm mb-2">{% trans "30/60/90 day options available" %}</p>
+                                    <div class="flex gap-2 text-xs mb-3">
+                                        <span class="px-2 py-1 bg-stone-100 text-slate-700 rounded">30 days</span>
+                                        <span class="px-2 py-1 bg-stone-100 text-slate-700 rounded">60 days</span>
+                                        <span class="px-2 py-1 bg-stone-100 text-slate-700 rounded">90 days</span>
+                                    </div>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="text-2xl font-bold text-slate-900">$129.99 - $349.99</span>
+                                    </div>
+                                    <button class="w-full px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Select Duration" %}</button>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-if="viewMode === 'list'">
+                            <div class="flex gap-4 p-4">
+                                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200" alt="Supplements" class="w-32 h-32 object-cover rounded-lg flex-shrink-0">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-1">
+                                        <span class="text-amber-400 text-sm">★★★★★</span>
+                                        <span class="text-xs text-slate-500 ml-2">(312)</span>
+                                        <span class="ml-2 px-2 py-1 bg-amber-500 text-white text-xs font-semibold rounded">{% trans "Limited Stock" %}</span>
+                                        <span class="ml-1 px-2 py-1 bg-green-500 text-white text-xs font-semibold rounded">{% trans "Subscribe & Save" %}</span>
+                                    </div>
+                                    <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Recovery Supplement Pack" %}</h3>
+                                    <p class="text-slate-600 text-sm mb-2">{% trans "30/60/90 day options available" %}</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-2xl font-bold text-slate-900">$129.99 - $349.99</span>
+                                        <a href="{% url 'product-variable' %}" class="px-6 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Select Duration" %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Product Card 4 - Regular Product -->
+                    <div :class="viewMode === 'grid' ? 'bg-white rounded-lg shadow-sm hover:shadow-lg transition group border border-stone-200' : 'bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-stone-200'">
+                        <template x-if="viewMode === 'grid'">
+                            <div>
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1540206063137-4a88ca974d1a?w=400" alt="Foam Roller" class="w-full h-64 object-cover rounded-t-lg group-hover:opacity-90 transition">
+                                    <button @click.prevent.stop="$store.favorites.toggle({
+                                            id: 'foam-roller-001',
+                                            name: '{% trans "Deep Tissue Foam Roller" %}',
+                                            price: 34.99,
+                                            image: 'https://images.unsplash.com/photo-1540206063137-4a88ca974d1a?w=400'
+                                        })"
+                                        :class="$store.favorites.isFavorite('foam-roller-001') ? 'bg-pink-100' : 'bg-white'"
+                                        class="absolute top-2 right-2 p-2 rounded-full shadow-md hover:bg-pink-50 transition z-10">
+                                        <svg class="w-5 h-5" 
+                                             :class="$store.favorites.isFavorite('foam-roller-001') ? 'text-pink-600' : 'text-slate-600'"
+                                             :fill="$store.favorites.isFavorite('foam-roller-001') ? 'currentColor' : 'none'" 
+                                             stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-amber-400">★★★★☆</span>
+                                        <span class="text-xs text-slate-500 ml-2">(89)</span>
+                                    </div>
+                                    <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Deep Tissue Foam Roller" %}</h3>
+                                    <p class="text-slate-600 text-sm mb-3">{% trans "High-density for myofascial release" %}</p>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="text-2xl font-bold text-slate-900">$34.99</span>
+                                    </div>
+                                    <button @click="$store.cart.addItem({
+                                        id: 2,
+                                        name: '{% trans "Deep Tissue Foam Roller" %}',
+                                        price: 34.99,
+                                        image: 'https://images.unsplash.com/photo-1540206063137-4a88ca974d1a?w=400',
+                                        quantity: 1
+                                    })" class="w-full px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Add to Cart" %}</button>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-if="viewMode === 'list'">
+                            <div class="flex gap-4 p-4">
+                                <img src="https://images.unsplash.com/photo-1540206063137-4a88ca974d1a?w=200" alt="Foam Roller" class="w-32 h-32 object-cover rounded-lg flex-shrink-0">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-1">
+                                        <span class="text-amber-400 text-sm">★★★★☆</span>
+                                        <span class="text-xs text-slate-500 ml-2">(89)</span>
+                                    </div>
+                                    <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Deep Tissue Foam Roller" %}</h3>
+                                    <p class="text-slate-600 text-sm mb-2">{% trans "High-density for myofascial release" %}</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-2xl font-bold text-slate-900">$34.99</span>
+                                        <button @click="$store.cart.addItem({
+                                            id: 2,
+                                            name: '{% trans "Deep Tissue Foam Roller" %}',
+                                            price: 34.99,
+                                            image: 'https://images.unsplash.com/photo-1540206063137-4a88ca974d1a?w=400',
+                                            quantity: 1
+                                        })" class="px-6 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Add to Cart" %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Product Card 5 - Regular Product -->
+                    <div :class="viewMode === 'grid' ? 'bg-white rounded-lg shadow-sm hover:shadow-lg transition group border border-stone-200' : 'bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-stone-200'">
+                        <template x-if="viewMode === 'grid'">
+                            <div>
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=400" alt="Resistance Bands" class="w-full h-64 object-cover rounded-t-lg group-hover:opacity-90 transition">
+                                    <button @click.prevent.stop="$store.favorites.toggle({
+                                            id: 'resistance-bands-001',
+                                            name: '{% trans "Resistance Band Set" %}',
+                                            price: 45.99,
+                                            image: 'https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=400'
+                                        })"
+                                        :class="$store.favorites.isFavorite('resistance-bands-001') ? 'bg-pink-100' : 'bg-white'"
+                                        class="absolute top-2 right-2 p-2 rounded-full shadow-md hover:bg-pink-50 transition z-10">
+                                        <svg class="w-5 h-5" 
+                                             :class="$store.favorites.isFavorite('resistance-bands-001') ? 'text-pink-600' : 'text-slate-600'"
+                                             :fill="$store.favorites.isFavorite('resistance-bands-001') ? 'currentColor' : 'none'" 
+                                             stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-amber-400">★★★★☆</span>
+                                        <span class="text-xs text-slate-500 ml-2">(67)</span>
+                                    </div>
+                                    <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Resistance Band Set" %}</h3>
+                                    <p class="text-slate-600 text-sm mb-3">{% trans "5 levels for progressive training" %}</p>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="text-2xl font-bold text-slate-900">$45.99</span>
+                                    </div>
+                                    <button @click="$store.cart.addItem({
+                                        id: 3,
+                                        name: '{% trans "Resistance Band Set" %}',
+                                        price: 45.99,
+                                        image: 'https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=400',
+                                        quantity: 1
+                                    })" class="w-full px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Add to Cart" %}</button>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-if="viewMode === 'list'">
+                            <div class="flex gap-4 p-4">
+                                <img src="https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=200" alt="Resistance Bands" class="w-32 h-32 object-cover rounded-lg flex-shrink-0">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-1">
+                                        <span class="text-amber-400 text-sm">★★★★☆</span>
+                                        <span class="text-xs text-slate-500 ml-2">(67)</span>
+                                    </div>
+                                    <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Resistance Band Set" %}</h3>
+                                    <p class="text-slate-600 text-sm mb-2">{% trans "5 levels for progressive training" %}</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-2xl font-bold text-slate-900">$45.99</span>
+                                        <button @click="$store.cart.addItem({
+                                            id: 3,
+                                            name: '{% trans "Resistance Band Set" %}',
+                                            price: 45.99,
+                                            image: 'https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=400',
+                                            quantity: 1
+                                        })" class="px-6 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Add to Cart" %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Product Card 6 - Regular Product -->
+                    <div :class="viewMode === 'grid' ? 'bg-white rounded-lg shadow-sm hover:shadow-lg transition group border border-stone-200' : 'bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-stone-200'">
+                        <template x-if="viewMode === 'grid'">
+                            <div>
+                                <div class="relative">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" alt="Recovery Journal" class="w-full h-64 object-cover rounded-t-lg group-hover:opacity-90 transition">
+                                    <button @click.prevent.stop="$store.favorites.toggle({
+                                            id: 'recovery-journal-001',
+                                            name: '{% trans "Guided Recovery Journal" %}',
+                                            price: 24.99,
+                                            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'
+                                        })"
+                                        :class="$store.favorites.isFavorite('recovery-journal-001') ? 'bg-pink-100' : 'bg-white'"
+                                        class="absolute top-2 right-2 p-2 rounded-full shadow-md hover:bg-pink-50 transition z-10">
+                                        <svg class="w-5 h-5" 
+                                             :class="$store.favorites.isFavorite('recovery-journal-001') ? 'text-pink-600' : 'text-slate-600'"
+                                             :fill="$store.favorites.isFavorite('recovery-journal-001') ? 'currentColor' : 'none'" 
+                                             stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-amber-400">★★★★★</span>
+                                        <span class="text-xs text-slate-500 ml-2">(256)</span>
+                                    </div>
+                                    <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Guided Recovery Journal" %}</h3>
+                                    <p class="text-slate-600 text-sm mb-3">{% trans "Daily prompts & progress tracking" %}</p>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="text-2xl font-bold text-slate-900">$24.99</span>
+                                    </div>
+                                    <button @click="$store.cart.addItem({
+                                        id: 4,
+                                        name: '{% trans "Guided Recovery Journal" %}',
+                                        price: 24.99,
+                                        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
+                                        quantity: 1
+                                    })" class="w-full px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Add to Cart" %}</button>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-if="viewMode === 'list'">
+                            <div class="flex gap-4 p-4">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200" alt="Recovery Journal" class="w-32 h-32 object-cover rounded-lg flex-shrink-0">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-1">
+                                        <span class="text-amber-400 text-sm">★★★★★</span>
+                                        <span class="text-xs text-slate-500 ml-2">(256)</span>
+                                    </div>
+                                    <h3 class="font-semibold text-lg text-slate-900 mb-1">{% trans "Guided Recovery Journal" %}</h3>
+                                    <p class="text-slate-600 text-sm mb-2">{% trans "Daily prompts & progress tracking" %}</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-2xl font-bold text-slate-900">$24.99</span>
+                                        <button @click="$store.cart.addItem({
+                                            id: 4,
+                                            name: '{% trans "Guided Recovery Journal" %}',
+                                            price: 24.99,
+                                            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
+                                            quantity: 1
+                                        })" class="px-6 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-900 transition">{% trans "Add to Cart" %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    
+                </div>
+
+                <!-- Pagination -->
+                <div class="mt-12 flex justify-center">
+                    <nav class="flex items-center space-x-2">
+                        <button class="px-3 py-2 text-slate-500 hover:text-slate-700">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <button class="px-4 py-2 bg-emerald-700 text-white rounded">1</button>
+                        <button class="px-4 py-2 text-slate-700 hover:bg-stone-100 rounded">2</button>
+                        <button class="px-4 py-2 text-slate-700 hover:bg-stone-100 rounded">3</button>
+                        <span class="px-3 py-2 text-slate-500">...</span>
+                        <button class="px-4 py-2 text-slate-700 hover:bg-stone-100 rounded">6</button>
+                        <button class="px-3 py-2 text-slate-500 hover:text-slate-700">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </nav>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter CTA -->
+<section class="py-12 bg-gradient-to-r from-emerald-800 to-emerald-950 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-4">{% trans "Get 15% Off Your First Order" %}</h2>
+        <p class="text-xl mb-6 text-white/90">{% trans "Join our community for exclusive deals and recovery tips from luxury treatment centers." %}</p>
+        <form class="max-w-md mx-auto flex gap-2">
+            <input type="email" placeholder="{% trans 'Enter your email' %}" class="flex-1 px-4 py-3 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-white">
+            <button type="submit" class="px-6 py-3 bg-white text-emerald-800 rounded-lg font-semibold hover:bg-stone-50 transition">{% trans "Subscribe" %}</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

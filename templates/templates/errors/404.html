@@ -1,0 +1,61 @@
+{% extends 'templates/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Page Not Found" %} - 404 | ALLSVENSKAN Insikter{% endblock %}
+{% block meta_description %}{% trans "The page you are looking for could not be found." %}{% endblock %}
+{% block page_type %}error-404{% endblock %}
+
+{% block content %}
+<section class="min-h-[70vh] flex items-center justify-center py-16 px-4">
+    <div class="max-w-2xl mx-auto text-center">
+        <!-- Error Code -->
+        <div class="mb-8">
+            <h1 class="text-9xl font-bold text-slate-200">404</h1>
+            <div class="relative -mt-16">
+                <div class="text-6xl">😕</div>
+            </div>
+        </div>
+        
+        <!-- Error Message -->
+        <h2 class="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
+            {% trans "Oops! Page not found" %}
+        </h2>
+        
+        <p class="text-lg text-slate-600 mb-8 max-w-lg mx-auto">
+            {% trans "We couldn't find the page you're looking for. It might have been moved, deleted, or perhaps never existed." %}
+        </p>
+        
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'home' %}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                {% trans "Back to Home" %}
+            </a>
+            
+            <button onclick="history.back()" class="inline-flex items-center px-6 py-3 border border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                {% trans "Go Back" %}
+            </button>
+        </div>
+        
+        <!-- Helpful Links -->
+        <div class="mt-12 pt-8 border-t border-slate-200">
+            <p class="text-sm text-slate-600 mb-4">{% trans "Here are some helpful links:" %}</p>
+            <div class="flex flex-wrap gap-4 justify-center text-sm">
+                <a href="{% url 'home' %}" class="text-blue-600 hover:text-blue-700">{% trans "Home" %}</a>
+                <span class="text-slate-600">•</span>
+                <a href="{% url 'blog-index' %}" class="text-blue-600 hover:text-blue-700">{% trans "Blog" %}</a>
+                <span class="text-slate-600">•</span>
+                <a href="#" class="text-blue-600 hover:text-blue-700">{% trans "Compare Loans" %}</a>
+                <span class="text-slate-600">•</span>
+                <a href="#" class="text-blue-600 hover:text-blue-700">{% trans "Contact Us" %}</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,57 @@
+<!-- View Transitions API -->
+<meta name="view-transition" content="same-origin">
+<style>
+/* View Transition Animations */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: slide-out-left 0.3s ease-in-out;
+}
+
+::view-transition-new(root) {
+  animation: slide-in-right 0.3s ease-in-out;
+}
+
+/* Custom transition animations */
+@keyframes slide-out-left {
+  to {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+}
+
+/* Page-specific transitions */
+.page-transition-enter {
+  view-transition-name: page-content;
+}
+
+.hero-transition {
+  view-transition-name: hero-section;
+}
+
+.card-transition {
+  view-transition-name: var(--card-id);
+}
+
+/* Smooth transitions for interactive elements */
+.mega-dropdown {
+  view-transition-name: mega-menu;
+}
+
+.search-overlay {
+  view-transition-name: search-section;
+}
+
+.cart-sidebar {
+  view-transition-name: cart-panel;
+}
+</style>

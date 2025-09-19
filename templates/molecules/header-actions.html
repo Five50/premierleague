@@ -1,0 +1,158 @@
+{% load i18n %}
+<!-- Right Actions -->
+<div class="flex items-center space-x-2 sm:space-x-3">    
+    <!-- Notifications -->
+    <div class="relative" x-data="{ notificationsOpen: false }">
+        <button @click="notificationsOpen = !notificationsOpen" 
+                class="relative p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200" 
+                aria-label="{% trans 'Notifications' %}"
+                :aria-expanded="notificationsOpen">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/>
+            </svg>
+            <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+        </button>
+        
+        <!-- Notifications Dropdown -->
+        <div x-show="notificationsOpen"
+             x-transition:enter="transition ease-out duration-100"
+             x-transition:enter-start="transform opacity-0 scale-95"
+             x-transition:enter-end="transform opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-75"
+             x-transition:leave-start="transform opacity-100 scale-100"
+             x-transition:leave-end="transform opacity-0 scale-95"
+             @click.away="notificationsOpen = false"
+             class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-xl ring-1 ring-black ring-opacity-5 py-2 z-50"
+             x-cloak>
+            <div class="px-4 py-3 border-b border-gray-100">
+                <h3 class="text-sm font-semibold text-gray-900" style="font-family: 'Oswald', sans-serif;">{% trans "Match Alerts" %}</h3>
+            </div>
+            <div class="py-2 space-y-1">
+                <a href="#" class="flex items-center px-4 py-3 hover:bg-gray-50">
+                    <div class="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Arsenal scored!</p>
+                        <p class="text-xs text-gray-500">Gabriel Jesus 67' vs Chelsea</p>
+                    </div>
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 hover:bg-gray-50">
+                    <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Upcoming: Tottenham vs Man United</p>
+                        <p class="text-xs text-gray-500">Kicks off in 30 minutes</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart -->
+    <div class="relative" x-data="{ cartOpen: false }">
+        <button @click="cartOpen = !cartOpen" 
+                class="relative p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200" 
+                aria-label="{% trans 'Shopping cart' %}"
+                :aria-expanded="cartOpen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0h8m-8 0a2 2 0 100 4 2 2 0 000-4zm8 0a2 2 0 100 4 2 2 0 000-4z"/>
+            </svg>
+            <span class="absolute -top-1 -right-1 w-5 h-5 bg-yellow-400 text-gray-900 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+        </button>
+        
+        <!-- Cart Dropdown -->
+        <div x-show="cartOpen"
+             x-transition:enter="transition ease-out duration-100"
+             x-transition:enter-start="transform opacity-0 scale-95"
+             x-transition:enter-end="transform opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-75"
+             x-transition:leave-start="transform opacity-100 scale-100"
+             x-transition:leave-end="transform opacity-0 scale-95"
+             @click.away="cartOpen = false"
+             class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-xl ring-1 ring-black ring-opacity-5 py-2 z-50"
+             x-cloak>
+            <div class="px-4 py-3 border-b border-gray-100">
+                <h3 class="text-sm font-semibold text-gray-900">{% trans "Shopping Cart" %}</h3>
+            </div>
+            <div class="py-2 space-y-1">
+                <div class="flex items-center px-4 py-3">
+                    <div class="w-12 h-12 bg-gray-200 rounded-lg mr-3"></div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Allsvenskan Jersey</p>
+                        <p class="text-xs text-gray-500">Size: L - £89.99</p>
+                    </div>
+                </div>
+                <div class="flex items-center px-4 py-3">
+                    <div class="w-12 h-12 bg-gray-200 rounded-lg mr-3"></div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Match Ticket</p>
+                        <p class="text-xs text-gray-500">Arsenal vs Chelsea - £45.00</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-100 px-4 py-3">
+                <a href="{% url 'cart:view_cart' %}" class="block w-full text-center bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition-colors">
+                    {% trans "View Cart" %}
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Account -->
+    <div class="relative" x-data="{ accountOpen: false }">
+        <button @click="accountOpen = !accountOpen" 
+                class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200" 
+                aria-label="{% trans 'Account menu' %}"
+                :aria-expanded="accountOpen">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+        </button>
+        
+        <!-- Account Dropdown -->
+        <div x-show="accountOpen"
+             x-transition:enter="transition ease-out duration-100"
+             x-transition:enter-start="transform opacity-0 scale-95"
+             x-transition:enter-end="transform opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-75"
+             x-transition:leave-start="transform opacity-100 scale-100"
+             x-transition:leave-end="transform opacity-0 scale-95"
+             @click.away="accountOpen = false"
+             class="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-xl ring-1 ring-black ring-opacity-5 py-2 z-50"
+             x-cloak>
+            <a href="/login/" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                </svg>
+                {% trans "Sign In" %}
+            </a>
+            <a href="/register/" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                </svg>
+                {% trans "Create Account" %}
+            </a>
+            <div class="border-t border-gray-100 my-1"></div>
+            <a href="/profile/" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                {% trans "My Profile" %}
+            </a>
+            <a href="/favorites/" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+                {% trans "Favorite Teams" %}
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Menu Toggle -->
+    <button @click="mobileMenuOpen = !mobileMenuOpen; console.log('Mobile menu clicked:', mobileMenuOpen)" 
+            class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200" 
+            :aria-label="mobileMenuOpen ? 'Close menu' : 'Open menu'"
+            :aria-expanded="mobileMenuOpen">
+        <svg class="w-6 h-6" :class="mobileMenuOpen ? 'rotate-45' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="mobileMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'"/>
+        </svg>
+    </button>
+</div>

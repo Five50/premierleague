@@ -1,0 +1,22 @@
+{% comment %}
+Author Card Molecule
+Usage: {% include 'molecules/author-card.html' with author=author %}
+{% endcomment %}
+
+{% load i18n %}
+
+<div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+    <div class="flex items-start">
+        {% include 'atoms/author-avatar.html' with src=author.avatar alt=author.name size="lg" class="mr-4" %}
+        <div>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">{% trans "About" %} {{ author.name }}</h3>
+            <p class="text-slate-700 mb-3 text-sm">
+                {{ author.bio }}
+            </p>
+            <div class="flex space-x-3">
+                <a href="{{ author.profile_url }}" class="text-blue-600 hover:text-blue-800 font-medium text-sm">{% trans "View Profile" %}</a>
+                <a href="{{ author.articles_url }}" class="text-blue-600 hover:text-blue-800 font-medium text-sm">{% trans "More Articles" %}</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,450 @@
+<!-- GSAP Animation Scripts -->
+<script>
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+// Page load animations
+document.addEventListener('DOMContentLoaded', function() {
+    // Header slide down animation
+    gsap.from("header", {
+        y: -100,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out"
+    });
+
+    // Hero section animations
+    const heroContent = document.querySelector(".hero-content");
+    if (heroContent) {
+        const heroTimeline = gsap.timeline();
+        
+        const heroH1 = heroContent.querySelector("h1");
+        if (heroH1) {
+            heroTimeline.from(heroH1, {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power2.out"
+            });
+        }
+        
+        const heroP = heroContent.querySelector("p");
+        if (heroP) {
+            heroTimeline.from(heroP, {
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power2.out"
+            }, "-=0.5");
+        }
+        
+        const ctaButtons = heroContent.querySelectorAll(".cta-buttons > *");
+        if (ctaButtons.length > 0) {
+            heroTimeline.from(ctaButtons, {
+                y: 20,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.2,
+                ease: "power2.out"
+            }, "-=0.3");
+        }
+    }
+
+    // Mega dropdown animation
+    window.animateMegaDropdown = function(isOpen) {
+        const dropdown = document.querySelector('.mega-dropdown');
+        if (!dropdown) return;
+
+        if (isOpen) {
+            gsap.set(dropdown, { display: 'block' });
+            const tl = gsap.timeline();
+            tl.from(dropdown, {
+                opacity: 0,
+                y: -20,
+                duration: 0.3,
+                ease: "power2.out"
+            })
+            .from(dropdown.querySelectorAll('.mega-dropdown h3'), {
+                opacity: 0,
+                y: 20,
+                duration: 0.4,
+                stagger: 0.1,
+                ease: "power2.out"
+            }, "-=0.2")
+            .from(dropdown.querySelectorAll('.mega-dropdown li'), {
+                opacity: 0,
+                x: -20,
+                duration: 0.3,
+                stagger: 0.05,
+                ease: "power2.out"
+            }, "-=0.3");
+        } else {
+            gsap.to(dropdown, {
+                opacity: 0,
+                y: -20,
+                duration: 0.2,
+                ease: "power2.in",
+                onComplete: () => gsap.set(dropdown, { display: 'none' })
+            });
+        }
+    };
+
+    // Cart sidebar animation
+    window.animateCartSidebar = function(isOpen) {
+        const sidebar = document.querySelector('.cart-sidebar');
+        const overlay = document.querySelector('.cart-overlay');
+        if (!sidebar) return;
+
+        if (isOpen) {
+            gsap.set([sidebar, overlay], { display: 'block' });
+            gsap.from(overlay, {
+                opacity: 0,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+            gsap.from(sidebar, {
+                x: '100%',
+                duration: 0.4,
+                ease: "power2.out"
+            });
+            gsap.from(sidebar.querySelectorAll('.cart-item'), {
+                opacity: 0,
+                y: 20,
+                duration: 0.3,
+                stagger: 0.1,
+                delay: 0.2,
+                ease: "power2.out"
+            });
+        } else {
+            gsap.to(sidebar, {
+                x: '100%',
+                duration: 0.3,
+                ease: "power2.in"
+            });
+            gsap.to(overlay, {
+                opacity: 0,
+                duration: 0.3,
+                ease: "power2.in",
+                onComplete: () => gsap.set([sidebar, overlay], { display: 'none' })
+            });
+        }
+    };
+
+    // Search overlay animation
+    window.animateSearchOverlay = function(isOpen) {
+        const overlay = document.querySelector('.search-overlay');
+        if (!overlay) return;
+
+        if (isOpen) {
+            gsap.set(overlay, { display: 'block' });
+            gsap.from(overlay, {
+                opacity: 0,
+                y: -30,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+            gsap.from(overlay.querySelector('input'), {
+                scale: 0.95,
+                opacity: 0,
+                duration: 0.4,
+                delay: 0.1,
+                ease: "power2.out"
+            });
+        } else {
+            gsap.to(overlay, {
+                opacity: 0,
+                y: -30,
+                duration: 0.2,
+                ease: "power2.in",
+                onComplete: () => gsap.set(overlay, { display: 'none' })
+            });
+        }
+    };
+
+    // Scroll-triggered animations
+    gsap.utils.toArray('.animate-on-scroll').forEach((element, i) => {
+        gsap.from(element, {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            delay: i * 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: element,
+                start: "top 85%",
+                end: "top 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+    });
+
+    // Card hover animations
+    document.querySelectorAll('.card-hover').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card, {
+                y: -10,
+                scale: 1.02,
+                duration: 0.3,
+                ease: "power2.out",
+                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+            });
+        });
+
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                y: 0,
+                scale: 1,
+                duration: 0.3,
+                ease: "power2.out",
+                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
+            });
+        });
+    });
+
+    // Button hover animations
+    document.querySelectorAll('.btn-animate').forEach(button => {
+        button.addEventListener('mouseenter', () => {
+            gsap.to(button, {
+                scale: 1.05,
+                duration: 0.2,
+                ease: "power2.out"
+            });
+            const svg = button.querySelector('svg');
+            if (svg) {
+                gsap.to(svg, {
+                    x: 5,
+                    duration: 0.2,
+                    ease: "power2.out"
+                });
+            }
+        });
+
+        button.addEventListener('mouseleave', () => {
+            gsap.to(button, {
+                scale: 1,
+                duration: 0.2,
+                ease: "power2.out"
+            });
+            const svg = button.querySelector('svg');
+            if (svg) {
+                gsap.to(svg, {
+                    x: 0,
+                    duration: 0.2,
+                    ease: "power2.out"
+                });
+            }
+        });
+    });
+
+    // Text typing animation
+    document.querySelectorAll('.type-text').forEach(element => {
+        const text = element.textContent;
+        element.textContent = '';
+        
+        ScrollTrigger.create({
+            trigger: element,
+            start: "top 80%",
+            onEnter: () => {
+                gsap.to(element, {
+                    duration: text.length * 0.05,
+                    text: text,
+                    ease: "none"
+                });
+            }
+        });
+    });
+
+    // Counter animations
+    document.querySelectorAll('.counter').forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2;
+        
+        ScrollTrigger.create({
+            trigger: counter,
+            start: "top 80%",
+            onEnter: () => {
+                gsap.from({ value: 0 }, {
+                    duration: duration,
+                    value: target,
+                    roundProps: "value",
+                    onUpdate: function() {
+                        counter.textContent = this.targets()[0].value;
+                    },
+                    ease: "power2.out"
+                });
+            }
+        });
+    });
+
+    // Stagger animations for lists
+    gsap.utils.toArray('.stagger-children').forEach(container => {
+        const children = container.children;
+        
+        ScrollTrigger.create({
+            trigger: container,
+            start: "top 85%",
+            onEnter: () => {
+                gsap.from(children, {
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    ease: "power2.out"
+                });
+            }
+        });
+    });
+
+    // Floating animation for icons
+    document.querySelectorAll('.float-animation').forEach(element => {
+        gsap.to(element, {
+            y: -10,
+            duration: 2,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: -1
+        });
+    });
+
+    // Page transition setup for SPA navigation
+    if ('startViewTransition' in document) {
+        // Modern browser with View Transitions API
+        window.pageTransition = function(callback) {
+            document.startViewTransition(() => {
+                callback();
+            });
+        };
+    } else {
+        // Fallback for older browsers
+        window.pageTransition = function(callback) {
+            gsap.to('main', {
+                opacity: 0,
+                duration: 0.3,
+                onComplete: () => {
+                    callback();
+                    gsap.to('main', {
+                        opacity: 1,
+                        duration: 0.3
+                    });
+                }
+            });
+        };
+    }
+});
+
+// Refresh ScrollTrigger on Alpine.js updates
+document.addEventListener('alpine:navigated', () => {
+    ScrollTrigger.refresh();
+});
+
+// Custom eases
+gsap.registerEase("customBounce", "M0,0 C0.126,0.382 0.282,0.674 0.44,0.822 0.632,1.002 0.818,1.001 1,1");
+
+// Header dropdown animations
+window.animateHeaderDropdown = function(element, isOpen) {
+    if (!element) return;
+
+    if (isOpen) {
+        gsap.set(element, { display: 'block', opacity: 0, y: -10 });
+        const tl = gsap.timeline();
+        tl.to(element, {
+            opacity: 1,
+            y: 0,
+            duration: 0.3,
+            ease: 'power2.out'
+        })
+        .from(element.querySelectorAll('a, button'), {
+            opacity: 0,
+            y: 10,
+            duration: 0.2,
+            stagger: 0.03,
+            ease: 'power2.out'
+        }, '-=0.1');
+    } else {
+        gsap.to(element, {
+            opacity: 0,
+            y: -10,
+            duration: 0.2,
+            ease: 'power2.in',
+            onComplete: () => gsap.set(element, { display: 'none' })
+        });
+    }
+};
+
+// Header search overlay animation
+window.animateHeaderSearchOverlay = function(isOpen) {
+    const overlay = document.querySelector('#search-overlay');
+    const content = overlay?.querySelector('.search-content');
+
+    if (!overlay) return;
+
+    if (isOpen) {
+        gsap.set(overlay, { display: 'flex' });
+        const tl = gsap.timeline();
+
+        tl.from(overlay, {
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.out'
+        })
+        .from(content, {
+            scale: 0.95,
+            y: 20,
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.out'
+        }, '-=0.2')
+        .from(content.querySelectorAll('.search-suggestion'), {
+            opacity: 0,
+            y: 10,
+            duration: 0.2,
+            stagger: 0.05,
+            ease: 'power2.out'
+        }, '-=0.1');
+
+        // Focus the search input
+        setTimeout(() => {
+            const input = overlay.querySelector('input');
+            if (input) input.focus();
+        }, 300);
+    } else {
+        gsap.to(overlay, {
+            opacity: 0,
+            duration: 0.2,
+            ease: 'power2.in',
+            onComplete: () => gsap.set(overlay, { display: 'none' })
+        });
+    }
+};
+
+// Header mobile menu animation
+window.animateHeaderMobileMenu = function(isOpen) {
+    const menu = document.querySelector('#mobile-menu');
+    if (!menu) return;
+
+    if (isOpen) {
+        gsap.set(menu, { display: 'flex', x: '-100%' });
+        const tl = gsap.timeline();
+
+        tl.to(menu, {
+            x: '0%',
+            duration: 0.4,
+            ease: 'power2.out'
+        })
+        .from(menu.querySelectorAll('.mobile-nav-section'), {
+            opacity: 0,
+            x: -20,
+            duration: 0.3,
+            stagger: 0.1,
+            ease: 'power2.out'
+        }, '-=0.2');
+    } else {
+        gsap.to(menu, {
+            x: '-100%',
+            duration: 0.3,
+            ease: 'power2.in',
+            onComplete: () => gsap.set(menu, { display: 'none' })
+        });
+    }
+};
+</script>

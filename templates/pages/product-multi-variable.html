@@ -1,0 +1,841 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Football Equipment" %} | Allsvenskan Shop{% endblock %}
+
+{% block meta_description %}{% trans "Professional football equipment with multiple options. Choose from various colors, sizes, and specifications for your football gear." %}{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<section class="bg-slate-50 py-4">
+    <div class="container mx-auto px-4">
+        <nav class="flex items-center space-x-2 text-sm">
+            <a href="{% url 'home' %}" class="text-slate-600 hover:text-blue-700">{% trans "Home" %}</a>
+            <span class="text-slate-400">/</span>
+            <a href="{% url 'shop' %}" class="text-slate-600 hover:text-blue-700">{% trans "Shop" %}</a>
+            <span class="text-slate-400">/</span>
+            <a href="#" class="text-slate-600 hover:text-blue-700">{% trans "Equipment" %}</a>
+            <span class="text-slate-400">/</span>
+            <span class="text-slate-900 font-medium">{% trans "Football Equipment" %}</span>
+        </nav>
+    </div>
+</section>
+
+<!-- Product Detail -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12" x-data="{
+            activeImage: 0,
+            selectedColor: 'white-blue',
+            selectedSize: 'size-5',
+            selectedQuality: 'pro',
+            quantity: 1,
+            productType: new URLSearchParams(window.location.search).get('product') || 'football-equipment',
+            equipmentData: {
+                'match-ball': {
+                    name: 'Allsvenskan Match Ball 2025',
+                    basePrice: 1899,
+                    description: 'Official match ball used in all Allsvenskan games with FIFA Quality Pro certification.',
+                    category: 'Match Ball'
+                },
+                'training-set': {
+                    name: 'Professional Training Set',
+                    basePrice: 2499,
+                    description: 'Complete training equipment including cones, ladders, and agility poles.',
+                    category: 'Training Equipment'
+                },
+                'goalkeeper-gloves': {
+                    name: 'Pro Goalkeeper Gloves',
+                    basePrice: 1299,
+                    description: 'Professional-grade goalkeeper gloves with superior grip and protection.',
+                    category: 'Goalkeeper Equipment'
+                },
+                'team-scarves': {
+                    name: 'Team Scarves Collection',
+                    basePrice: 299,
+                    description: 'Show your support with official team scarves from all 16 Allsvenskan clubs.',
+                    category: 'Fan Merchandise'
+                }
+            },
+            colorImages: {
+                'white-blue': [
+                    'https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800&h=600&fit=crop&q=80'
+                ],
+                'red-white': [
+                    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&h=600&fit=crop&q=80'
+                ],
+                'yellow-black': [
+                    'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&h=600&fit=crop&q=80'
+                ],
+                'green-white': [
+                    'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop&q=80',
+                    'https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=800&h=600&fit=crop&q=80'
+                ]
+            },
+            pricing: {
+                'training': { 'size-s': 0, 'size-m': 50, 'size-l': 100 },
+                'pro': { 'size-s': 200, 'size-m': 300, 'size-l': 400 },
+                'elite': { 'size-s': 500, 'size-m': 650, 'size-l': 800 }
+            },
+            get currentEquipment() {
+                return this.equipmentData[this.productType] || this.equipmentData['match-ball'];
+            },
+            get currentPrice() {
+                return this.currentEquipment.basePrice + (this.pricing[this.selectedQuality][this.selectedSize] || 0);
+            },
+            get originalPrice() {
+                return this.currentPrice + 200;
+            },
+            get savings() {
+                return this.originalPrice - this.currentPrice;
+            }
+        }">
+            <!-- Product Images -->
+            <div>
+                <!-- Main Image -->
+                <div class="relative mb-4 bg-slate-50 rounded-lg overflow-hidden">
+                    <span class="absolute top-4 left-4 px-3 py-1 bg-blue-700 text-white text-sm font-semibold rounded-full z-10">
+                        {% trans "Professional" %}
+                    </span>
+                    <span class="absolute top-4 right-4 px-3 py-1 bg-green-600 text-white text-sm font-semibold rounded-full z-10">
+                        {% trans "FIFA Approved" %}
+                    </span>
+                    <template x-for="(image, index) in colorImages[selectedColor]" :key="index">
+                        <img x-show="activeImage === index" :src="image"
+                             :alt="'Equipment Image ' + (index + 1)" class="w-full h-[500px] object-cover">
+                    </template>
+                </div>
+
+                <!-- Thumbnail Gallery -->
+                <div class="grid grid-cols-4 gap-2">
+                    <template x-for="(image, index) in colorImages[selectedColor]" :key="index">
+                        <button @click="activeImage = index" class="border-2 rounded-lg overflow-hidden"
+                                :class="activeImage === index ? 'border-blue-700' : 'border-slate-200'">
+                            <img :src="image.replace('w=800', 'w=200').replace('h=600', 'h=150')"
+                                 :alt="'Thumbnail ' + (index + 1)" class="w-full h-24 object-cover hover:opacity-80 transition">
+                        </button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div>
+                <!-- Title and Rating -->
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-slate-900 mb-3" x-text="currentEquipment.name">
+                        {% trans "Football Equipment" %}
+                    </h1>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <span class="text-amber-400">★★★★★</span>
+                            <span class="text-slate-600 ml-2">(142 {% trans "Reviews" %})</span>
+                        </div>
+                        <span class="text-slate-400">|</span>
+                        <span class="text-green-600 font-medium">✓ {% trans "In Stock" %}</span>
+                        <span class="text-slate-400">|</span>
+                        <span class="text-slate-600" x-text="'SKU: ' + productType.toUpperCase()">SKU: EQUIPMENT</span>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-6 pb-6 border-b border-slate-200">
+                    <div class="flex items-baseline space-x-3">
+                        <span class="text-4xl font-bold text-slate-900" x-text="currentPrice + ' SEK'">
+                            1,899 SEK
+                        </span>
+                        <span class="text-xl line-through text-slate-400" x-text="originalPrice + ' SEK'">
+                            2,099 SEK
+                        </span>
+                        <span class="px-3 py-1 bg-red-100 text-red-700 text-sm font-semibold rounded-full" x-text="'Save ' + savings + ' SEK'">
+                            {% trans "Save 200 SEK" %}
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-600 mt-2">
+                        {% trans "Free shipping on professional equipment" %}
+                    </p>
+                </div>
+
+                <!-- Color Selection -->
+                <div class="mb-6">
+                    <h3 class="font-semibold text-slate-900 mb-3">{% trans "Select Color" %} <span class="text-red-500">*</span></h3>
+                    <div class="grid grid-cols-4 gap-3">
+                        <button @click="selectedColor = 'white-blue'; activeImage = 0"
+                                :class="selectedColor === 'white-blue' ? 'border-2 border-blue-700 bg-blue-50' : 'border border-slate-200 hover:border-slate-400'"
+                                class="relative p-3 rounded-lg transition">
+                            <div class="w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-r from-white to-blue-500 border border-slate-200"></div>
+                            <p class="text-xs text-slate-700 font-medium">{% trans "White/Blue" %}</p>
+                            <div x-show="selectedColor === 'white-blue'" class="absolute top-1 right-1">
+                                <svg class="w-4 h-4 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </button>
+
+                        <button @click="selectedColor = 'red-white'; activeImage = 0"
+                                :class="selectedColor === 'red-white' ? 'border-2 border-blue-700 bg-blue-50' : 'border border-slate-200 hover:border-slate-400'"
+                                class="relative p-3 rounded-lg transition">
+                            <div class="w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-r from-red-500 to-white border border-slate-200"></div>
+                            <p class="text-xs text-slate-700 font-medium">{% trans "Red/White" %}</p>
+                            <div x-show="selectedColor === 'red-white'" class="absolute top-1 right-1">
+                                <svg class="w-4 h-4 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </button>
+
+                        <button @click="selectedColor = 'yellow-black'; activeImage = 0"
+                                :class="selectedColor === 'yellow-black' ? 'border-2 border-blue-700 bg-blue-50' : 'border border-slate-200 hover:border-slate-400'"
+                                class="relative p-3 rounded-lg transition">
+                            <div class="w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-r from-yellow-400 to-black border border-slate-200"></div>
+                            <p class="text-xs text-slate-700 font-medium">{% trans "Yellow/Black" %}</p>
+                            <div x-show="selectedColor === 'yellow-black'" class="absolute top-1 right-1">
+                                <svg class="w-4 h-4 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </button>
+
+                        <button @click="selectedColor = 'green-white'; activeImage = 0"
+                                :class="selectedColor === 'green-white' ? 'border-2 border-blue-700 bg-blue-50' : 'border border-slate-200 hover:border-slate-400'"
+                                class="relative p-3 rounded-lg transition">
+                            <div class="w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-r from-green-500 to-white border border-slate-200"></div>
+                            <p class="text-xs text-slate-700 font-medium">{% trans "Green/White" %}</p>
+                            <div x-show="selectedColor === 'green-white'" class="absolute top-1 right-1">
+                                <svg class="w-4 h-4 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Size Selection -->
+                <div class="mb-6">
+                    <h3 class="font-semibold text-slate-900 mb-3">{% trans "Select Size/Type" %} <span class="text-red-500">*</span></h3>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button @click="selectedSize = 'size-s'"
+                                :class="selectedSize === 'size-s' ? 'border-2 border-blue-700 bg-blue-50' : 'border border-slate-200 hover:border-slate-400'"
+                                class="relative p-4 rounded-lg transition">
+                            <div class="text-center">
+                                <p class="font-semibold text-slate-900">{% trans "Size S" %}</p>
+                                <p class="text-sm text-slate-600 mt-1">{% trans "Youth/Small" %}</p>
+                                <p class="text-lg font-bold text-blue-700 mt-2">+0 SEK</p>
+                            </div>
+                            <div x-show="selectedSize === 'size-s'" class="absolute top-2 right-2">
+                                <svg class="w-5 h-5 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </button>
+
+                        <button @click="selectedSize = 'size-m'"
+                                :class="selectedSize === 'size-m' ? 'border-2 border-blue-700 bg-blue-50' : 'border border-slate-200 hover:border-slate-400'"
+                                class="relative p-4 rounded-lg transition">
+                            <div class="absolute -top-2 left-1/2 transform -translate-x-1/2">
+                                <span class="px-2 py-1 bg-blue-700 text-white text-xs font-semibold rounded">{% trans "Most Popular" %}</span>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-semibold text-slate-900">{% trans "Size M" %}</p>
+                                <p class="text-sm text-slate-600 mt-1">{% trans "Standard" %}</p>
+                                <p class="text-lg font-bold text-blue-700 mt-2">+50 SEK</p>
+                            </div>
+                            <div x-show="selectedSize === 'size-m'" class="absolute top-2 right-2">
+                                <svg class="w-5 h-5 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </button>
+
+                        <button @click="selectedSize = 'size-l'"
+                                :class="selectedSize === 'size-l' ? 'border-2 border-blue-700 bg-blue-50' : 'border border-slate-200 hover:border-slate-400'"
+                                class="relative p-4 rounded-lg transition">
+                            <div class="text-center">
+                                <p class="font-semibold text-slate-900">{% trans "Size L" %}</p>
+                                <p class="text-sm text-slate-600 mt-1">{% trans "Professional" %}</p>
+                                <p class="text-lg font-bold text-blue-700 mt-2">+100 SEK</p>
+                            </div>
+                            <div x-show="selectedSize === 'size-l'" class="absolute top-2 right-2">
+                                <svg class="w-5 h-5 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quality Selection -->
+                <div class="mb-6">
+                    <h3 class="font-semibold text-slate-900 mb-3">{% trans "Select Quality" %} <span class="text-red-500">*</span></h3>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button @click="selectedQuality = 'training'"
+                                :class="selectedQuality === 'training' ? 'border-2 border-blue-700 bg-blue-50' : 'border border-slate-200 hover:border-slate-400'"
+                                class="relative p-4 rounded-lg transition">
+                            <div class="text-center">
+                                <p class="font-semibold text-slate-900">{% trans "Training" %}</p>
+                                <p class="text-sm text-slate-600 mt-1">{% trans "Basic quality" %}</p>
+                            </div>
+                            <div x-show="selectedQuality === 'training'" class="absolute top-2 right-2">
+                                <svg class="w-5 h-5 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </button>
+
+                        <button @click="selectedQuality = 'pro'"
+                                :class="selectedQuality === 'pro' ? 'border-2 border-blue-700 bg-blue-50' : 'border border-slate-200 hover:border-slate-400'"
+                                class="relative p-4 rounded-lg transition">
+                            <div class="absolute -top-2 left-1/2 transform -translate-x-1/2">
+                                <span class="px-2 py-1 bg-green-600 text-white text-xs font-semibold rounded">{% trans "Recommended" %}</span>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-semibold text-slate-900">{% trans "Professional" %}</p>
+                                <p class="text-sm text-slate-600 mt-1">{% trans "Match quality" %}</p>
+                            </div>
+                            <div x-show="selectedQuality === 'pro'" class="absolute top-2 right-2">
+                                <svg class="w-5 h-5 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </button>
+
+                        <button @click="selectedQuality = 'elite'"
+                                :class="selectedQuality === 'elite' ? 'border-2 border-blue-700 bg-blue-50' : 'border border-slate-200 hover:border-slate-400'"
+                                class="relative p-4 rounded-lg transition">
+                            <div class="absolute -top-2 left-1/2 transform -translate-x-1/2">
+                                <span class="px-2 py-1 bg-yellow-500 text-slate-900 text-xs font-semibold rounded">{% trans "Premium" %}</span>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-semibold text-slate-900">{% trans "Elite" %}</p>
+                                <p class="text-sm text-slate-600 mt-1">{% trans "Tournament grade" %}</p>
+                            </div>
+                            <div x-show="selectedQuality === 'elite'" class="absolute top-2 right-2">
+                                <svg class="w-5 h-5 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- What's Included -->
+                <div class="mb-6">
+                    <h3 class="font-semibold text-slate-900 mb-3">{% trans "What's Included" %}</h3>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "FIFA certification" %}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Professional quality" %}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Durable construction" %}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Multiple size options" %}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "Weather resistant" %}
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-blue-700 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            {% trans "12-month warranty" %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Purchase Options -->
+                <div class="mb-6">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">{% trans "Quantity" %}</label>
+                            <div class="flex items-center border border-slate-200 rounded-lg">
+                                <button @click="quantity = Math.max(1, quantity - 1)"
+                                        class="px-3 py-2 hover:bg-slate-50 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </button>
+                                <input type="number" x-model="quantity" min="1"
+                                       class="w-16 text-center border-x border-slate-200 py-2 focus:outline-none">
+                                <button @click="quantity++"
+                                        class="px-3 py-2 hover:bg-slate-50 transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-slate-600 mb-1">{% trans "Total Price:" %}</p>
+                            <p class="text-2xl font-bold text-slate-900" x-text="(currentPrice * quantity) + ' SEK'">1,899 SEK</p>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-3">
+                        <button class="flex-1 px-6 py-3 bg-blue-700 text-white rounded-lg font-semibold hover:bg-blue-800 transition"
+                                onclick="addToCart(currentItem.id, currentItem.type, currentItem.price * quantity, {size: selectedSize, color: selectedColor, quality: selectedQuality, quantity: quantity})">
+                            <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            </svg>
+                            {% trans "Add to Cart" %}
+                        </button>
+                        <button class="px-6 py-3 bg-yellow-500 text-slate-900 rounded-lg font-semibold hover:bg-yellow-600 transition">
+                            {% trans "Buy Now" %}
+                        </button>
+                        <button class="px-4 py-3 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                    <div class="text-center p-3 bg-slate-50 rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-1 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                        <p class="text-xs text-slate-700 font-medium">{% trans "FIFA Certified" %}</p>
+                    </div>
+                    <div class="text-center p-3 bg-slate-50 rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-1 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path>
+                        </svg>
+                        <p class="text-xs text-slate-700 font-medium">{% trans "Free Shipping" %}</p>
+                    </div>
+                    <div class="text-center p-3 bg-slate-50 rounded-lg">
+                        <svg class="w-6 h-6 mx-auto mb-1 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="text-xs text-slate-700 font-medium">{% trans "Same Day Dispatch" %}</p>
+                    </div>
+                </div>
+
+                <!-- Equipment Info -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-blue-700 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <div>
+                            <p class="font-semibold text-blue-900 mb-1" x-text="'Professional ' + currentEquipment.category">
+                                {% trans "Professional Equipment" %}
+                            </p>
+                            <p class="text-sm text-blue-800" x-text="currentEquipment.description">
+                                {% trans "High-quality football equipment designed for professional use with multiple customization options." %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Information Tabs -->
+        <div class="mt-12" x-data="{ activeTab: 'description' }">
+            <!-- Tab Headers -->
+            <div class="border-b border-slate-200">
+                <nav class="flex space-x-8">
+                    <button @click="activeTab = 'description'"
+                            :class="activeTab === 'description' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Description" %}
+                    </button>
+                    <button @click="activeTab = 'specifications'"
+                            :class="activeTab === 'specifications' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Specifications" %}
+                    </button>
+                    <button @click="activeTab = 'customization'"
+                            :class="activeTab === 'customization' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Customization" %}
+                    </button>
+                    <button @click="activeTab = 'reviews'"
+                            :class="activeTab === 'reviews' ? 'border-b-2 border-blue-700 text-blue-800' : 'text-slate-600 hover:text-slate-900'"
+                            class="py-4 px-1 font-medium transition">
+                        {% trans "Reviews" %} (142)
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="py-8">
+                <!-- Description Tab -->
+                <div x-show="activeTab === 'description'" class="prose max-w-none text-slate-700">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "Professional Football Equipment" %}</h3>
+                    <p>
+                        {% trans "Elevate your game with our professional-grade football equipment. Designed for players of all levels, from youth training to professional matches, our equipment meets FIFA standards and provides the quality you need to perform at your best." %}
+                    </p>
+
+                    <h4 class="text-lg font-semibold text-slate-900 mt-6 mb-3">{% trans "Why Choose Our Equipment" %}</h4>
+                    <ul class="space-y-2">
+                        <li>{% trans "FIFA Quality Pro certification for match use" %}</li>
+                        <li>{% trans "Multiple color options to match team requirements" %}</li>
+                        <li>{% trans "Various quality levels from training to elite competition" %}</li>
+                        <li>{% trans "Durable materials designed for intensive use" %}</li>
+                        <li>{% trans "Weather-resistant construction for all conditions" %}</li>
+                        <li>{% trans "Used by professional clubs across Sweden" %}</li>
+                    </ul>
+
+                    <h4 class="text-lg font-semibold text-slate-900 mt-6 mb-3">{% trans "Perfect For" %}</h4>
+                    <ul class="space-y-2">
+                        <li>{% trans "Professional football clubs and academies" %}</li>
+                        <li>{% trans "Youth football training programs" %}</li>
+                        <li>{% trans "School and university sports programs" %}</li>
+                        <li>{% trans "Recreational football leagues" %}</li>
+                        <li>{% trans "Personal training and skill development" %}</li>
+                    </ul>
+                </div>
+
+                <!-- Specifications Tab -->
+                <div x-show="activeTab === 'specifications'">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "Technical Specifications" %}</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-slate-900 mb-3">{% trans "Materials & Construction" %}</h4>
+                            <dl class="space-y-2">
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Material" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "Synthetic leather" %}</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Certification" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "FIFA Quality Pro" %}</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Weight Range" %}</dt>
+                                    <dd class="font-medium text-slate-900">410-450g</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Circumference" %}</dt>
+                                    <dd class="font-medium text-slate-900">68-70cm</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-slate-900 mb-3">{% trans "Performance Features" %}</h4>
+                            <dl class="space-y-2">
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Water Resistance" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "Yes" %}</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Shape Retention" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "Excellent" %}</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Surface Type" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "All surfaces" %}</dd>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-100">
+                                    <dt class="text-slate-600">{% trans "Warranty" %}</dt>
+                                    <dd class="font-medium text-slate-900">{% trans "12 months" %}</dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customization Tab -->
+                <div x-show="activeTab === 'customization'">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "Customization Options" %}</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-slate-900 mb-3">{% trans "Color Combinations" %}</h4>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>• {% trans "White/Blue - Classic Allsvenskan colors" %}</li>
+                                <li>• {% trans "Red/White - Traditional Swedish colors" %}</li>
+                                <li>• {% trans "Yellow/Black - High visibility option" %}</li>
+                                <li>• {% trans "Green/White - Alternative color scheme" %}</li>
+                                <li>• {% trans "Custom team colors available on request" %}</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-slate-900 mb-3">{% trans "Size & Quality Options" %}</h4>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>• {% trans "Training Quality - Perfect for practice sessions" %}</li>
+                                <li>• {% trans "Professional Quality - Match-ready equipment" %}</li>
+                                <li>• {% trans "Elite Quality - Tournament-grade performance" %}</li>
+                                <li>• {% trans "Multiple sizes to fit all age groups" %}</li>
+                                <li>• {% trans "Bulk discounts available for clubs" %}</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <p class="text-sm text-blue-800">
+                                <strong>{% trans "Team Orders:" %}</strong> {% trans "Contact us for custom team orders with your club colors, logos, and bulk pricing. Minimum order quantities apply for custom specifications." %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Tab -->
+                <div x-show="activeTab === 'reviews'">
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-slate-900 mb-4">{% trans "Professional Reviews" %}</h3>
+
+                        <!-- Review Summary -->
+                        <div class="bg-slate-50 rounded-lg p-6 mb-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <div class="flex items-baseline space-x-3 mb-2">
+                                        <span class="text-4xl font-bold text-slate-900">4.7</span>
+                                        <div>
+                                            <div class="flex text-amber-400">★★★★★</div>
+                                            <p class="text-sm text-slate-600">{% trans "Based on 142 reviews" %}</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-slate-600 mt-2">
+                                        <span class="font-semibold">91%</span> {% trans "would recommend this equipment" %}
+                                    </p>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">5★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 71%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">101</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">4★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 20%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">28</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">3★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 6%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">9</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">2★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 2%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">3</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm text-slate-600 w-12">1★</span>
+                                        <div class="flex-1 bg-slate-200 rounded-full h-2 mx-3">
+                                            <div class="bg-amber-400 h-2 rounded-full" style="width: 1%"></div>
+                                        </div>
+                                        <span class="text-sm text-slate-600 w-12">1</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Individual Reviews -->
+                        <div class="space-y-6">
+                            <div class="border-b border-slate-200 pb-6">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div>
+                                        <div class="flex items-center mb-1">
+                                            <span class="text-amber-400">★★★★★</span>
+                                            <span class="ml-2 font-semibold text-slate-900">Coach Anders M.</span>
+                                            <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-900 text-xs rounded">{% trans "Professional Coach" %}</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600">{% trans "Match Ball Professional • 2 weeks ago" %}</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-700 mt-3">
+                                    {% trans "Excellent quality balls that we've been using for our youth academy. The FIFA certification gives us confidence, and the players love the consistent feel and bounce. Great value for professional-grade equipment." %}
+                                </p>
+                            </div>
+
+                            <div class="border-b border-slate-200 pb-6">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div>
+                                        <div class="flex items-center mb-1">
+                                            <span class="text-amber-400">★★★★★</span>
+                                            <span class="ml-2 font-semibold text-slate-900">Sofia L.</span>
+                                            <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-900 text-xs rounded">{% trans "Verified Purchase" %}</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600">{% trans "Training Set Large • 1 month ago" %}</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-700 mt-3">
+                                    {% trans "Bought this for our local club and couldn't be happier. The variety of colors means we can organize training sessions better, and the quality has held up through a full season of intensive use." %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Products -->
+<section class="py-12 bg-slate-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold text-slate-900 mb-8">{% trans "Complete Your Equipment Set" %}</h2>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Related Product 1 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=300&fit=crop&q=80" alt="Team Kit" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "Team Kit" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "Official jerseys" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">899 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Product 2 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=300&fit=crop&q=80" alt="Training Cones" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "Training Cones Set" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "20-piece set" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">399 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Product 3 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=400&h=300&fit=crop&q=80" alt="Goal Net" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "Professional Goal Net" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "Regulation size" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">799 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Product 4 -->
+            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400&h=300&fit=crop&q=80" alt="Whistle Set" class="w-full h-48 object-cover rounded-t-lg">
+                <div class="p-4">
+                    <h3 class="font-semibold text-slate-900 mb-1">{% trans "Referee Whistle Set" %}</h3>
+                    <p class="text-sm text-slate-600 mb-2">{% trans "Official grade" %}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold text-slate-900">199 SEK</span>
+                        <button class="px-3 py-1 bg-blue-700 text-white text-sm rounded hover:bg-blue-800 transition">
+                            {% trans "Quick Add" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Global Cart Functions
+window.addToCart = async function(productId, productType, price, variations = {}) {
+    try {
+        const response = await fetch('{% url "cart:add_to_cart" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                product_type: productType,
+                price: price,
+                quantity: variations.quantity || 1,
+                variations: variations
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            showToast('Product added to cart!', 'success');
+            updateCartCounter(data.cart_total_items);
+        } else {
+            showToast(data.error || 'Error adding to cart', 'error');
+        }
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        showToast('Error adding to cart', 'error');
+    }
+};
+
+// Toast notification function
+window.showToast = function(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg text-white font-medium transform transition-all duration-300 ${
+        type === 'success' ? 'bg-green-600' :
+        type === 'error' ? 'bg-red-600' : 'bg-blue-600'
+    }`;
+
+    const icon = document.createElement('span');
+    icon.innerHTML = type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ';
+    icon.className = 'mr-2';
+
+    const text = document.createTextNode(message);
+    toast.appendChild(icon);
+    toast.appendChild(text);
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.style.transform = 'translateX(0)', 10);
+    setTimeout(() => {
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+};
+
+// Update cart counter
+window.updateCartCounter = function(totalItems) {
+    const cartCounter = document.querySelector('[data-cart-count]');
+    if (cartCounter) {
+        cartCounter.textContent = totalItems || 0;
+    }
+};
+</script>
+{% csrf_token %}
+{% endblock %}

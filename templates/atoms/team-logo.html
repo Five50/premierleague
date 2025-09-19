@@ -1,0 +1,47 @@
+{% load static %}
+{% load i18n %}
+{% comment %}
+Team logo atom
+Usage: {% include 'atoms/team-logo.html' with team_id=1 size='small' %}
+Sizes: 'xs', 'small', 'medium', 'large'
+{% endcomment %}
+
+{% with size=size|default:'medium' %}
+<div class="team-logo-{{ size }} flex items-center justify-center
+    {% if size == 'xs' %}w-4 h-4
+    {% elif size == 'small' %}w-6 h-6
+    {% elif size == 'medium' %}w-8 h-8  
+    {% elif size == 'large' %}w-12 h-12
+    {% else %}w-8 h-8{% endif %}">
+    
+    {% if team_id == 1 %}
+        <div class="w-full h-full bg-red-600 rounded-full flex items-center justify-center">
+            <span class="text-white font-bold text-xs">A</span>
+        </div>
+    {% elif team_id == 2 %}
+        <div class="w-full h-full bg-blue-600 rounded-full flex items-center justify-center">
+            <span class="text-white font-bold text-xs">C</span>
+        </div>
+    {% elif team_id == 3 %}
+        <div class="w-full h-full bg-red-700 rounded-full flex items-center justify-center">
+            <span class="text-white font-bold text-xs">L</span>
+        </div>
+    {% elif team_id == 4 %}
+        <div class="w-full h-full bg-sky-500 rounded-full flex items-center justify-center">
+            <span class="text-white font-bold text-xs">M</span>
+        </div>
+    {% elif team_id == 5 %}
+        <div class="w-full h-full bg-red-600 rounded-full flex items-center justify-center">
+            <span class="text-white font-bold text-xs">U</span>
+        </div>
+    {% elif team_id == 6 %}
+        <div class="w-full h-full bg-slate-700 rounded-full flex items-center justify-center">
+            <span class="text-white font-bold text-xs">T</span>
+        </div>
+    {% else %}
+        <div class="w-full h-full bg-slate-400 rounded-full flex items-center justify-center">
+            <span class="text-white font-bold text-xs">?</span>
+        </div>
+    {% endif %}
+</div>
+{% endwith %}

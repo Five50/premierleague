@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Accessibility Statement" %} | Allsvenskan Insikter{% endblock %}
+
+{% block meta_description %}{% trans "Our commitment to making Allsvenskan Insikter accessible to all users, including those with disabilities. Learn about our accessibility features and standards." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50">
+    <!-- Page Header -->
+    <div class="bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    {% trans "Accessibility Statement" %}
+                </h1>
+                <p class="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                    {% trans "We are committed to ensuring our website is accessible to everyone, regardless of ability or technology." %}
+                </p>
+                <p class="text-blue-200 mt-4">
+                    {% trans "Last updated: December 1, 2024" %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-4xl mx-auto">
+
+            <!-- Table of Contents -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8" x-data="{ tocOpen: false }">
+                <button @click="tocOpen = !tocOpen"
+                        class="flex items-center justify-between w-full text-left font-semibold text-blue-900 hover:text-blue-700 transition-colors"
+                        aria-expanded="false"
+                        :aria-expanded="tocOpen">
+                    <span class="flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                        </svg>
+                        {% trans "Table of Contents" %}
+                    </span>
+                    <svg class="w-5 h-5 transition-transform duration-200"
+                         :class="{ 'rotate-180': tocOpen }"
+                         fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+
+                <div x-show="tocOpen" x-collapse class="mt-4 space-y-2">
+                    <nav class="text-sm space-y-1" role="navigation" aria-label="Table of contents">
+                        <a href="#commitment" class="block text-blue-700 hover:text-blue-900 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">1. {% trans "Our Commitment" %}</a>
+                        <a href="#standards" class="block text-blue-700 hover:text-blue-900 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">2. {% trans "Accessibility Standards" %}</a>
+                        <a href="#features" class="block text-blue-700 hover:text-blue-900 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">3. {% trans "Accessibility Features" %}</a>
+                        <a href="#assistive-technologies" class="block text-blue-700 hover:text-blue-900 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">4. {% trans "Assistive Technologies" %}</a>
+                        <a href="#known-limitations" class="block text-blue-700 hover:text-blue-900 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">5. {% trans "Known Limitations" %}</a>
+                        <a href="#feedback" class="block text-blue-700 hover:text-blue-900 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">6. {% trans "Feedback and Support" %}</a>
+                        <a href="#continuous-improvement" class="block text-blue-700 hover:text-blue-900 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">7. {% trans "Continuous Improvement" %}</a>
+                        <a href="#contact" class="block text-blue-700 hover:text-blue-900 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">8. {% trans "Contact Information" %}</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100">
+                <div class="p-8 space-y-8">
+
+                    <!-- Our Commitment -->
+                    <section id="commitment">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">1. {% trans "Our Commitment" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "Allsvenskan Insikter is committed to ensuring digital accessibility for people with disabilities. We continually improve the user experience for everyone and apply relevant accessibility standards." %}</p>
+                            <p>{% trans "We believe that everyone should have equal access to information and functionality on our website, regardless of their abilities or the technologies they use." %}</p>
+                            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 my-4">
+                                <p class="font-semibold text-blue-900">{% trans "Our Goal:" %}</p>
+                                <p class="text-blue-800">{% trans "To provide an inclusive digital experience that enables all users to successfully navigate, understand, and interact with our content." %}</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Standards -->
+                    <section id="standards">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">2. {% trans "Accessibility Standards" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "Our website aims to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 at Level AA. These guidelines explain how to make web content more accessible to people with disabilities." %}</p>
+
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "WCAG 2.1 Principles" %}</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                    <h4 class="font-semibold text-green-900 mb-2">{% trans "Perceivable" %}</h4>
+                                    <p class="text-green-800 text-sm">{% trans "Information must be presentable in ways users can perceive" %}</p>
+                                </div>
+                                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                                    <h4 class="font-semibold text-blue-900 mb-2">{% trans "Operable" %}</h4>
+                                    <p class="text-blue-800 text-sm">{% trans "Interface components must be operable by all users" %}</p>
+                                </div>
+                                <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                                    <h4 class="font-semibold text-purple-900 mb-2">{% trans "Understandable" %}</h4>
+                                    <p class="text-purple-800 text-sm">{% trans "Information and UI operation must be understandable" %}</p>
+                                </div>
+                                <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                                    <h4 class="font-semibold text-orange-900 mb-2">{% trans "Robust" %}</h4>
+                                    <p class="text-orange-800 text-sm">{% trans "Content must be robust enough for various assistive technologies" %}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Features -->
+                    <section id="features">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">3. {% trans "Accessibility Features" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "Our website includes the following accessibility features:" %}</p>
+
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Keyboard Navigation" %}</h3>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "All interactive elements are keyboard accessible" %}</li>
+                                <li>{% trans "Logical tab order throughout the site" %}</li>
+                                <li>{% trans "Visible focus indicators for keyboard users" %}</li>
+                                <li>{% trans "Skip navigation links to main content" %}</li>
+                            </ul>
+
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3 mt-6">{% trans "Visual Design" %}</h3>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "High contrast color schemes with minimum 4.5:1 ratio" %}</li>
+                                <li>{% trans "Scalable text that can be enlarged up to 200%" %}</li>
+                                <li>{% trans "Consistent navigation and layout across pages" %}</li>
+                                <li>{% trans "Clear visual hierarchy with proper heading structure" %}</li>
+                            </ul>
+
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3 mt-6">{% trans "Content Structure" %}</h3>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "Semantic HTML markup for better screen reader compatibility" %}</li>
+                                <li>{% trans "Descriptive page titles and headings" %}</li>
+                                <li>{% trans "Alternative text for all informative images" %}</li>
+                                <li>{% trans "Properly labeled form elements" %}</li>
+                                <li>{% trans "Clear error messages and instructions" %}</li>
+                            </ul>
+
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3 mt-6">{% trans "Multimedia" %}</h3>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "Captions for video content where available" %}</li>
+                                <li>{% trans "Transcripts for audio content" %}</li>
+                                <li>{% trans "Controls for auto-playing content" %}</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Assistive Technologies -->
+                    <section id="assistive-technologies">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">4. {% trans "Assistive Technologies" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "Our website is designed to be compatible with assistive technologies, including:" %}</p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold mb-2">{% trans "Screen Readers" %}</h4>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• NVDA (Windows)</li>
+                                        <li>• JAWS (Windows)</li>
+                                        <li>• VoiceOver (macOS/iOS)</li>
+                                        <li>• TalkBack (Android)</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold mb-2">{% trans "Other Tools" %}</h4>
+                                    <ul class="text-sm space-y-1">
+                                        <li>• {% trans "Voice recognition software" %}</li>
+                                        <li>• {% trans "Switch navigation devices" %}</li>
+                                        <li>• {% trans "Magnification software" %}</li>
+                                        <li>• {% trans "Alternative keyboards" %}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <p class="mt-4">{% trans "If you use assistive technology and encounter any difficulties, please contact us so we can improve your experience." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- Known Limitations -->
+                    <section id="known-limitations">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">5. {% trans "Known Limitations" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "Despite our efforts, some limitations may exist. We are actively working to address these issues:" %}</p>
+
+                            <div class="bg-orange-50 border-l-4 border-orange-400 p-4 my-4">
+                                <h4 class="font-semibold text-orange-900 mb-2">{% trans "Current Limitations" %}</h4>
+                                <ul class="text-orange-800 space-y-1">
+                                    <li>• {% trans "Some third-party embedded content may not be fully accessible" %}</li>
+                                    <li>• {% trans "Live sports data updates may not be announced to screen readers" %}</li>
+                                    <li>• {% trans "Complex data tables may require additional navigation support" %}</li>
+                                    <li>• {% trans "Some legacy PDF documents may not be fully accessible" %}</li>
+                                </ul>
+                            </div>
+
+                            <p>{% trans "We are committed to resolving these limitations in future updates. If you encounter any barriers, please let us know." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- Feedback -->
+                    <section id="feedback">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">6. {% trans "Feedback and Support" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "We welcome feedback about the accessibility of our website. If you encounter accessibility barriers, please:" %}</p>
+
+                            <div class="bg-blue-50 p-6 rounded-lg my-4">
+                                <h4 class="font-semibold text-blue-900 mb-3">{% trans "How to Report Issues" %}</h4>
+                                <ol class="text-blue-800 space-y-2 list-decimal list-inside">
+                                    <li>{% trans "Describe the specific page or feature where you encountered the issue" %}</li>
+                                    <li>{% trans "Explain what assistive technology you were using" %}</li>
+                                    <li>{% trans "Detail what you expected to happen and what actually occurred" %}</li>
+                                    <li>{% trans "Include any error messages you received" %}</li>
+                                </ol>
+                            </div>
+
+                            <p>{% trans "We aim to respond to accessibility feedback within 2 business days and will work with you to find a solution." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- Continuous Improvement -->
+                    <section id="continuous-improvement">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">7. {% trans "Continuous Improvement" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "Accessibility is an ongoing effort. Our commitment includes:" %}</p>
+
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "Regular accessibility audits and testing" %}</li>
+                                <li>{% trans "Staff training on accessibility best practices" %}</li>
+                                <li>{% trans "User testing with people who use assistive technologies" %}</li>
+                                <li>{% trans "Staying updated with the latest accessibility guidelines" %}</li>
+                                <li>{% trans "Incorporating accessibility into our design and development process" %}</li>
+                            </ul>
+
+                            <div class="bg-green-50 border-l-4 border-green-400 p-4 mt-4">
+                                <p class="text-green-800">
+                                    <strong>{% trans "Our Promise:" %}</strong> {% trans "We will continue to improve the accessibility of our website and welcome your feedback as part of this ongoing process." %}
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Contact -->
+                    <section id="contact">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">8. {% trans "Contact Information" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "For accessibility support or to report accessibility issues, please contact us:" %}</p>
+
+                            <div class="bg-gray-50 p-6 rounded-lg mt-4">
+                                <h4 class="font-semibold mb-3">{% trans "Accessibility Team" %}</h4>
+                                <div class="space-y-2">
+                                    <p><strong>{% trans "Email:" %}</strong> accessibility@allsvenskaninsikter.se</p>
+                                    <p><strong>{% trans "Phone:" %}</strong> +46 8 123 45 67</p>
+                                    <p><strong>{% trans "Response Time:" %}</strong> {% trans "Within 2 business days" %}</p>
+                                </div>
+
+                                <div class="mt-4 pt-4 border-t border-gray-200">
+                                    <p><strong>Allsvenskan Insikter AB</strong></p>
+                                    <p>Storgatan 123<br>111 22 Stockholm<br>Sweden</p>
+                                </div>
+                            </div>
+
+                            <p class="mt-4">{% trans "You can also reach us through our general" %} <a href="{% url 'contact' %}" class="text-blue-600 hover:text-blue-500 underline">{% trans "contact form" %}</a> {% trans "- just mention that your inquiry is about accessibility." %}</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

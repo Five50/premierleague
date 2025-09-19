@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Allsvenskan Assists Leaders 2025 - Top Assist Providers & Stats" %}{% endblock %}
+
+{% block meta_description %}{% trans "Discover the top assist providers in Allsvenskan with detailed profiles, statistics, and performance data. Leading assist tallies for 2025 season." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-700 via-blue-600 to-blue-700 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="container mx-auto px-4 py-16 lg:py-20 relative z-10">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight">
+                    {% trans "Allsvenskan" %} <span class="text-yellow-400">{% trans "Assists Leaders" %}</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-purple-100 mb-8 leading-relaxed">
+                    {% trans "The top assist providers in Sweden's premier football league with detailed statistics and performance data" %}
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                        <span class="font-semibold">{{ assists_leaders|length|default:"0" }} {% trans "Assist Providers" %}</span>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                        <span class="font-semibold">16 {% trans "Teams" %}</span>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                        <span class="font-semibold">{% trans "Season" %} 2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-8 lg:py-12">
+        <!-- Top Statistics Bar -->
+        {% if players_available and assists_leaders %}
+        <section class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="text-3xl font-black text-purple-600 mb-2">
+                        {% if assists_leaders.0.statistics.0.goals.assists %}{{ assists_leaders.0.statistics.0.goals.assists }}{% else %}--{% endif %}
+                    </div>
+                    <div class="text-sm text-gray-600">{% trans "Leading Assists" %}</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-black text-blue-600 mb-2">{{ assists_leaders|length }}</div>
+                    <div class="text-sm text-gray-600">{% trans "Assist Providers" %}</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-black text-green-600 mb-2">16</div>
+                    <div class="text-sm text-gray-600">{% trans "Teams" %}</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-black text-yellow-600 mb-2">30</div>
+                    <div class="text-sm text-gray-600">{% trans "Rounds" %}</div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Main Content Layout -->
+        <div class="lg:flex lg:gap-8">
+            <!-- Sidebar Navigation -->
+            <aside class="lg:w-80 mb-8 lg:mb-0">
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                    <!-- Quick Stats Navigation -->
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="font-bold text-lg text-gray-900 mb-4">{% trans "Player Statistics" %}</h3>
+                        <div class="space-y-2">
+                            <a href="{% url 'players' %}"
+                               class="flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors text-gray-700">
+                                <span class="font-medium">{% trans "All Players" %}</span>
+                            </a>
+                            <a href="{% url 'top-scorers' %}"
+                               class="flex items-center p-3 rounded-lg hover:bg-green-50 transition-colors text-gray-700">
+                                <span class="font-medium">{% trans "Top Scorers" %}</span>
+                            </a>
+                            <a href="{% url 'assists' %}"
+                               class="flex items-center p-3 rounded-lg bg-purple-100 text-purple-700">
+                                <span class="font-medium">{% trans "Assists Leaders" %}</span>
+                                <span class="text-xs bg-purple-200 text-purple-800 px-2 py-1 rounded-full ml-auto">{% trans "Active" %}</span>
+                            </a>
+                            <a href="{% url 'clean-sheets' %}"
+                               class="flex items-center p-3 rounded-lg hover:bg-yellow-50 transition-colors text-gray-700">
+                                <span class="font-medium">{% trans "Clean Sheets" %}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="flex-1">
+                <!-- Results Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl lg:text-3xl font-black text-gray-900">
+                            {% trans "Assists Leaders" %}
+                        </h2>
+                        <p class="text-gray-600 mt-1">
+                            {% if assists_leaders %}
+                                {{ assists_leaders|length }} {% trans "assist providers found" %}
+                            {% else %}
+                                {% trans "No assist providers found" %}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        {% trans "Season" %} 2025
+                    </div>
+                </div>
+
+                <!-- Assists Leaders Grid -->
+                {% if assists_leaders %}
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {% for player in assists_leaders %}
+                    <a href="{% url 'player-detail' player.player.name|slugify %}"
+                       class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden group hover:border-purple-200 transform hover:-translate-y-1
+                            {% if forloop.counter == 1 %}ring-2 ring-purple-400{% elif forloop.counter == 2 %}ring-2 ring-gray-400{% elif forloop.counter == 3 %}ring-2 ring-purple-300{% endif %}">
+
+                        <!-- Player Header -->
+                        <div class="relative p-6 pb-4">
+                            <!-- Ranking Badge -->
+                            <div class="absolute top-4 left-4">
+                                <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm
+                                    {% if forloop.counter == 1 %}bg-purple-500{% elif forloop.counter == 2 %}bg-gray-500{% elif forloop.counter == 3 %}bg-purple-400{% else %}bg-gray-400{% endif %}">
+                                    {{ forloop.counter }}
+                                </div>
+                            </div>
+
+                            <!-- Club Badge Background -->
+                            {% if player.statistics.0.team.name %}
+                            <div class="absolute top-4 right-4">
+                                <div class="w-8 h-8 opacity-20">
+                                    <img src="{% static 'images/teams/' %}{{ player.statistics.0.team.name }}.png"
+                                         alt="{{ player.statistics.0.team.name }}"
+                                         class="w-full h-full object-contain filter grayscale"
+                                         onerror="this.style.display='none'">
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div class="flex items-start space-x-4 mt-4">
+                                <!-- Player Photo -->
+                                <div class="relative">
+                                    {% if player.player.photo %}
+                                    <img src="{{ player.player.photo }}"
+                                         alt="{{ player.player.name }}"
+                                         class="w-16 h-16 rounded-full object-cover border-4 border-white shadow-lg">
+                                    {% else %}
+                                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                                        <span class="text-white font-bold text-lg">{{ player.player.name|slice:":2"|upper }}</span>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Assists Badge -->
+                                    <div class="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-lg">
+                                        <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center">
+                                            <span class="text-xs">🎯</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Player Info -->
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-bold text-lg text-gray-900 mb-1 truncate">{{ player.player.name }}</h3>
+
+                                    <!-- Team -->
+                                    {% if player.statistics.0.team.name %}
+                                    <div class="flex items-center space-x-2 text-sm text-gray-600 mb-2">
+                                        <img src="{% static 'images/teams/' %}{{ player.statistics.0.team.name }}.png"
+                                             alt="{{ player.statistics.0.team.name }}"
+                                             class="w-4 h-4 object-contain"
+                                             onerror="this.style.display='none'">
+                                        <span>{{ player.statistics.0.team.name }}</span>
+                                    </div>
+                                    {% endif %}
+
+                                    <!-- Player Details -->
+                                    <div class="flex flex-wrap gap-2 text-xs">
+                                        {% if player.player.age %}
+                                        <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
+                                            {{ player.player.age }} {% trans "years" %}
+                                        </span>
+                                        {% endif %}
+
+                                        {% if player.statistics.0.games.position %}
+                                        <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                                            {{ player.statistics.0.games.position }}
+                                        </span>
+                                        {% endif %}
+
+                                        {% if player.player.nationality %}
+                                        <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-full flex items-center space-x-1">
+                                            <img src="https://flagcdn.com/16x12/{% if player.player.nationality == 'Sweden' %}se{% elif player.player.nationality == 'Norway' %}no{% elif player.player.nationality == 'Denmark' %}dk{% elif player.player.nationality == 'Finland' %}fi{% elif player.player.nationality == 'Iceland' %}is{% elif player.player.nationality == 'Brazil' %}br{% elif player.player.nationality == 'Argentina' %}ar{% elif player.player.nationality == 'Germany' %}de{% elif player.player.nationality == 'France' %}fr{% elif player.player.nationality == 'Spain' %}es{% elif player.player.nationality == 'England' %}gb{% elif player.player.nationality == 'Netherlands' %}nl{% elif player.player.nationality == 'Poland' %}pl{% elif player.player.nationality == 'Serbia' %}rs{% elif player.player.nationality == 'Croatia' %}hr{% elif player.player.nationality == 'Bosnia and Herzegovina' %}ba{% else %}{{ player.player.nationality|lower|slice:':2' }}{% endif %}.png"
+                                                 alt="{{ player.player.nationality }}"
+                                                 class="w-3 h-2 object-cover rounded-sm"
+                                                 onerror="this.style.display='none'">
+                                            <span>{{ player.player.nationality|slice:":3" }}</span>
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Section -->
+                        <div class="px-6 pb-6">
+                            <!-- Assists Highlight -->
+                            <div class="text-center mb-4 p-4 bg-purple-50 rounded-lg">
+                                <div class="text-4xl font-black text-purple-600 mb-1">
+                                    {{ player.statistics.0.goals.assists|default:0 }}
+                                </div>
+                                <div class="text-sm text-purple-700 font-semibold">{% trans "Assists" %}</div>
+                            </div>
+
+                            <!-- Additional Stats -->
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div class="text-2xl font-black text-green-600 mb-1">
+                                        {{ player.statistics.0.goals.total|default:0 }}
+                                    </div>
+                                    <div class="text-xs text-gray-500">{% trans "Goals" %}</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-black text-blue-600 mb-1">
+                                        {{ player.statistics.0.games.appearences|default:0 }}
+                                    </div>
+                                    <div class="text-xs text-gray-500">{% trans "Apps" %}</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-black text-yellow-600 mb-1">
+                                        {{ player.statistics.0.cards.yellow|default:0 }}
+                                    </div>
+                                    <div class="text-xs text-gray-500">{% trans "Cards" %}</div>
+                                </div>
+                            </div>
+
+                            <!-- View Profile Link -->
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <div class="text-center text-purple-600 text-sm font-medium group-hover:text-purple-700 transition-colors">
+                                    {% trans "View Full Profile" %} →
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                {% else %}
+                <!-- No Players Found -->
+                <div class="text-center py-16">
+                    <div class="text-6xl mb-6">🎯</div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">{% trans "No Assists Leaders Found" %}</h3>
+                    <p class="text-gray-600 mb-8 max-w-md mx-auto">
+                        {% trans "No assist providing data is currently available. Please check back later." %}
+                    </p>
+                    <a href="{% url 'players' %}"
+                       class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors inline-block">
+                        {% trans "View All Players" %}
+                    </a>
+                </div>
+                {% endif %}
+            </main>
+        </div>
+
+        <!-- Season Statistics Section -->
+        {% if players_available %}
+        <section class="mt-16 bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-black text-gray-900 mb-4">{% trans "Assist Providing Overview" %}</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    {% trans "Comprehensive assist providing statistics and insights from the current Allsvenskan season featuring Sweden's top football talent." %}
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl">
+                    <div class="text-3xl font-black text-purple-600 mb-2">{{ assists_leaders|length|default:"0" }}</div>
+                    <div class="text-sm text-purple-700 font-medium">{% trans "Assist Providers" %}</div>
+                </div>
+
+                <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
+                    <div class="text-3xl font-black text-blue-600 mb-2">
+                        {% if assists_leaders.0.statistics.0.goals.assists %}{{ assists_leaders.0.statistics.0.goals.assists }}{% else %}--{% endif %}
+                    </div>
+                    <div class="text-sm text-blue-700 font-medium">{% trans "Leading Assists" %}</div>
+                </div>
+
+                <div class="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl">
+                    <div class="text-3xl font-black text-green-600 mb-2">16</div>
+                    <div class="text-sm text-green-700 font-medium">{% trans "Teams" %}</div>
+                </div>
+
+                <div class="text-center p-6 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl">
+                    <div class="text-3xl font-black text-yellow-600 mb-2">30</div>
+                    <div class="text-sm text-yellow-700 font-medium">{% trans "Match Rounds" %}</div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+// Auto-refresh functionality
+function refreshAssistsData() {
+    console.log('Assists data refresh check');
+}
+
+// Refresh every 10 minutes
+setInterval(refreshAssistsData, 600000);
+
+// Initial load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Assists page loaded');
+    console.log('Assists leaders loaded:', {{ assists_leaders|length|default:0 }});
+    {% if assists_leaders.0.player.name %}
+    console.log('Leading assists: {{ assists_leaders.0.player.name }} ({{ assists_leaders.0.statistics.0.goals.assists|default:0 }} assists)');
+    {% endif %}
+});
+</script>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% load i18n %}
+{% comment %}
+Match score atom
+Usage: {% include 'atoms/match-score.html' with home_score=2 away_score=1 status='FT' %}
+Status options: 'SCHEDULED', 'LIVE', 'HT', 'FT'
+{% endcomment %}
+
+<div class="match-score flex items-center space-x-2">
+    {% if status == 'SCHEDULED' %}
+        <div class="text-lg font-bold pl-text">{% trans "vs" %}</div>
+        <div class="text-xs pl-text opacity-75">{{ time|default:"15:00" }}</div>
+    {% elif status == 'LIVE' %}
+        <div class="text-xl font-bold text-green-600">
+            {{ home_score|default:0 }} - {{ away_score|default:0 }}
+        </div>
+        <div class="text-xs bg-green-600 text-white px-2 py-1 rounded animate-pulse">
+            {% trans "LIVE" %}
+        </div>
+    {% elif status == 'HT' %}
+        <div class="text-xl font-bold pl-text">
+            {{ home_score|default:0 }} - {{ away_score|default:0 }}
+        </div>
+        <div class="text-xs bg-orange-500 text-white px-2 py-1 rounded">
+            {% trans "HT" %}
+        </div>
+    {% elif status == 'FT' %}
+        <div class="text-xl font-bold pl-text">
+            {{ home_score|default:0 }} - {{ away_score|default:0 }}
+        </div>
+        <div class="text-xs pl-text opacity-75">
+            {% trans "FT" %}
+        </div>
+    {% else %}
+        <div class="text-lg font-bold pl-text">
+            {{ home_score|default:0 }} - {{ away_score|default:0 }}
+        </div>
+    {% endif %}
+</div>

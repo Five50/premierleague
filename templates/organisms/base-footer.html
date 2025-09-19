@@ -1,0 +1,307 @@
+{% load i18n static %}
+<!-- Allsvenskan Footer -->
+<footer class="bg-blue-700 text-white mt-auto" role="contentinfo">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            
+            <!-- Allsvenskan Info -->
+            <div class="lg:col-span-1">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 md:w-12 md:h-12 text-blue-900 bg-gradient-to-br from-yellow-400 via-yellow-300 to-yellow-400 rounded-full flex items-center justify-center border border-blue-600 transition-all duration-300 group-hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+                            <path d="m414-168 12-56q3-13 12.5-21.5T462-256l124-10q13-2 24 5t16 19l16 38q39-23 70-55.5t52-72.5l-12-6q-11-8-16-19.5t-2-24.5l28-122q3-12 12.5-20t21.5-10q-5-25-12.5-48.5T764-628q-9 5-19.5 4.5T726-630l-106-64q-11-7-16-19t-2-25l8-34q-31-14-63.5-21t-66.5-7q-14 0-29 1.5t-29 4.5l30 68q5 12 2.5 25T442-680l-94 82q-10 9-23.5 10t-24.5-6l-92-56q-23 38-35.5 81.5T160-480q0 16 4 52l88-8q14-2 25.5 4.5T294-412l48 114q5 12 2.5 25T332-252l-38 32q27 20 57.5 33t62.5 19Zm72-172q-13 2-24-5t-16-19l-54-124q-5-12-1.5-25t13.5-21l102-86q9-9 22-10t24 6l112 66q11 7 17 19t3 25l-32 130q-3 13-12 21.5T618-352l-132 12Zm-6 260q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-black text-white leading-tight">ALLSVENSKAN<br/><span class="text-yellow-400">Insikter</span></h2>
+                </div>
+                <p class="text-gray-300 text-sm leading-relaxed">
+                    {% trans "Experience the most exciting football league in Sweden. Follow all 16 Allsvenskan clubs, fixtures, results, and the latest news from Swedish football's top division." %}
+                </p>
+            </div>
+            
+            <!-- Quick Links -->
+            <div>
+                <h3 class="font-bold text-white mb-6 uppercase text-sm tracking-wider">{% trans "QUICK LINKS" %}</h3>
+                <ul class="space-y-3">
+                    <li><a href="/fixtures/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "Fixtures & Results" %}</a></li>
+                    <li><a href="/table/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "League Table" %}</a></li>
+                    <li><a href="/players/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "Players" %}</a></li>
+                    <li><a href="/stats/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "Statistics" %}</a></li>
+                    <li><a href="/transfers/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "Transfer News" %}</a></li>
+                    <li><a href="/news/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "Latest News" %}</a></li>
+                </ul>
+            </div>
+            
+            <!-- Match Centre -->
+            <div>
+                <h3 class="font-bold text-white mb-6 uppercase text-sm tracking-wider">{% trans "MATCH CENTRE" %}</h3>
+                <ul class="space-y-3">
+                    <li><a href="/live/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "Live Matches" %}</a></li>
+                    <li><a href="/tv-schedule/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "TV Schedule" %}</a></li>
+                    <li><a href="/predictions/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "Match Predictions" %}</a></li>
+                    <li><a href="/history/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "Head-to-Head" %}</a></li>
+                    <li><a href="/fantasy/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "Fantasy Football" %}</a></li>
+                    <li><a href="/highlights/" class="text-slate-100 hover:text-yellow-400 text-sm transition-colors">{% trans "Match Highlights" %}</a></li>
+                </ul>
+            </div>
+            
+            <!-- Newsletter & Social -->
+            <div class="lg:col-span-1">
+                <h3 class="font-bold text-white mb-6">{% trans "Stay Connected" %}</h3>
+                <p class="text-gray-300 text-sm mb-4">
+                    {% trans "Get the latest Allsvenskan news, fixtures, and exclusive content delivered to your inbox." %}
+                </p>
+                <form class="flex flex-wrap gap-2 mb-6">
+                    <input type="email"
+                           placeholder="{% trans 'Enter your email' %}"
+                           class="flex-grow-1 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-sm">
+                    <button type="submit"
+                            class="flex-shrink-0 px-6 py-2 bg-yellow-400 text-gray-900 rounded-lg hover:bg-yellow-500 transition-colors font-semibold text-sm">
+                        {% trans "Subscribe" %}
+                    </button>
+                </form>
+                
+                <!-- Social Media Links -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-slate-100 hover:text-yellow-400 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-slate-100 hover:text-yellow-400 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-slate-100 hover:text-yellow-400 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-slate-100 hover:text-yellow-400 transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Allsvenskan Clubs Section -->
+    <div class="border-t border-blue-700 bg-blue-800">
+        <div class="container mx-auto px-4 py-6 lg:py-12">
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-bold text-white mb-2">{% trans "Allsvenskan Teams" %}</h3>
+                <p class="text-gray-400">{% trans "Follow your favorite team and stay updated with the latest news" %}</p>
+            </div>
+            
+            <!-- All 16 Allsvenskan Club Logos (A-Z Order) -->
+            <div class="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-8 lg:grid-cols-8 gap-6 justify-items-center">
+
+                <!-- AIK -->
+                <a href="/teams/aik/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/AIK.png' %}"
+                         alt="AIK"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">AIK</span>
+                </a>
+
+                <!-- BK Häcken -->
+                <a href="/teams/hacken/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/BK Häcken.png' %}"
+                         alt="BK Häcken"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Häcken</span>
+                </a>
+
+                <!-- Degerfors IF -->
+                <a href="/teams/degerfors/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/Degerfors IF.png' %}"
+                         alt="Degerfors IF"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Degerfors</span>
+                </a>
+
+                <!-- Djurgården -->
+                <a href="/teams/djurgarden/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/Djurgårdens IF.png' %}"
+                         alt="Djurgårdens IF"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Djurgården</span>
+                </a>
+
+                <!-- GAIS -->
+                <a href="/teams/gais/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/GAIS.png' %}"
+                         alt="GAIS"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">GAIS</span>
+                </a>
+
+                <!-- Halmstads BK -->
+                <a href="/teams/halmstad/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/Halmstads BK.png' %}"
+                         alt="Halmstads BK"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Halmstad</span>
+                </a>
+
+                <!-- Hammarby IF -->
+                <a href="/teams/hammarby/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/Hammarby IF.png' %}"
+                         alt="Hammarby IF"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Hammarby</span>
+                </a>
+
+                <!-- IF Brommapojkarna -->
+                <a href="/teams/brommapojkarna/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/IF Brommapojkarna.png' %}"
+                         alt="IF Brommapojkarna"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">BP</span>
+                </a>
+
+                <!-- IF Elfsborg -->
+                <a href="/teams/elfsborg/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/IF Elfsborg.png' %}"
+                         alt="IF Elfsborg"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Elfsborg</span>
+                </a>
+
+                <!-- IFK Göteborg -->
+                <a href="/teams/goteborg/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/IFK Göteborg.png' %}"
+                         alt="IFK Göteborg"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Göteborg</span>
+                </a>
+
+                <!-- IFK Norrköping -->
+                <a href="/teams/norrkoping/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/IFK Norrköping.png' %}"
+                         alt="IFK Norrköping"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Norrköping</span>
+                </a>
+
+                <!-- IFK Värnamo -->
+                <a href="/teams/varnamo/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/IFK Värnamo.png' %}"
+                         alt="IFK Värnamo"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Värnamo</span>
+                </a>
+
+                <!-- IK Sirius -->
+                <a href="/teams/sirius/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/IK Sirius.png' %}"
+                         alt="IK Sirius"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Sirius</span>
+                </a>
+
+                <!-- Malmö FF -->
+                <a href="/teams/malmo/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/Malmö FF.png' %}"
+                         alt="Malmö FF"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Malmö</span>
+                </a>
+
+                <!-- Mjällby AIF -->
+                <a href="/teams/mjallby/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/Mjällby AIF.png' %}"
+                         alt="Mjällby AIF"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Mjällby</span>
+                </a>
+
+                <!-- Östers IF -->
+                <a href="/teams/oster/" class="group flex flex-col items-center p-4 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+                    <img src="{% static 'images/teams/Östers IF.png' %}"
+                         alt="Östers IF"
+                         class="w-12 h-12 mb-2 group-hover:scale-110 transition-transform filter brightness-110 object-contain">
+                    <span class="text-xs text-gray-300 group-hover:text-white text-center">Östers</span>
+                </a>
+            </div>
+            
+            <!-- View All Teams CTA -->
+            <div class="text-center mt-8">
+                <a href="/teams/" class="inline-flex items-center px-6 py-3 bg-yellow-400 text-gray-900 rounded-lg font-bold hover:bg-yellow-500 transition-all duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                    {% trans "View All Teams & Stats" %}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="border-t border-slate-600">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+                
+                <!-- Left: Language Selector -->
+                <div class="relative" x-data="{ langOpen: false }">
+                    <button @click="langOpen = !langOpen" class="flex items-center text-sm text-gray-300 hover:text-white transition-colors">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% if LANGUAGE_CODE == 'en' %}
+                            🇬🇧 {% trans "English" %}
+                        {% else %}
+                            🇸🇪 {% trans "Svenska" %}
+                        {% endif %}
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="langOpen" 
+                         @click.away="langOpen = false"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 translate-y-1"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100 translate-y-0"
+                         x-transition:leave-end="opacity-0 translate-y-1"
+                         class="absolute bottom-full mb-2 left-0 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 z-50 min-w-[120px]"
+                         x-cloak>
+                        <div class="py-1">
+                            <form action="{% url 'set_language' %}" method="post" class="block">
+                                {% csrf_token %}
+                                <input type="hidden" name="language" value="sv">
+                                <button type="submit" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    🇸🇪 Svenska
+                                </button>
+                            </form>
+                            <form action="{% url 'set_language' %}" method="post" class="block">
+                                {% csrf_token %}
+                                <input type="hidden" name="language" value="en">
+                                <button type="submit" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    🇬🇧 English
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Copyright -->
+                <p class="text-sm text-slate-100">
+                    © 2025 {% trans "ALLSVENSKAN Insikter" %}
+                </p>
+            </div>
+            
+            <!-- Legal Links -->
+            <nav class="mt-8 pt-6 border-t border-blue-500 flex flex-wrap justify-center items-center space-x-6" role="navigation" aria-label="footer navigation">
+                <a href="{% url 'about' %}" class="text-sm text-slate-100 hover:text-yellow-400 transition-colors">{% trans "About" %}</a>
+                <a href="{% url 'contact' %}" class="text-sm text-slate-100 hover:text-yellow-400 transition-colors">{% trans "Contact" %}</a>
+                <a href="{% url 'privacy-policy' %}" class="text-sm text-slate-100 hover:text-yellow-400 transition-colors">{% trans "Privacy Policy" %}</a>
+                <a href="{% url 'terms-of-service' %}" class="text-sm text-slate-100 hover:text-yellow-400 transition-colors">{% trans "Terms of Service" %}</a>
+                <a href="{% url 'cookie-policy' %}" class="text-sm text-slate-100 hover:text-yellow-400 transition-colors">{% trans "Cookie Policy" %}</a>
+                <a href="{% url 'accessibility' %}" class="text-sm text-slate-100 hover:text-yellow-400 transition-colors">{% trans "Accessibility" %}</a>
+            </nav>
+        </div>
+    </div>
+</footer>

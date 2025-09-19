@@ -1,0 +1,50 @@
+{% comment %}
+Blog card molecule
+Usage: {% include 'molecules/blog-card.html' with post=post_object %}
+{% endcomment %}
+<article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+  {% if post.image %}
+  <img src="{{ post.image }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+  {% else %}
+  <div class="w-full h-48 bg-gradient-to-br from-emerald-800 to-emerald-900"></div>
+  {% endif %}
+  
+  <div class="p-6">
+    <div class="flex items-center space-x-4 text-sm text-slate-500 mb-3">
+      <span>{{ post.date }}</span>
+      <span>•</span>
+      <span>{{ post.read_time }} min läsning</span>
+      {% if post.category %}
+      <span>•</span>
+      <span class="text-emerald-800">{{ post.category }}</span>
+      {% endif %}
+    </div>
+    
+    <h2 class="text-xl font-semibold text-slate-900 mb-3 line-clamp-2">
+      <a href="{{ post.url }}" class="hover:text-emerald-800 transition-colors">
+        {{ post.title }}
+      </a>
+    </h2>
+    
+    <p class="text-slate-600 mb-4 line-clamp-3">
+      {{ post.excerpt }}
+    </p>
+    
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        {% if post.author_image %}
+        <img src="{{ post.author_image }}" alt="{{ post.author }}" class="w-10 h-10 rounded-full">
+        {% else %}
+        <div class="w-10 h-10 bg-slate-300 rounded-full flex items-center justify-center">
+          <span class="text-slate-600 font-semibold">{{ post.author|first }}</span>
+        </div>
+        {% endif %}
+        <span class="text-sm text-slate-700">{{ post.author }}</span>
+      </div>
+      
+      <a href="{{ post.url }}" class="text-emerald-800 hover:text-emerald-900 font-medium text-sm">
+        Läs mer →
+      </a>
+    </div>
+  </div>
+</article>

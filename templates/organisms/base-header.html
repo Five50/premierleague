@@ -1,0 +1,30 @@
+{% load i18n %}
+<header class="sticky top-0 z-40" x-data="{ mobileMenuOpen: false, searchOpen: false, megaMenuOpen: false }" role="banner">
+    <!-- Allsvenskan News Banner -->
+    <div class="bg-blue-700 text-white text-center py-2 text-sm" role="banner" aria-label="{% trans 'Latest news' %}">
+        <span aria-label="{% trans 'Breaking news' %}">⚽ {% trans "Get the latest Allsvenskan news, fixtures & exclusive betting tips from ALLSVENSKAN Insikter" %}</span>
+    </div>
+    
+    <!-- Main Header -->
+    <div class="bg-white shadow-md relative">
+        <div class="container mx-auto px-4">
+            <div class="h-16 flex items-center justify-between">
+                <!-- Logo and Navigation -->
+                <div class="flex items-center space-x-4 sm:space-x-8 lg:space-x-12">
+                    {% include 'atoms/logo.html' %}
+                    {% include 'molecules/primary-navigation.html' %}
+                </div>
+
+                <!-- Right Actions -->
+                {% include 'molecules/header-actions.html' %}
+            </div>
+        </div>
+        
+        <!-- Mega Dropdown -->
+        {% include 'molecules/mega-dropdown.html' %}
+    </div>
+    
+    <!-- Search Overlay -->
+    {% include 'molecules/search-overlay.html' %}
+
+</header>

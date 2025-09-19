@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Functionality Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-8 bg-gray-100">
+    <h1 class="text-2xl font-bold mb-6">Tab Functionality Test</h1>
+    
+    <!-- Tabs Navigation -->
+    <div class="flex flex-wrap gap-2 mb-8" role="tablist">
+        <button type="button" role="tab" 
+                class="tab-button border border-slate-200 px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-200 bg-slate-800 text-white"
+                id="tab1-button"
+                aria-controls="tab1"
+                data-tab="tab1"
+                aria-selected="true">
+            Tab 1
+        </button>
+        <button type="button" role="tab" 
+                class="tab-button border border-slate-200 px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-200 bg-white text-slate-700 hover:bg-slate-100"
+                id="tab2-button"
+                aria-controls="tab2"
+                data-tab="tab2"
+                aria-selected="false">
+            Tab 2
+        </button>
+        <button type="button" role="tab" 
+                class="tab-button border border-slate-200 px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-200 bg-white text-slate-700 hover:bg-slate-100"
+                id="tab3-button"
+                aria-controls="tab3"
+                data-tab="tab3"
+                aria-selected="false">
+            Tab 3
+        </button>
+    </div>
+    
+    <!-- Tab Contents -->
+    <div id="tab1-tab" class="tab-content p-6 bg-white rounded-lg shadow">
+        <h2 class="text-xl font-bold mb-4">Tab 1 Content</h2>
+        <p>This is the content for Tab 1. It should be visible by default.</p>
+    </div>
+    
+    <div id="tab2-tab" class="tab-content hidden p-6 bg-white rounded-lg shadow">
+        <h2 class="text-xl font-bold mb-4">Tab 2 Content</h2>
+        <p>This is the content for Tab 2. It should be hidden initially.</p>
+    </div>
+    
+    <div id="tab3-tab" class="tab-content hidden p-6 bg-white rounded-lg shadow">
+        <h2 class="text-xl font-bold mb-4">Tab 3 Content</h2>
+        <p>This is the content for Tab 3. It should be hidden initially.</p>
+    </div>
+    
+    <div class="mt-8 p-4 bg-yellow-100 rounded">
+        <h3 class="font-bold">Test Instructions:</h3>
+        <ol class="list-decimal list-inside mt-2">
+            <li>Click on each tab button</li>
+            <li>Verify that the corresponding content is shown</li>
+            <li>Check that button styles change (active tab should be dark)</li>
+            <li>Open browser console to see debug messages</li>
+        </ol>
+    </div>
+    
+    <!-- Include the main.js file -->
+    <script src="static/js/main.min.js"></script>
+    
+    <script>
+        // Additional debug info
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Test page loaded');
+            const buttons = document.querySelectorAll('.tab-button');
+            const contents = document.querySelectorAll('.tab-content');
+            console.log('Found ' + buttons.length + ' tab buttons');
+            console.log('Found ' + contents.length + ' tab content areas');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{% comment %}
+Page hero organism
+Usage: {% include 'organisms/page-hero.html' with title="Title" subtitle="Subtitle" description="Description" %}
+{% endcomment %}
+<section class="relative overflow-hidden bg-gradient-to-br from-emerald-800 to-emerald-950 text-white">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 bg-grid-white/[0.02] bg-[length:50px_50px]"></div>
+  
+  <div class="relative container mx-auto px-4 py-16 lg:py-24">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        {{ title }}
+      </h1>
+      {% if subtitle %}
+      <h2 class="text-xl md:text-2xl mb-6 text-emerald-100">
+        {{ subtitle }}
+      </h2>
+      {% endif %}
+      {% if description %}
+      <p class="text-lg text-emerald-50 max-w-2xl mx-auto">
+        {{ description }}
+      </p>
+      {% endif %}
+      {% if features %}
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        {% for feature in features %}
+        <div class="flex items-center space-x-2 text-emerald-100">
+          {% include 'atoms/icon.html' with name="check" size="sm" class="text-green-300" %}
+          <span>{{ feature }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

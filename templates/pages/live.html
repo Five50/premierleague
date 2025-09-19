@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "ALLSVENSKAN Insikter - Live Matches" %}{% endblock %}
+
+{% block meta_description %}{% trans "Follow live Allsvenskan matches with real-time scores and updates from ALLSVENSKAN Insikter. Live commentary and match statistics." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50">
+    <!-- Page Header -->
+    <div class="bg-blue-700 text-white">
+        <div class="container mx-auto px-4 py-12">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                    {% trans "Live Matches" %}
+                </h1>
+                <p class="text-xl text-blue-100 max-w-2xl mx-auto">
+                    {% trans "Follow live Allsvenskan matches with real-time scores and updates." %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Matches Section -->
+    <div class="container mx-auto px-4 py-12">
+        {% if has_live_matches %}
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6">{% trans "Live Now" %}</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for match in live_matches %}
+                        <div class="pl-card">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-6 h-6 bg-red-600 rounded-full animate-pulse"></div>
+                                    <span class="text-sm font-bold text-red-600">{% trans "LIVE" %}</span>
+                                </div>
+                                <div class="text-xs text-slate-500">
+                                    {{ match.fixture.status.elapsed }}'
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        {% if match.teams.home.logo %}
+                                            <img src="{{ match.teams.home.logo }}" alt="{{ match.teams.home.name }}" class="w-8 h-8">
+                                        {% endif %}
+                                        <span class="font-semibold">{{ match.teams.home.name }}</span>
+                                    </div>
+                                    <div class="text-2xl font-bold text-blue-600">
+                                        {{ match.goals.home|default:0 }} - {{ match.goals.away|default:0 }}
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="font-semibold">{{ match.teams.away.name }}</span>
+                                        {% if match.teams.away.logo %}
+                                            <img src="{{ match.teams.away.logo }}" alt="{{ match.teams.away.name }}" class="w-8 h-8">
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                {% if match.fixture.venue.name %}
+                                    <div class="text-xs text-slate-500 mt-2">
+                                        {{ match.fixture.venue.name }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="text-center py-16">
+                <div class="text-6xl mb-4">⚽</div>
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">{% trans "No Live Matches" %}</h2>
+                <p class="text-slate-600 mb-8">
+                    {% trans "There are currently no live Allsvenskan matches. Check back later or view upcoming fixtures." %}
+                </p>
+                <a href="{% url 'fixtures' %}" class="pl-button">
+                    {% trans "View Fixtures" %}
+                </a>
+            </div>
+        {% endif %}
+
+        <!-- Today's Fixtures -->
+        {% if todays_fixtures %}
+            <div class="mt-12">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6">{% trans "Today's Fixtures" %}</h2>
+                <div class="space-y-4">
+                    {% for fixture in todays_fixtures %}
+                        <div class="pl-card">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-sm text-slate-500">
+                                        {{ fixture.fixture.date|date:"H:i" }}
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        {% if fixture.teams.home.logo %}
+                                            <img src="{{ fixture.teams.home.logo }}" alt="{{ fixture.teams.home.name }}" class="w-6 h-6">
+                                        {% endif %}
+                                        <span class="font-semibold">{{ fixture.teams.home.name }}</span>
+                                        <span class="text-slate-500">vs</span>
+                                        <span class="font-semibold">{{ fixture.teams.away.name }}</span>
+                                        {% if fixture.teams.away.logo %}
+                                            <img src="{{ fixture.teams.away.logo }}" alt="{{ fixture.teams.away.name }}" class="w-6 h-6">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="text-sm text-slate-500">
+                                    {{ fixture.fixture.status.long }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+// Auto-refresh live data every 30 seconds
+function refreshLiveData() {
+    fetch('{% url "api-live-data" %}')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.count > 0) {
+                // Update live match data
+                console.log('Updated live data:', data.matches);
+                // You could implement DOM updates here
+                // For now, we'll just refresh the page if there are live matches
+                if (data.count > 0 && !document.querySelector('.animate-pulse')) {
+                    location.reload();
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error refreshing live data:', error);
+        });
+}
+
+// Set up auto-refresh if there are live matches
+{% if has_live_matches %}
+    setInterval(refreshLiveData, 30000); // Refresh every 30 seconds
+{% endif %}
+</script>
+{% endblock %}

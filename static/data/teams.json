@@ -1,0 +1,190 @@
+{
+  "teams": [
+    {
+      "id": 1,
+      "name": {
+        "en": "Arsenal",
+        "sv": "Arsenal"
+      },
+      "short_name": "ARS",
+      "founded": 1886,
+      "stadium": {
+        "en": "Emirates Stadium",
+        "sv": "Emirates Stadium"
+      },
+      "capacity": 60704,
+      "city": {
+        "en": "London",
+        "sv": "London"
+      },
+      "colors": {
+        "primary": "#EF0107",
+        "secondary": "#023474"
+      },
+      "logo": "/static/images/arsenal.svg",
+      "manager": {
+        "en": "Mikel Arteta",
+        "sv": "Mikel Arteta"
+      },
+      "description": {
+        "en": "Arsenal Football Club is a professional football club based in Holloway, North London, England. The club competes in the Premier League, the top flight of English football.",
+        "sv": "Arsenal Football Club är en professionell fotbollsklubb baserad i Holloway, norra London, England. Klubben tävlar i Premier League, den högsta divisionen i engelsk fotboll."
+      }
+    },
+    {
+      "id": 2,
+      "name": {
+        "en": "Chelsea",
+        "sv": "Chelsea"
+      },
+      "short_name": "CHE",
+      "founded": 1905,
+      "stadium": {
+        "en": "Stamford Bridge",
+        "sv": "Stamford Bridge"
+      },
+      "capacity": 40834,
+      "city": {
+        "en": "London",
+        "sv": "London"
+      },
+      "colors": {
+        "primary": "#034694",
+        "secondary": "#6CABDD"
+      },
+      "logo": "/static/images/chelsea.svg",
+      "manager": {
+        "en": "Enzo Maresca",
+        "sv": "Enzo Maresca"
+      },
+      "description": {
+        "en": "Chelsea Football Club is an English professional football club based in Fulham, London. Founded in 1905, they compete in the Premier League.",
+        "sv": "Chelsea Football Club är en engelsk professionell fotbollsklubb baserad i Fulham, London. Grundad 1905, tävlar de i Premier League."
+      }
+    },
+    {
+      "id": 3,
+      "name": {
+        "en": "Liverpool",
+        "sv": "Liverpool"
+      },
+      "short_name": "LIV",
+      "founded": 1892,
+      "stadium": {
+        "en": "Anfield",
+        "sv": "Anfield"
+      },
+      "capacity": 53394,
+      "city": {
+        "en": "Liverpool",
+        "sv": "Liverpool"
+      },
+      "colors": {
+        "primary": "#C8102E",
+        "secondary": "#00B2A9"
+      },
+      "logo": "/static/images/liverpool.svg",
+      "manager": {
+        "en": "Arne Slot",
+        "sv": "Arne Slot"
+      },
+      "description": {
+        "en": "Liverpool Football Club is a professional football club based in Liverpool, England. The club competes in the Premier League and is one of the most successful clubs in English football history.",
+        "sv": "Liverpool Football Club är en professionell fotbollsklubb baserad i Liverpool, England. Klubben tävlar i Premier League och är en av de mest framgångsrika klubbarna i engelsk fotbollshistoria."
+      }
+    },
+    {
+      "id": 4,
+      "name": {
+        "en": "Manchester City",
+        "sv": "Manchester City"
+      },
+      "short_name": "MCI",
+      "founded": 1880,
+      "stadium": {
+        "en": "Etihad Stadium",
+        "sv": "Etihad Stadium"
+      },
+      "capacity": 55017,
+      "city": {
+        "en": "Manchester",
+        "sv": "Manchester"
+      },
+      "colors": {
+        "primary": "#6CABDD",
+        "secondary": "#1C2C5B"
+      },
+      "logo": "/static/images/manchester-city.svg",
+      "manager": {
+        "en": "Pep Guardiola",
+        "sv": "Pep Guardiola"
+      },
+      "description": {
+        "en": "Manchester City Football Club is an English football club based in Manchester that competes in the Premier League. Founded in 1880, the club has been one of the most successful English clubs of the 21st century.",
+        "sv": "Manchester City Football Club är en engelsk fotbollsklubb baserad i Manchester som tävlar i Premier League. Grundad 1880, klubben har varit en av de mest framgångsrika engelska klubbarna under 2000-talet."
+      }
+    },
+    {
+      "id": 5,
+      "name": {
+        "en": "Manchester United",
+        "sv": "Manchester United"
+      },
+      "short_name": "MUN",
+      "founded": 1878,
+      "stadium": {
+        "en": "Old Trafford",
+        "sv": "Old Trafford"
+      },
+      "capacity": 74879,
+      "city": {
+        "en": "Manchester",
+        "sv": "Manchester"
+      },
+      "colors": {
+        "primary": "#DA020E",
+        "secondary": "#FBE122"
+      },
+      "logo": "/static/images/manchester-united.svg",
+      "manager": {
+        "en": "Erik ten Hag",
+        "sv": "Erik ten Hag"
+      },
+      "description": {
+        "en": "Manchester United Football Club is a professional football club based in Manchester, England. The club competes in the Premier League and is one of the most successful clubs in England.",
+        "sv": "Manchester United Football Club är en professionell fotbollsklubb baserad i Manchester, England. Klubben tävlar i Premier League och är en av de mest framgångsrika klubbarna i England."
+      }
+    },
+    {
+      "id": 6,
+      "name": {
+        "en": "Tottenham Hotspur",
+        "sv": "Tottenham Hotspur"
+      },
+      "short_name": "TOT",
+      "founded": 1882,
+      "stadium": {
+        "en": "Tottenham Hotspur Stadium",
+        "sv": "Tottenham Hotspur Stadium"
+      },
+      "capacity": 62850,
+      "city": {
+        "en": "London",
+        "sv": "London"
+      },
+      "colors": {
+        "primary": "#132257",
+        "secondary": "#FFFFFF"
+      },
+      "logo": "/static/images/tottenham.svg",
+      "manager": {
+        "en": "Ange Postecoglou",
+        "sv": "Ange Postecoglou"
+      },
+      "description": {
+        "en": "Tottenham Hotspur Football Club is an English professional football club based in Tottenham, London, that competes in the Premier League.",
+        "sv": "Tottenham Hotspur Football Club är en engelsk professionell fotbollsklubb baserad i Tottenham, London, som tävlar i Premier League."
+      }
+    }
+  ]
+}

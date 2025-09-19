@@ -1,0 +1,365 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 19:44+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Borrow Money"
+msgstr "Borrow Money"
+
+msgid "Borrow Money Quickly"
+msgstr "Borrow Money Quickly"
+
+msgid "Car Loan"
+msgstr "Car Loan"
+
+msgid "Car Loans for Students"
+msgstr "Car Loans for Students"
+
+msgid "Environment Car Loan"
+msgstr "Environment Car Loan"
+
+msgid "Car Loan with Payment Notice"
+msgstr "Car Loan with Payment Notice"
+
+msgid "Unsecured Loan"
+msgstr "Unsecured Loan"
+
+msgid "Quick Loan"
+msgstr "Quick Loan"
+
+msgid "SMS Loan"
+msgstr "SMS Loan"
+
+msgid "Microloans"
+msgstr "Microloans"
+
+msgid "Small Loans"
+msgstr "Small Loans"
+
+msgid "Debt Financing"
+msgstr "Debt Financing"
+
+msgid "Credit Loan"
+msgstr "Credit Loan"
+
+msgid "Account Credit"
+msgstr "Account Credit"
+
+msgid "Loans for Specific Situations"
+msgstr "Loans for Specific Situations"
+
+msgid "Related Reading"
+msgstr "Related Reading"
+
+# URL translations - Keep English paths
+msgid "More articles"
+msgstr "More articles"
+
+#, fuzzy
+#| msgid "Current savings rates"
+msgid "Best savings rate right now"
+msgstr "Current savings rates"
+
+#, python-format
+msgid ""
+"We retrieve current savings rates from all banks in Sweden every two hours. "
+"The rates are compiled in a clear table that can easily be sorted and "
+"filtered. Here you can see which bank in Sweden offers the best savings rate "
+"right now. The best savings rate in August 2025 is offered by Multitude "
+"Bank, with a rate of 3.00%%."
+msgstr ""
+
+msgid "Banks we list:"
+msgstr ""
+
+msgid "Blog - Financial Tips and Guides"
+msgstr ""
+
+msgid ""
+"Read our latest articles about loans, savings, investments, and personal "
+"finance. Get tips to improve your financial situation."
+msgstr ""
+
+msgid "Financial Blog"
+msgstr ""
+
+msgid "Tips, guides, and insights to help you make better financial decisions"
+msgstr ""
+
+msgid "By"
+msgstr ""
+
+msgid "min read"
+msgstr ""
+
+msgid "Previous"
+msgstr "Previous"
+
+msgid "Next"
+msgstr "Next"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "Search articles..."
+msgstr ""
+
+#, fuzzy
+#| msgid "Product categories"
+msgid "Categories"
+msgstr "Product categories"
+
+msgid "Investments"
+msgstr ""
+
+msgid "Insurance"
+msgstr ""
+
+#, fuzzy
+#| msgid "Personal service"
+msgid "Personal Finance"
+msgstr "Personal service"
+
+msgid "How to Improve Your Credit Score in 30 Days"
+msgstr ""
+
+msgid "March 15, 2024"
+msgstr ""
+
+msgid "Newsletter"
+msgstr ""
+
+msgid "Get financial tips delivered to your inbox"
+msgstr ""
+
+msgid "Email address"
+msgstr ""
+
+msgid "Subscribe"
+msgstr ""
+
+msgid "Subscribe to our newsletter"
+msgstr ""
+
+msgid "Get the latest financial tips delivered to your inbox every week"
+msgstr ""
+
+msgid "Your email address"
+msgstr ""
+
+msgid "Unsecured Business Loans 2025 - Business Financing Without Collateral"
+msgstr ""
+
+msgid ""
+"Compare unsecured business loans for sole proprietorships, limited liability "
+"companies and partnerships. Find business financing without collateral "
+"requirements."
+msgstr ""
+
+msgid "Credit Cards Without Annual Fee 2025 - Free Cards"
+msgstr ""
+
+msgid ""
+"Compare credit cards without annual fees from Sweden's largest banks. We "
+"list all free credit cards with their benefits and terms."
+msgstr ""
+
+msgid "PayUp - Compare loans and find the best rate"
+msgstr "PayUp - Compare loans and find the best rate"
+
+msgid ""
+"Compare loans from 30+ lenders and find the best rate. Save thousands on "
+"your loan. Completely free and without obligations."
+msgstr ""
+"Compare loans from 30+ lenders and find the best rate. Save thousands on "
+"your loan. Completely free and without obligations."
+
+#, fuzzy
+#| msgid "PayUp - Compare loans and find the best rate"
+msgid "Compare Loans 2025 - Find the Best Loan"
+msgstr "PayUp - Compare loans and find the best rate"
+
+msgid ""
+"Compare loans from Sweden's largest lenders. Find the lowest interest rate "
+"and best terms for personal loans, car loans, and debt consolidation loans."
+msgstr ""
+
+#, fuzzy
+#| msgid "PayUp - Compare loans and find the best rate"
+msgid "Compare loans and find the lowest interest rate"
+msgstr "PayUp - Compare loans and find the best rate"
+
+msgid "We help you find the right loan with the best terms"
+msgstr ""
+
+msgid ""
+"Compare offers from over 30 lenders. Get instant responses and choose the "
+"loan that best suits your finances."
+msgstr ""
+
+msgid "Choose type of loan"
+msgstr "Choose type of loan"
+
+#, fuzzy
+#| msgid "Business loans for small business"
+msgid "Flexible loan for all purposes"
+msgstr "Business loans for small business"
+
+msgid "Finance your car at low interest"
+msgstr ""
+
+msgid "Combine expensive credits into one loan"
+msgstr ""
+
+#, fuzzy
+#| msgid "Car loans for businesses"
+msgid "Financing for your business"
+msgstr "Car loans for businesses"
+
+msgid ""
+"Enter how much you want to borrow and your desired repayment period. It only "
+"takes 2 minutes."
+msgstr ""
+
+msgid ""
+"We match you with lenders and show their offers. You see interest rates, "
+"terms, and monthly payments."
+msgstr ""
+
+msgid ""
+"Choose the loan that suits you best. You sign the agreement digitally with "
+"BankID."
+msgstr ""
+
+msgid ""
+"The money is deposited into your account, often the same day or within 24 "
+"hours."
+msgstr ""
+
+#, fuzzy
+#| msgid "Compare loans"
+msgid "Common questions about loans"
+msgstr "Compare loans"
+
+#, python-format
+msgid ""
+"The interest rate depends on your creditworthiness, loan amount, and "
+"repayment period. Usually between 4-25%% effective interest."
+msgstr ""
+
+msgid ""
+"Most lenders pay out the same day or within 24 hours after approved "
+"application."
+msgstr ""
+
+msgid ""
+"You must be at least 18 years old, have a steady income, and have no payment "
+"remarks."
+msgstr ""
+
+msgid ""
+"Yes, by law you always have the right to pay off the loan early. Some "
+"lenders charge a small fee for this."
+msgstr ""
+
+msgid ""
+"No, comparing loans with us does not affect your credit score. A credit "
+"check is only done when you accept a loan."
+msgstr ""
+
+msgid ""
+"Yes, it is completely free to compare loans. We receive a commission from "
+"the lender if you choose to take a loan."
+msgstr ""
+
+msgid "Best savings rate 2025 - Compare savings accounts"
+msgstr "Best savings rate 2025 - Compare savings accounts"
+
+msgid ""
+"Compare savings accounts and find the best savings rate. We list current "
+"rates from Sweden's largest banks."
+msgstr ""
+"Compare savings accounts and find the best savings rate. We list current "
+"rates from Sweden's largest banks."
+
+msgid "Updated"
+msgstr "Updated"
+
+msgid "What we think"
+msgstr "What we think"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Requirements"
+msgstr "Requirements"
+
+msgid "Apply now"
+msgstr "Apply now"
+
+msgid "OKQ8 Show review"
+msgstr "OKQ8 Show review"
+
+msgid "Bank Norwegian review"
+msgstr "Bank Norwegian review"
+
+msgid "Coop Mastercard review"
+msgstr "Coop Mastercard review"
+
+msgid "Circle K Mastercard review"
+msgstr "Circle K Mastercard review"
+
+msgid "Marginalen Traveller review"
+msgstr "Marginalen Traveller review"
+
+msgid "American Express review"
+msgstr "American Express review"
+
+msgid "Choose card type"
+msgstr "Choose card type"
+
+msgid "Show all cards"
+msgstr "Show all cards"
+
+msgid "Debit cards"
+msgstr "Debit cards"
+
+msgid "Credit cards"
+msgstr "Credit cards"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Offers fuel benefits"
+msgstr "Offers fuel benefits"
+
+msgid "Offers cashback"
+msgstr "Offers cashback"
+
+msgid "Offers grocery benefits"
+msgstr "Offers grocery benefits"
+
+msgid "Offers travel benefits"
+msgstr "Offers travel benefits"
+
+msgid "Without annual fee"
+msgstr "Without annual fee"
+
+msgid "Sort: Most relevant"
+msgstr "Sort: Most relevant"
+
+msgid "Skip to Content"
+msgstr "Skip to Content"

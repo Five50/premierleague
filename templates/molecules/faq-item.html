@@ -1,0 +1,13 @@
+{% comment %}
+FAQ item molecule
+Usage: {% include 'molecules/faq-item.html' with question="Question?" answer="Answer." %}
+{% endcomment %}
+<details class="bg-white rounded-lg shadow-md p-6 group">
+  <summary class="font-semibold text-slate-900 cursor-pointer flex items-center justify-between">
+    {{ question }}
+    <span class="ml-4 flex-shrink-0">
+      {% include 'atoms/icon.html' with name="chevron-down" size="sm" class="text-slate-600 group-open:rotate-180 transition-transform" %}
+    </span>
+  </summary>
+  <p class="mt-4 text-slate-600">{{ answer }}</p>
+</details>

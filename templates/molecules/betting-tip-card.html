@@ -1,0 +1,109 @@
+{% load static %}
+{% load i18n %}
+{% comment %}
+Betting tip card molecule
+Usage: {% include 'molecules/betting-tip-card.html' with tip=betting_tip_data %}
+{% endcomment %}
+
+<div class="betting-tip-card pl-card border-l-4 border-blue-700 hover:shadow-lg transition-all duration-300">
+    <div class="p-4">
+        <!-- Tip Header -->
+        <div class="tip-header flex items-start justify-between mb-3">
+            <div class="flex-1">
+                <h3 class="text-lg font-semibold pl-text mb-2">
+                    {% if LANGUAGE_CODE == 'sv' %}
+                        {{ tip.title.sv }}
+                    {% else %}
+                        {{ tip.title.en }}
+                    {% endif %}
+                </h3>
+                
+                <!-- Confidence Rating -->
+                <div class="confidence-rating flex items-center space-x-2">
+                    <span class="text-sm pl-text opacity-75">{% trans "Confidence:" %}</span>
+                    <div class="flex items-center space-x-1">
+                        {% for i in "12345678910" %}
+                            {% if forloop.counter <= tip.confidence %}
+                                <div class="w-2 h-2 bg-blue-700 rounded-full"></div>
+                            {% else %}
+                                <div class="w-2 h-2 bg-slate-300 rounded-full"></div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <span class="text-sm font-semibold text-blue-700">{{ tip.confidence }}/10</span>
+                </div>
+            </div>
+            
+            <!-- Tip Type Badge -->
+            {% if tip.type == 'season_long' %}
+                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">
+                    {% trans "Season Long" %}
+                </div>
+            {% else %}
+                <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">
+                    {% trans "Match Tip" %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Tip Content -->
+        <div class="tip-content mb-4">
+            <p class="text-sm pl-text leading-relaxed">
+                {% if LANGUAGE_CODE == 'sv' %}
+                    {{ tip.tip.sv }}
+                {% else %}
+                    {{ tip.tip.en }}
+                {% endif %}
+            </p>
+        </div>
+        
+        <!-- Match Information (if applicable) -->
+        {% if tip.match_id %}
+        <div class="match-info bg-slate-50 rounded-lg p-3 mb-4">
+            <div class="text-xs pl-text opacity-75 mb-1">{% trans "Related Match" %}</div>
+            <div class="text-sm font-semibold pl-text">
+                {{ tip.home_team }} vs {{ tip.away_team }}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Action Buttons -->
+        <div class="tip-actions flex space-x-3">
+            <button class="pl-button-outline flex-1 text-center py-2 text-sm" 
+                    onclick="viewFullTip({{ tip.id }})">
+                {% trans "View Full Analysis" %}
+            </button>
+            <button class="pl-button flex-1 text-center py-2 text-sm"
+                    onclick="placeBet({{ tip.id }})">
+                {% trans "Place Bet" %}
+                <svg class="w-4 h-4 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Responsible Gambling Notice -->
+        <div class="responsible-gambling mt-4 pt-3 border-t border-slate-200">
+            <p class="text-xs pl-text opacity-75 text-center">
+                {% if LANGUAGE_CODE == 'sv' %}
+                    Spela ansvarsfullt. 18+. Stödlinjen: 020-819 100
+                {% else %}
+                    Gamble responsibly. 18+. BeGambleAware: 0808 8020 133
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function viewFullTip(tipId) {
+    // Navigate to full tip analysis
+    window.location.href = `/betting/tips/${tipId}/`;
+}
+
+function placeBet(tipId) {
+    // Redirect to betting partner
+    console.log('Place bet for tip:', tipId);
+    // This would redirect to affiliate betting site
+}
+</script>

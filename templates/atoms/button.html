@@ -1,0 +1,56 @@
+{% comment %}
+Button Atom
+Usage: {% include 'atoms/button.html' with text="Click me" variant="primary" size="md" href="#" %}
+Variants: primary, secondary, outline, ghost
+Sizes: sm, md, lg
+{% endcomment %}
+
+{% if variant == 'primary' %}
+    <a href="{{ href|default:'#' }}" class="inline-flex items-center justify-center 
+        {% if size == 'sm' %}px-4 py-2 text-sm{% elif size == 'lg' %}px-8 py-4 text-lg{% else %}px-6 py-3 text-base{% endif %}
+        font-medium text-gray-900 bg-yellow-400 rounded-lg hover:bg-yellow-500 transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2
+        {{ class }}">
+        {{ text }}
+        {% if icon %}
+            <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="{{ icon }}" clip-rule="evenodd"/>
+            </svg>
+        {% endif %}
+    </a>
+{% elif variant == 'secondary' %}
+    <a href="{{ href|default:'#' }}" class="inline-flex items-center justify-center 
+        {% if size == 'sm' %}px-4 py-2 text-sm{% elif size == 'lg' %}px-8 py-4 text-lg{% else %}px-6 py-3 text-base{% endif %}
+        font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2
+        {{ class }}">
+        {{ text }}
+        {% if icon %}
+            <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="{{ icon }}" clip-rule="evenodd"/>
+            </svg>
+        {% endif %}
+    </a>
+{% elif variant == 'outline' %}
+    <a href="{{ href|default:'#' }}" class="inline-flex items-center justify-center 
+        {% if size == 'sm' %}px-4 py-2 text-sm{% elif size == 'lg' %}px-8 py-4 text-lg{% else %}px-6 py-3 text-base{% endif %}
+        font-medium text-blue-600 bg-transparent border-2 border-blue-600 rounded-lg hover:bg-blue-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2
+        {{ class }}">
+        {{ text }}
+        {% if icon %}
+            <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="{{ icon }}" clip-rule="evenodd"/>
+            </svg>
+        {% endif %}
+    </a>
+{% else %}
+    <a href="{{ href|default:'#' }}" class="inline-flex items-center justify-center 
+        {% if size == 'sm' %}px-4 py-2 text-sm{% elif size == 'lg' %}px-8 py-4 text-lg{% else %}px-6 py-3 text-base{% endif %}
+        font-medium text-slate-700 bg-transparent hover:bg-slate-100 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2
+        {{ class }}">
+        {{ text }}
+        {% if icon %}
+            <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="{{ icon }}" clip-rule="evenodd"/>
+            </svg>
+        {% endif %}
+    </a>
+{% endif %}

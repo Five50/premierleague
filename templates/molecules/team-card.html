@@ -1,0 +1,38 @@
+{% comment %}
+Allsvenskan team card molecule
+Usage: {% include 'molecules/team-card.html' with team=team_object show_stats=True %}
+{% endcomment %}
+{% load i18n %}
+<a href="{% url 'team_detail' team.id %}" 
+   class="block pl-card group transform hover:scale-105 transition-all duration-300"
+   style="border-top: 4px solid {{ team.colors.primary }};">
+  
+  <div class="flex flex-col items-center text-center">
+    
+    <div class="w-20 h-20 rounded-full flex items-center justify-center mb-4 p-2"
+         style="background: linear-gradient(135deg, {{ team.colors.primary }}20, {{ team.colors.secondary }}10);">
+      <img src="{{ team.logo }}" alt="{{ team.name.sv }}" class="w-16 h-16 object-contain">
+    </div>
+    
+    <h3 class="pl-subtitle text-slate-900 mb-1">{{ team.name.sv }}</h3>
+    <p class="text-sm text-slate-500 mb-3">{{ team.short_name }} • {{ team.founded }}</p>
+    
+    <div class="text-sm text-slate-600 space-y-1">
+      <p><i class="fas fa-map-marker-alt text-blue-600 mr-1"></i>{{ team.city.sv }}</p>
+      <p><i class="fas fa-home text-blue-600 mr-1"></i>{{ team.stadium.sv }}</p>
+      
+      {% if show_stats %}
+      <div class="mt-4 pt-4 border-t border-slate-200 grid grid-cols-2 gap-2 text-xs">
+        <div>
+          <span class="font-semibold text-blue-700">{% trans "Position" %}</span>
+          <div class="text-slate-900 font-bold">{{ team.league_position|default:"--" }}</div>
+        </div>
+        <div>
+          <span class="font-semibold text-blue-700">{% trans "Points" %}</span>
+          <div class="text-slate-900 font-bold">{{ team.points|default:"--" }}</div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</a>

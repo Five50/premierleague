@@ -1,0 +1,137 @@
+{
+  "articles": [
+    {
+      "id": 1,
+      "title": {
+        "en": "Arsenal Beat Chelsea 2-1 in North London Derby",
+        "sv": "Arsenal Besegrade Chelsea 2-1 i North London Derby"
+      },
+      "slug": {
+        "en": "arsenal-beat-chelsea-2-1-north-london-derby",
+        "sv": "arsenal-besegrade-chelsea-2-1-north-london-derby"
+      },
+      "excerpt": {
+        "en": "Bukayo Saka scored the opener as Arsenal secured a crucial victory over Chelsea at the Emirates Stadium.",
+        "sv": "Bukayo Saka gjorde första målet när Arsenal säkrade en avgörande seger över Chelsea på Emirates Stadium."
+      },
+      "content": {
+        "en": "Arsenal secured a vital three points against Chelsea with a 2-1 victory at the Emirates Stadium. Bukayo Saka opened the scoring in the 23rd minute with a brilliant individual effort, cutting in from the right wing before curling the ball into the far corner. Chelsea responded well in the second half, with Cole Palmer equalizing in the 67th minute from the penalty spot after being fouled in the area. However, Gabriel Jesus had the final word, scoring a dramatic winner in the 89th minute to send the Arsenal fans into raptures.",
+        "sv": "Arsenal säkrade tre viktiga poäng mot Chelsea med en 2-1 seger på Emirates Stadium. Bukayo Saka öppnade målskyttet i den 23:e minuten med en briljant individuell insats, skär in från högerkanten innan han kurvar bollen i det bortre hörnet. Chelsea svarade bra i andra halvlek, med Cole Palmer som kvitterade i den 67:e minuten från straffpunkten efter att ha blivit fälld i straffområdet. Men Gabriel Jesus hade sista ordet och gjorde ett dramatiskt vinnarmål i den 89:e minuten som fick Arsenal-fansen att jubla."
+      },
+      "author": "John Smith",
+      "published_date": "2024-09-14T20:30:00Z",
+      "category": {
+        "en": "Match Reports",
+        "sv": "Matchrapporter"
+      },
+      "tags": [
+        {
+          "en": ["Arsenal", "Chelsea", "Premier League", "Match Report"],
+          "sv": ["Arsenal", "Chelsea", "Premier League", "Matchrapport"]
+        }
+      ],
+      "featured_image": "/static/images/news/arsenal-chelsea-2024.jpg",
+      "team_ids": [1, 2]
+    },
+    {
+      "id": 2,
+      "title": {
+        "en": "Haaland Hits Hat-trick as City Thrash United",
+        "sv": "Haaland Gör Hattrick När City Krossar United"
+      },
+      "slug": {
+        "en": "haaland-hits-hat-trick-city-thrash-united",
+        "sv": "haaland-gor-hattrick-city-krossar-united"
+      },
+      "excerpt": {
+        "en": "Erling Haaland's clinical finishing proved the difference as Manchester City dominated their cross-city rivals 4-0.",
+        "sv": "Erling Haalands kliniska avslut visade sig vara skillnaden när Manchester City dominerade sina stadsrivaler 4-0."
+      },
+      "content": {
+        "en": "Erling Haaland was in devastating form as Manchester City demolished Manchester United 4-0 in a one-sided Manchester Derby at the Etihad Stadium. The Norwegian striker opened his account in the 12th minute, tapping in from close range after excellent build-up play from Kevin De Bruyne. He doubled City's lead just before half-time with a powerful header from a Phil Foden cross. Haaland completed his hat-trick in the 73rd minute, showing great composure to slot home after rounding the United goalkeeper. Bernardo Silva added a fourth goal in stoppage time to cap off a memorable afternoon for the home side.",
+        "sv": "Erling Haaland var i förödande form när Manchester City demolerade Manchester United 4-0 i en ensidig Manchester Derby på Etihad Stadium. Den norske anfallaren öppnade sitt konto i den 12:e minuten och tryckte in från nära håll efter utmärkt uppspel från Kevin De Bruyne. Han fördubblade Citys ledning strax före pausen med en kraftfull nick från en Phil Foden cross. Haaland fullbordade sitt hattrick i den 73:e minuten och visade stor kyla när han satte dit bollen efter att ha rundad United-målvakten. Bernardo Silva lade till ett fjärde mål i tilläggstid för att kröna en minnesvärd eftermiddag för hemmalaget."
+      },
+      "author": "Sarah Wilson",
+      "published_date": "2024-09-13T18:45:00Z",
+      "category": {
+        "en": "Match Reports", 
+        "sv": "Matchrapporter"
+      },
+      "tags": [
+        {
+          "en": ["Manchester City", "Manchester United", "Erling Haaland", "Hat-trick"],
+          "sv": ["Manchester City", "Manchester United", "Erling Haaland", "Hattrick"]
+        }
+      ],
+      "featured_image": "/static/images/news/haaland-hattrick.jpg",
+      "team_ids": [4, 5]
+    },
+    {
+      "id": 3,
+      "title": {
+        "en": "Transfer Window Roundup: Top Signings Reviewed",
+        "sv": "Transferfönster Sammanfattning: Toppvärvningar Granskade"
+      },
+      "slug": {
+        "en": "transfer-window-roundup-top-signings-reviewed",
+        "sv": "transferfonster-sammanfattning-toppvarvningar-granskade"
+      },
+      "excerpt": {
+        "en": "We analyze the biggest transfers of the summer window and rate how they've performed so far this season.",
+        "sv": "Vi analyserar sommarens största transferer och betygsätter hur de har presterat hittills den här säsongen."
+      },
+      "content": {
+        "en": "The summer transfer window brought excitement and big-money moves across the Premier League. Chelsea's acquisition of Cole Palmer from Manchester City for £42.5 million has proved to be exceptional value, with the young midfielder already contributing 6 goals and 4 assists in just 8 appearances. Meanwhile, Arsenal's signing of Declan Rice from West Ham for £105 million has added steel to their midfield, though the hefty price tag means expectations remain sky-high. Liverpool's quiet window was punctuated by the arrival of promising young talents, while Manchester United's rebuild continues with mixed results from their new signings.",
+        "sv": "Sommartransferfönstret medförde spänning och stora pengar rörelser över Premier League. Chelseas förvärv av Cole Palmer från Manchester City för 42,5 miljoner pund har visat sig vara exceptionellt värdefullt, med den unge mittfältaren redan bidragit med 6 mål och 4 assists på bara 8 matcher. Samtidigt har Arsenals värvning av Declan Rice från West Ham för 105 miljoner pund tillförts stål till deras mittfält, även om den rejäla prislappen innebär att förväntningarna förblir himla höga. Liverpools tysta fönster avbröts av ankomsten av lovande unga talanger, medan Manchester Uniteds ombyggnad fortsätter med blandade resultat från deras nya värvningar."
+      },
+      "author": "Michael Brown",
+      "published_date": "2024-09-12T10:15:00Z",
+      "category": {
+        "en": "Transfers",
+        "sv": "Transferer"
+      },
+      "tags": [
+        {
+          "en": ["Transfer Window", "Cole Palmer", "Declan Rice", "Summer Signings"],
+          "sv": ["Transferfönster", "Cole Palmer", "Declan Rice", "Sommarvärvningar"]
+        }
+      ],
+      "featured_image": "/static/images/news/transfer-roundup.jpg",
+      "team_ids": [1, 2, 3, 4, 5, 6]
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": {
+        "en": "Match Reports",
+        "sv": "Matchrapporter"
+      },
+      "slug": "match-reports"
+    },
+    {
+      "id": 2,
+      "name": {
+        "en": "Transfers",
+        "sv": "Transferer"
+      },
+      "slug": "transfers"
+    },
+    {
+      "id": 3,
+      "name": {
+        "en": "Analysis",
+        "sv": "Analys"
+      },
+      "slug": "analysis"
+    },
+    {
+      "id": 4,
+      "name": {
+        "en": "Betting Tips",
+        "sv": "Speltips"
+      },
+      "slug": "betting-tips"
+    }
+  ]
+}

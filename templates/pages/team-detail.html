@@ -1,0 +1,2445 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% if team.name %}
+        {{ team.name }} - {% trans "ALLSVENSKAN Insikter" %}
+    {% else %}
+        {% trans "Team Profile - ALLSVENSKAN Insikter" %}
+    {% endif %}
+{% endblock %}
+
+{% block meta_description %}
+    {% if team.name %}
+        {% blocktrans with name=team.name %}View detailed statistics and information for {{ name }} in the Allsvenskan with ALLSVENSKAN Insikter.{% endblocktrans %}
+    {% else %}
+        {% trans "Team profile and statistics from ALLSVENSKAN Insikter." %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50">
+    {% if team_available and team %}
+        <!-- Team Header -->
+        <div class="bg-blue-700 text-white">
+            <div class="container mx-auto px-4 py-12">
+                <div class="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
+                    <!-- Team Logo -->
+                    <div class="flex-shrink-0">
+                        {% if team.logo %}
+                            <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center p-4 shadow-lg">
+                                <img src="{{ team.logo }}" alt="{{ team.name }}" class="w-full h-full object-contain">
+                            </div>
+                        {% else %}
+                            <div class="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                                <span class="text-4xl font-bold text-white">{{ team.name|slice:":2"|upper }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Team Info -->
+                    <div class="text-center md:text-left">
+                        <h1 class="text-4xl md:text-5xl font-bold mb-2">{{ team.name }}</h1>
+
+                        {% if team.country %}
+                            <div class="text-xl text-blue-100 mb-4">{{ team.country }}</div>
+                        {% endif %}
+
+                        {% if team.founded %}
+                            <div class="text-center md:text-left mb-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/20 text-white">
+                                    📅 {% trans "Founded" %} {{ team.founded }}
+                                </span>
+                            </div>
+                        {% endif %}
+
+                        <!-- Team Details -->
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-center md:text-left">
+                            {% if league_position %}
+                                <div>
+                                    <div class="text-2xl font-bold">#{{ league_position }}</div>
+                                    <div class="text-blue-200 text-sm">{% trans "League Position" %}</div>
+                                </div>
+                            {% endif %}
+
+                            {% if venue.name %}
+                                <div>
+                                    <div class="text-lg font-bold truncate">{{ venue.name }}</div>
+                                    <div class="text-blue-200 text-sm">{% trans "Home Ground" %}</div>
+                                </div>
+                            {% endif %}
+
+                            {% if venue.capacity %}
+                                <div>
+                                    <div class="text-lg font-bold">{{ venue.capacity|floatformat:0 }}</div>
+                                    <div class="text-blue-200 text-sm">{% trans "Capacity" %}</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overview Stats -->
+        {% if team_standing %}
+            <div class="bg-white border-b border-slate-200">
+                <div class="container mx-auto px-4 py-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600">{{ team_standing.points }}</div>
+                            <div class="text-sm text-slate-500">{% trans "Points" %}</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600">#{{ league_position }}</div>
+                            <div class="text-sm text-slate-500">{% trans "Position" %}</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-yellow-600">{{ team_standing.all.win }}</div>
+                            <div class="text-sm text-slate-500">{% trans "Wins" %}</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-slate-600">{{ team_standing.all.goals.for }}</div>
+                            <div class="text-sm text-slate-500">{% trans "Goals" %}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Tabs Navigation -->
+        <div class="container mx-auto px-4 py-8">
+            <div class="mb-8">
+                <nav class="flex space-x-1 bg-slate-100 p-1 rounded-lg max-w-2xl mx-auto">
+                    <button class="tab-button flex-1 py-2.5 px-4 text-sm font-medium rounded-md transition-all duration-200 bg-white text-blue-600 shadow-sm"
+                            onclick="showTab('overview', this)">
+                        {% trans "Overview" %}
+                    </button>
+                    <button class="tab-button flex-1 py-2.5 px-4 text-sm font-medium rounded-md transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50"
+                            onclick="showTab('venue', this)">
+                        {% trans "Venue" %}
+                    </button>
+                    <button class="tab-button flex-1 py-2.5 px-4 text-sm font-medium rounded-md transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50"
+                            onclick="showTab('kit', this)">
+                        {% trans "Kit" %}
+                    </button>
+                    <button class="tab-button flex-1 py-2.5 px-4 text-sm font-medium rounded-md transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50"
+                            onclick="showTab('players', this)">
+                        {% trans "Players" %}
+                    </button>
+                    <button class="tab-button flex-1 py-2.5 px-4 text-sm font-medium rounded-md transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50"
+                            onclick="showTab('fixtures', this)">
+                        {% trans "Fixtures" %}
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+
+            <!-- Overview Tab -->
+            <div id="overview-tab" class="tab-content">
+                <!-- Top Stats Row -->
+                {% if team_standing %}
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-xl">
+                            <div class="text-3xl font-bold mb-1">#{{ league_position }}</div>
+                            <div class="text-blue-100 text-sm">{% trans "League Position" %}</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-500 to-green-600 text-white p-6 rounded-xl">
+                            <div class="text-3xl font-bold mb-1">{{ team_standing.points }}</div>
+                            <div class="text-green-100 text-sm">{% trans "Points" %}</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-slate-600 to-slate-700 text-white p-6 rounded-xl">
+                            <div class="text-3xl font-bold mb-1">{{ team_standing.all.played }}</div>
+                            <div class="text-slate-100 text-sm">{% trans "Matches Played" %}</div>
+                        </div>
+                        <div class="bg-gradient-to-br {% if team_standing.goalsDiff >= 0 %}from-emerald-500 to-emerald-600{% else %}from-red-500 to-red-600{% endif %} text-white p-6 rounded-xl">
+                            <div class="text-3xl font-bold mb-1">
+                                {% if team_standing.goalsDiff >= 0 %}+{% endif %}{{ team_standing.goalsDiff }}
+                            </div>
+                            <div class="text-white/80 text-sm">{% trans "Goal Difference" %}</div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Match Results Pie Chart -->
+                    {% if team_standing %}
+                        <div class="pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Match Results" %}</h3>
+                            <div class="relative h-64 flex justify-center items-center">
+                                <div id="resultsChart"></div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div class="text-2xl font-bold text-green-600">{{ team_standing.all.win }}</div>
+                                    <div class="text-sm text-slate-600">{% trans "Wins" %}</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold text-yellow-600">{{ team_standing.all.draw }}</div>
+                                    <div class="text-sm text-slate-600">{% trans "Draws" %}</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold text-red-600">{{ team_standing.all.lose }}</div>
+                                    <div class="text-sm text-slate-600">{% trans "Losses" %}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Goals Bar Chart -->
+                    {% if team_standing %}
+                        <div class="pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Goals Statistics" %}</h3>
+                            <div class="relative h-64 flex justify-center items-center">
+                                <div id="goalsChart"></div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-2 gap-4 text-center">
+                                <div>
+                                    <div class="text-2xl font-bold text-blue-600">{{ team_standing.all.goals.for }}</div>
+                                    <div class="text-sm text-slate-600">{% trans "Goals For" %}</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold text-red-600">{{ team_standing.all.goals.against }}</div>
+                                    <div class="text-sm text-slate-600">{% trans "Goals Against" %}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Formation Analysis -->
+                    {% if team_formations %}
+                        <div class="pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Formation Usage" %}</h3>
+                            <div class="relative h-64 flex justify-center items-center">
+                                <div id="formationChart"></div>
+                            </div>
+                            <div class="mt-4 space-y-2">
+                                {% for formation in team_formations|slice:":3" %}
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="font-medium">{{ formation.formation }}</span>
+                                        <span class="text-slate-600">{{ formation.played }} {% trans "matches" %}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Recent Form Line Chart -->
+                    {% if recent_fixtures %}
+                        <div class="pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Recent Form Trend" %}</h3>
+                            <div class="relative h-64 flex justify-center items-center">
+                                <div id="formChart"></div>
+                            </div>
+                            <div class="mt-4 flex justify-center space-x-4 text-xs">
+                                <div class="flex items-center space-x-1">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                    <span>{% trans "Win" %}</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                    <span>{% trans "Draw" %}</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                    <span>{% trans "Loss" %}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Football Pitch Formation Visualization -->
+                {% if team_formations %}
+                    <div class="pl-card mb-8">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Tactical Formation" %}</h3>
+                        <div class="relative">
+                            <div class="football-pitch mx-auto" style="max-width: 400px;">
+                                <svg viewBox="0 0 400 280" class="w-full h-auto">
+                                    <!-- Pitch Background -->
+                                    <rect x="0" y="0" width="400" height="280" fill="#16a34a" stroke="#ffffff" stroke-width="2" rx="8"/>
+
+                                    <!-- Center Circle -->
+                                    <circle cx="200" cy="140" r="35" fill="none" stroke="#ffffff" stroke-width="2"/>
+                                    <circle cx="200" cy="140" r="3" fill="#ffffff"/>
+
+                                    <!-- Center Line -->
+                                    <line x1="200" y1="0" x2="200" y2="280" stroke="#ffffff" stroke-width="2"/>
+
+                                    <!-- Goal Areas -->
+                                    <rect x="0" y="105" width="30" height="70" fill="none" stroke="#ffffff" stroke-width="2"/>
+                                    <rect x="370" y="105" width="30" height="70" fill="none" stroke="#ffffff" stroke-width="2"/>
+
+                                    <!-- Penalty Areas -->
+                                    <rect x="0" y="70" width="60" height="140" fill="none" stroke="#ffffff" stroke-width="2"/>
+                                    <rect x="340" y="70" width="60" height="140" fill="none" stroke="#ffffff" stroke-width="2"/>
+
+                                    <!-- Formation Players -->
+                                    {% with formation=team_formations.0.formation %}
+                                        {% if formation == "4-4-2" %}
+                                            <!-- Goalkeeper -->
+                                            <circle cx="35" cy="140" r="8" fill="#fbbf24" stroke="#ffffff" stroke-width="2"/>
+                                            <!-- Defenders -->
+                                            <circle cx="110" cy="80" r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="110" cy="125" r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="110" cy="155" r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="110" cy="200" r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+                                            <!-- Midfielders -->
+                                            <circle cx="200" cy="90" r="8" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="200" cy="125" r="8" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="200" cy="155" r="8" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="200" cy="190" r="8" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+                                            <!-- Forwards -->
+                                            <circle cx="290" cy="115" r="8" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="290" cy="165" r="8" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+                                        {% elif formation == "4-3-3" %}
+                                            <!-- Goalkeeper -->
+                                            <circle cx="35" cy="140" r="8" fill="#fbbf24" stroke="#ffffff" stroke-width="2"/>
+                                            <!-- Defenders -->
+                                            <circle cx="110" cy="80" r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="110" cy="120" r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="110" cy="160" r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="110" cy="200" r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+                                            <!-- Midfielders -->
+                                            <circle cx="180" cy="105" r="8" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="180" cy="140" r="8" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="180" cy="175" r="8" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+                                            <!-- Forwards -->
+                                            <circle cx="270" cy="90" r="8" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="270" cy="140" r="8" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="270" cy="190" r="8" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+                                        {% else %}
+                                            <!-- Default formation -->
+                                            <circle cx="35" cy="140" r="8" fill="#fbbf24" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="110" cy="90" r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="110" cy="140" r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="110" cy="190" r="8" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="200" cy="105" r="8" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="200" cy="175" r="8" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+                                            <circle cx="290" cy="140" r="8" fill="#ef4444" stroke="#ffffff" stroke-width="2"/>
+                                        {% endif %}
+                                    {% endwith %}
+                                </svg>
+                            </div>
+                            <div class="flex justify-center space-x-6 mt-4 text-sm">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-4 h-4 rounded-full bg-yellow-400"></div>
+                                    <span>{% trans "Goalkeeper" %}</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-4 h-4 rounded-full bg-blue-500"></div>
+                                    <span>{% trans "Defenders" %}</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                                    <span>{% trans "Midfielders" %}</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-4 h-4 rounded-full bg-red-500"></div>
+                                    <span>{% trans "Forwards" %}</span>
+                                </div>
+                            </div>
+                            <div class="text-center mt-4">
+                                <div class="text-lg font-bold text-slate-900">{{ team_formations.0.formation }}</div>
+                                <div class="text-sm text-slate-600">{% trans "Most used formation" %}</div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Performance Statistics -->
+                {% if team_stats %}
+                    <div class="pl-card">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Detailed Performance" %}</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div class="text-center p-6 bg-gradient-to-b from-blue-50 to-blue-100 rounded-xl border border-blue-200">
+                                <div class="text-3xl font-bold text-blue-600 mb-2">
+                                    {{ team_stats.goals.for.total.total|default:0 }}
+                                </div>
+                                <div class="text-sm font-medium text-blue-800 mb-1">{% trans "Goals Scored" %}</div>
+                                <div class="text-xs text-blue-600">
+                                    {{ team_stats.goals.for.average.total|default:"0.0" }} {% trans "per game" %}
+                                </div>
+                            </div>
+
+                            <div class="text-center p-6 bg-gradient-to-b from-red-50 to-red-100 rounded-xl border border-red-200">
+                                <div class="text-3xl font-bold text-red-600 mb-2">
+                                    {{ team_stats.goals.against.total.total|default:0 }}
+                                </div>
+                                <div class="text-sm font-medium text-red-800 mb-1">{% trans "Goals Conceded" %}</div>
+                                <div class="text-xs text-red-600">
+                                    {{ team_stats.goals.against.average.total|default:"0.0" }} {% trans "per game" %}
+                                </div>
+                            </div>
+
+                            <div class="text-center p-6 bg-gradient-to-b from-green-50 to-green-100 rounded-xl border border-green-200">
+                                <div class="text-3xl font-bold text-green-600 mb-2">
+                                    {{ team_stats.clean_sheet.total|default:0 }}
+                                </div>
+                                <div class="text-sm font-medium text-green-800 mb-1">{% trans "Clean Sheets" %}</div>
+                                <div class="text-xs text-green-600">
+                                    {{ team_stats.clean_sheet.percentage|default:"0" }}%
+                                </div>
+                            </div>
+
+                            <div class="text-center p-6 bg-gradient-to-b from-yellow-50 to-yellow-100 rounded-xl border border-yellow-200">
+                                <div class="text-3xl font-bold text-yellow-600 mb-2">
+                                    {{ team_stats.cards.yellow.total|default:0 }}
+                                </div>
+                                <div class="text-sm font-medium text-yellow-800 mb-1">{% trans "Yellow Cards" %}</div>
+                                <div class="text-xs text-yellow-600">
+                                    {{ team_stats.cards.red.total|default:0 }} {% trans "red cards" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Coaching Staff Section -->
+                {% if head_coach or team_coaches %}
+                    <div class="pl-card">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Coaching Staff" %}</h3>
+
+                        {% if head_coach %}
+                            <!-- Head Coach -->
+                            <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 mb-6 border border-blue-200">
+                                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+                                    <div class="flex-shrink-0">
+                                        {% if head_coach.photo %}
+                                            <img src="{{ head_coach.photo }}" alt="{{ head_coach.name }}" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg">
+                                        {% else %}
+                                            <div class="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                                                <span class="text-white font-bold text-lg">{{ head_coach.name|slice:":2"|upper }}</span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-center md:text-left flex-1">
+                                        <h4 class="text-xl font-bold text-blue-900 mb-1">{{ head_coach.name }}</h4>
+                                        <div class="text-blue-700 font-medium mb-2">{% trans "Head Coach" %}</div>
+
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                                            {% if head_coach.nationality %}
+                                                <div>
+                                                    <span class="text-slate-600">{% trans "Nationality" %}:</span>
+                                                    <span class="font-medium ml-1">{{ head_coach.nationality }}</span>
+                                                </div>
+                                            {% endif %}
+                                            {% if head_coach.age %}
+                                                <div>
+                                                    <span class="text-slate-600">{% trans "Age" %}:</span>
+                                                    <span class="font-medium ml-1">{{ head_coach.age }}</span>
+                                                </div>
+                                            {% endif %}
+                                            {% if head_coach.birth and head_coach.birth.date %}
+                                                <div>
+                                                    <span class="text-slate-600">{% trans "Born" %}:</span>
+                                                    <span class="font-medium ml-1">{{ head_coach.birth.date|date:"M Y" }}</span>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <!-- Additional Coaching Staff -->
+                        {% if team_coaches and team_coaches|length > 1 %}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {% for coach in team_coaches %}
+                                    {% if coach != head_coach %}
+                                        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                                            <div class="flex items-center space-x-4">
+                                                <div class="flex-shrink-0">
+                                                    {% if coach.photo %}
+                                                        <img src="{{ coach.photo }}" alt="{{ coach.name }}" class="w-12 h-12 rounded-full object-cover">
+                                                    {% else %}
+                                                        <div class="w-12 h-12 bg-slate-400 rounded-full flex items-center justify-center">
+                                                            <span class="text-white font-bold text-sm">{{ coach.name|slice:":2"|upper }}</span>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <h5 class="font-semibold text-slate-900 truncate">{{ coach.name }}</h5>
+                                                    <div class="text-sm text-slate-600">
+                                                        {% if coach.career %}
+                                                            {% for career_entry in coach.career %}
+                                                                {% if career_entry.team.id == team.id and career_entry.end == None %}
+                                                                    {{ career_entry.position|default:"Coach" }}
+                                                                {% endif %}
+                                                            {% empty %}
+                                                                {% trans "Assistant Coach" %}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            {% trans "Assistant Coach" %}
+                                                        {% endif %}
+                                                    </div>
+                                                    {% if coach.nationality %}
+                                                        <div class="text-xs text-slate-500 mt-1">{{ coach.nationality }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <!-- Team Form Trends Section -->
+                <div class="mt-8 mb-8">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-4">
+                            📈 {% trans "Recent Form Analysis" %}
+                        </h2>
+                        <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                            {% trans "Track momentum shifts and performance patterns for this team with detailed trend analysis and league comparison." %}
+                        </p>
+                    </div>
+
+                    <!-- Chart Controls -->
+                    <div class="mb-8 flex flex-wrap justify-center gap-4">
+                        <div class="flex bg-white rounded-lg p-1 shadow-sm border border-slate-200">
+                            <button id="teamWinRateBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white" onclick="switchTeamMetric('winRate')">
+                                {% trans "Win Rate %" %}
+                            </button>
+                            <button id="teamGoalsBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900" onclick="switchTeamMetric('goals')">
+                                {% trans "Goals Scored" %}
+                            </button>
+                            <button id="teamPointsBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900" onclick="switchTeamMetric('points')">
+                                {% trans "Points Trend" %}
+                            </button>
+                        </div>
+                        <div class="flex bg-white rounded-lg p-1 shadow-sm border border-slate-200">
+                            <button id="teamLastFiveBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-yellow-500 text-gray-900" onclick="switchTeamTimeframe('last5')">
+                                {% trans "Last 5 Games" %}
+                            </button>
+                            <button id="teamLastTenBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900" onclick="switchTeamTimeframe('last10')">
+                                {% trans "Last 10 Games" %}
+                            </button>
+                        </div>
+                        <div class="flex bg-white rounded-lg p-1 shadow-sm border border-slate-200">
+                            <button id="teamOnlyBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-green-600 text-white" onclick="switchComparisonMode('team')">
+                                {% trans "Team Only" %}
+                            </button>
+                            <button id="leagueCompareBtn" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900" onclick="switchComparisonMode('league')">
+                                {% trans "vs League Avg" %}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Line Chart Container -->
+                    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 mb-8">
+                        <div class="relative">
+                            <div id="teamFormTrendsChart" class="w-full" style="height: 450px;"></div>
+                            <div id="teamChartLegend" class="flex flex-wrap justify-center gap-4 mt-6"></div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Insights -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-lg shadow-sm p-6 text-center">
+                            <div class="text-2xl font-bold mb-2" id="teamCurrentForm">-</div>
+                            <div class="text-sm text-green-100">{% trans "Current Form Rating" %}</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg shadow-sm p-6 text-center">
+                            <div class="text-2xl font-bold mb-2" id="teamFormTrend">-</div>
+                            <div class="text-sm text-blue-100">{% trans "Form Trend" %}</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-yellow-500 to-yellow-600 text-white rounded-lg shadow-sm p-6 text-center">
+                            <div class="text-2xl font-bold mb-2" id="teamConsistency">-</div>
+                            <div class="text-sm text-yellow-100">{% trans "Consistency Score" %}</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg shadow-sm p-6 text-center">
+                            <div class="text-2xl font-bold mb-2" id="teamLeagueRank">-</div>
+                            <div class="text-sm text-purple-100">{% trans "Form vs League" %}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Venue Tab -->
+            <div id="venue-tab" class="tab-content hidden">
+                {% if venue_details %}
+                    <!-- Venue Header -->
+                    <div class="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl p-8 mb-8">
+                        <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8">
+                            <div class="flex-shrink-0">
+                                {% if venue_details.image %}
+                                    <img src="{{ venue_details.image }}" alt="{{ venue_details.name }}" class="w-24 h-24 rounded-lg object-cover border-4 border-white/20">
+                                {% else %}
+                                    <div class="w-24 h-24 bg-white/20 rounded-lg flex items-center justify-center">
+                                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h4M9 7h6m-6 4h6m-6 4h6"/>
+                                        </svg>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="text-center md:text-left flex-1">
+                                <h2 class="text-3xl font-bold mb-2">{{ venue_details.name|default:venue.name }}</h2>
+                                <div class="text-green-100 text-lg mb-4">
+                                    {{ venue_details.city|default:venue.city }}{% if venue_details.country and venue_details.country != venue_details.city %}, {{ venue_details.country }}{% endif %}
+                                </div>
+                                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                                    {% if venue_details.capacity %}
+                                        <div class="bg-white/20 px-3 py-1 rounded-full text-sm">
+                                            {% trans "Capacity" %}: {{ venue_details.capacity|floatformat:0 }}
+                                        </div>
+                                    {% endif %}
+                                    {% if venue_details.surface %}
+                                        <div class="bg-white/20 px-3 py-1 rounded-full text-sm">
+                                            {% trans "Surface" %}: {{ venue_details.surface }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Stadium Details -->
+                        <div class="pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Stadium Information" %}</h3>
+                            <div class="space-y-4">
+                                {% if venue_details.name %}
+                                    <div class="bg-slate-50 p-4 rounded-lg">
+                                        <div class="text-sm text-slate-600 mb-1">{% trans "Official Name" %}</div>
+                                        <div class="font-semibold text-lg">{{ venue_details.name }}</div>
+                                    </div>
+                                {% endif %}
+
+                                {% if venue_details.capacity %}
+                                    <div class="bg-blue-50 p-4 rounded-lg">
+                                        <div class="text-sm text-blue-600 mb-1">{% trans "Capacity" %}</div>
+                                        <div class="font-bold text-2xl text-blue-700">{{ venue_details.capacity|floatformat:0 }}</div>
+                                        <div class="text-xs text-blue-600">{% trans "spectators" %}</div>
+                                    </div>
+                                {% endif %}
+
+                                {% if venue_details.surface %}
+                                    <div class="bg-green-50 p-4 rounded-lg">
+                                        <div class="text-sm text-green-600 mb-1">{% trans "Playing Surface" %}</div>
+                                        <div class="font-semibold text-green-700">{{ venue_details.surface }}</div>
+                                    </div>
+                                {% endif %}
+
+                                {% if venue_details.address %}
+                                    <div class="bg-slate-50 p-4 rounded-lg">
+                                        <div class="text-sm text-slate-600 mb-1">{% trans "Address" %}</div>
+                                        <div class="font-semibold">{{ venue_details.address }}</div>
+                                    </div>
+                                {% endif %}
+
+                                {% if venue_details.city %}
+                                    <div class="bg-slate-50 p-4 rounded-lg">
+                                        <div class="text-sm text-slate-600 mb-1">{% trans "City" %}</div>
+                                        <div class="font-semibold">{{ venue_details.city }}</div>
+                                    </div>
+                                {% endif %}
+
+                                {% if venue_details.country %}
+                                    <div class="bg-slate-50 p-4 rounded-lg">
+                                        <div class="text-sm text-slate-600 mb-1">{% trans "Country" %}</div>
+                                        <div class="font-semibold">{{ venue_details.country }}</div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Home Record -->
+                        {% if team_standing %}
+                            <div class="pl-card">
+                                <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Home Performance" %}</h3>
+                                <div class="space-y-4">
+                                    <div class="text-center mb-6">
+                                        <div class="text-3xl font-bold text-blue-600 mb-2">
+                                            {{ team_standing.home.played }}
+                                        </div>
+                                        <div class="text-sm text-slate-600">{% trans "Home Matches Played" %}</div>
+                                    </div>
+
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div class="text-center p-4 bg-green-50 rounded-lg">
+                                            <div class="text-2xl font-bold text-green-600">{{ team_standing.home.win }}</div>
+                                            <div class="text-xs text-green-600">{% trans "Wins" %}</div>
+                                        </div>
+                                        <div class="text-center p-4 bg-yellow-50 rounded-lg">
+                                            <div class="text-2xl font-bold text-yellow-600">{{ team_standing.home.draw }}</div>
+                                            <div class="text-xs text-yellow-600">{% trans "Draws" %}</div>
+                                        </div>
+                                        <div class="text-center p-4 bg-red-50 rounded-lg">
+                                            <div class="text-2xl font-bold text-red-600">{{ team_standing.home.lose }}</div>
+                                            <div class="text-xs text-red-600">{% trans "Losses" %}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                                            <span class="text-slate-600">{% trans "Goals Scored at Home" %}</span>
+                                            <span class="font-bold text-blue-600">{{ team_standing.home.goals.for }}</span>
+                                        </div>
+                                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                                            <span class="text-slate-600">{% trans "Goals Conceded at Home" %}</span>
+                                            <span class="font-bold text-red-600">{{ team_standing.home.goals.against }}</span>
+                                        </div>
+                                        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                                            <span class="text-slate-600">{% trans "Home Goal Difference" %}</span>
+                                            <span class="font-bold {% if team_standing.home.goals.for|add:team_standing.home.goals.against|add:'-'|add:team_standing.home.goals.against >= 0 %}text-green-600{% else %}text-red-600{% endif %}">
+                                                {% with home_diff=team_standing.home.goals.for|add:'-'|add:team_standing.home.goals.against %}
+                                                    {% if home_diff >= 0 %}+{% endif %}{{ home_diff }}
+                                                {% endwith %}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {% if team_standing.home.played > 0 %}
+                                        <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                                            <div class="text-sm text-blue-600 mb-1">{% trans "Home Win Rate" %}</div>
+                                            <div class="flex items-center">
+                                                <div class="flex-1 bg-blue-200 rounded-full h-2 mr-3">
+                                                    <div class="bg-blue-600 h-2 rounded-full" style="width: {% widthratio team_standing.home.win team_standing.home.played 100 %}%"></div>
+                                                </div>
+                                                <span class="text-sm font-semibold text-blue-700">
+                                                    {% widthratio team_standing.home.win team_standing.home.played 100 %}%
+                                                </span>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Additional Information -->
+                    {% if venue_details.image or venue_details.name %}
+                        <div class="mt-8 pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Additional Information" %}</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {% if venue_details.image %}
+                                    <div>
+                                        <div class="text-sm font-medium text-slate-600 mb-3">{% trans "Stadium Image" %}</div>
+                                        <img src="{{ venue_details.image }}" alt="{{ venue_details.name }}" class="w-full h-48 object-cover rounded-lg shadow-lg">
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <div class="text-sm font-medium text-slate-600 mb-3">{% trans "Quick Facts" %}</div>
+                                    <div class="space-y-2 text-sm">
+                                        {% if venue_details.capacity %}
+                                            <div class="flex justify-between">
+                                                <span>{% trans "Capacity" %}</span>
+                                                <span class="font-medium">{{ venue_details.capacity|floatformat:0 }}</span>
+                                            </div>
+                                        {% endif %}
+                                        {% if venue_details.surface %}
+                                            <div class="flex justify-between">
+                                                <span>{% trans "Surface" %}</span>
+                                                <span class="font-medium">{{ venue_details.surface }}</span>
+                                            </div>
+                                        {% endif %}
+                                        {% if venue_details.city %}
+                                            <div class="flex justify-between">
+                                                <span>{% trans "Location" %}</span>
+                                                <span class="font-medium">{{ venue_details.city }}</span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                {% else %}
+                    <!-- No Venue Data -->
+                    <div class="pl-card text-center py-16">
+                        <div class="w-20 h-20 mx-auto bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h4M9 7h6m-6 4h6m-6 4h6"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">{% trans "Venue Information Not Available" %}</h3>
+                        <p class="text-slate-600">{% trans "Stadium details for this team are currently not available." %}</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Kit Tab -->
+            <div id="kit-tab" class="tab-content hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Home Kit -->
+                    <div class="pl-card text-center">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6">🏠 {% trans "Home Kit" %}</h3>
+                        <div class="mb-6">
+                            {% if team.logo %}
+                                <div class="w-32 h-32 mx-auto bg-slate-100 rounded-lg flex items-center justify-center p-4 mb-4">
+                                    <img src="{{ team.logo }}" alt="{{ team.name }} Home Kit" class="w-full h-full object-contain">
+                                </div>
+                            {% else %}
+                                <div class="w-32 h-32 mx-auto bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                                    <span class="text-white font-bold text-2xl">{{ team.name|slice:":2"|upper }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="text-sm text-slate-600">{% trans "Home colors and design" %}</div>
+                        </div>
+                    </div>
+
+                    <!-- Away Kit -->
+                    <div class="pl-card text-center">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6">✈️ {% trans "Away Kit" %}</h3>
+                        <div class="mb-6">
+                            {% if team.logo %}
+                                <div class="w-32 h-32 mx-auto bg-slate-200 rounded-lg flex items-center justify-center p-4 mb-4">
+                                    <img src="{{ team.logo }}" alt="{{ team.name }} Away Kit" class="w-full h-full object-contain">
+                                </div>
+                            {% else %}
+                                <div class="w-32 h-32 mx-auto bg-slate-600 rounded-lg flex items-center justify-center mb-4">
+                                    <span class="text-white font-bold text-2xl">{{ team.name|slice:":2"|upper }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="text-sm text-slate-600">{% trans "Away colors and design" %}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kit Information -->
+                <div class="mt-8 pl-card">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6">👕 {% trans "Kit Information" %}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                        <div>
+                            <div class="font-semibold text-slate-900 mb-2">{% trans "Current Season" %}</div>
+                            <div class="text-slate-600">2025/26 Allsvenskan</div>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-slate-900 mb-2">{% trans "Kit Manufacturer" %}</div>
+                            <div class="text-slate-600">{% trans "Information not available" %}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Players Tab -->
+            <div id="players-tab" class="tab-content hidden">
+                <!-- Position Filter -->
+                {% if available_positions %}
+                    <div class="mb-6">
+                        <div class="flex flex-wrap gap-2">
+                            <a href="?{% if request.GET.position %}{{ request.GET.urlencode|cut:"position=" }}{% endif %}"
+                               class="px-4 py-2 rounded-full text-sm font-medium transition-colors
+                                      {% if not current_position_filter %}bg-blue-600 text-white{% else %}bg-slate-200 text-slate-700 hover:bg-slate-300{% endif %}">
+                                {% trans "All Players" %} ({{ team_players|length }})
+                            </a>
+                            {% for position in available_positions %}
+                                <a href="?position={{ position|urlencode }}"
+                                   class="px-4 py-2 rounded-full text-sm font-medium transition-colors
+                                          {% if current_position_filter == position %}bg-blue-600 text-white{% else %}bg-slate-200 text-slate-700 hover:bg-slate-300{% endif %}">
+                                    {% if position == 'Goalkeeper' %}🥅
+                                    {% elif position == 'Defender' %}🛡️
+                                    {% elif position == 'Midfielder' %}⚽
+                                    {% elif position == 'Attacker' %}🎯
+                                    {% else %}⚽{% endif %}
+                                    {{ position }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if team_players %}
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {% for player in team_players %}
+                            <div class="pl-card hover:shadow-lg transition-shadow">
+                                <div class="flex items-center space-x-4">
+                                    {% if player.player.photo %}
+                                        <img src="{{ player.player.photo }}" alt="{{ player.player.name }}" class="w-12 h-12 rounded-full object-cover">
+                                    {% else %}
+                                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                                            <span class="text-white font-bold text-sm">{{ player.player.name|slice:":2"|upper }}</span>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="flex-1">
+                                        <div class="font-semibold text-slate-900">{{ player.player.name }}</div>
+                                        <div class="text-sm text-slate-600">
+                                            {% if player.statistics.0.games.position %}
+                                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                    {% if player.statistics.0.games.position == 'Goalkeeper' %}🥅
+                                                    {% elif player.statistics.0.games.position == 'Defender' %}🛡️
+                                                    {% elif player.statistics.0.games.position == 'Midfielder' %}⚽
+                                                    {% elif player.statistics.0.games.position == 'Attacker' %}🎯
+                                                    {% else %}⚽{% endif %}
+                                                    {{ player.statistics.0.games.position }}
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="text-xs text-slate-500 mt-1">
+                                            {% if player.player.age %}{{ player.player.age }} yrs{% endif %}
+                                            {% if player.player.nationality %} • {{ player.player.nationality }}{% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="text-right">
+                                        <div class="text-lg font-bold text-blue-600">{{ player.statistics.0.goals.total|default:0 }}</div>
+                                        <div class="text-xs text-slate-500">{% trans "Goals" %}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="pl-card text-center py-12">
+                        <div class="text-4xl mb-4">👥</div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">{% trans "No Player Data Available" %}</h3>
+                        <p class="text-slate-600">{% trans "Player information is not currently available for this team." %}</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Fixtures Tab -->
+            <div id="fixtures-tab" class="tab-content hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Recent Results -->
+                    {% if recent_fixtures %}
+                        <div class="pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">📅 {% trans "Recent Results" %}</h3>
+                            <div class="space-y-3">
+                                {% for fixture in recent_fixtures %}
+                                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="text-sm text-slate-500">
+                                                {{ fixture.fixture.date|date:"M d" }}
+                                            </div>
+                                            <div class="text-sm font-semibold">
+                                                {{ fixture.teams.home.name }} vs {{ fixture.teams.away.name }}
+                                            </div>
+                                        </div>
+                                        <div class="text-sm font-bold">
+                                            {{ fixture.goals.home|default:0 }} - {{ fixture.goals.away|default:0 }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Upcoming Fixtures -->
+                    {% if upcoming_fixtures %}
+                        <div class="pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">🔜 {% trans "Upcoming Fixtures" %}</h3>
+                            <div class="space-y-3">
+                                {% for fixture in upcoming_fixtures %}
+                                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="text-sm text-slate-500">
+                                                {{ fixture.fixture.date|date:"M d" }}
+                                            </div>
+                                            <div class="text-sm font-semibold">
+                                                {{ fixture.teams.home.name }} vs {{ fixture.teams.away.name }}
+                                            </div>
+                                        </div>
+                                        <div class="text-sm text-blue-600">
+                                            {{ fixture.fixture.date|date:"H:i" }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- All Fixtures (if available) -->
+                {% if all_fixtures %}
+                    <div class="mt-8 pl-card">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6">📋 {% trans "All Season Fixtures" %}</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{% trans "Date" %}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{% trans "Match" %}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{% trans "Result" %}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{% trans "Status" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    {% for fixture in all_fixtures|slice:":10" %}
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900">
+                                                {{ fixture.fixture.date|date:"M d, Y" }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900">
+                                                {{ fixture.teams.home.name }} vs {{ fixture.teams.away.name }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900">
+                                                {% if fixture.goals.home is not None and fixture.goals.away is not None %}
+                                                    {{ fixture.goals.home }} - {{ fixture.goals.away }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 py-1 text-xs font-medium rounded-full
+                                                    {% if fixture.fixture.status.short == 'FT' %}bg-green-100 text-green-800
+                                                    {% elif fixture.fixture.status.short == 'NS' %}bg-blue-100 text-blue-800
+                                                    {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                                    {{ fixture.fixture.status.long|default:fixture.fixture.status.short }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+            <!-- Back Button -->
+            <div class="flex items-center justify-center py-6">
+                <a href="{% url 'teams' %}" class="inline-flex items-center px-6 py-3 border border-slate-300 text-sm font-medium rounded-lg text-slate-700 bg-white hover:bg-slate-50 hover:border-slate-400 transition-colors duration-200">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    {% trans "Back to All Teams" %}
+                </a>
+            </div>
+        </div>
+
+    {% else %}
+        <!-- Error/No Data State -->
+        <div class="container mx-auto px-4 py-16">
+            <div class="pl-card text-center py-16">
+                <div class="text-6xl mb-4">⚽</div>
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">
+                    {% trans "Team Not Found" %}
+                </h2>
+                <p class="text-slate-600 mb-8">
+                    {% trans "We couldn't find the team profile you're looking for. The team may not exist or there may be a connection issue." %}
+                </p>
+                <a href="{% url 'teams' %}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                    {% trans "Back to All Teams" %}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+// Tab functionality
+function showTab(tabName, clickedButton = null) {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.add('hidden');
+    });
+
+    // Remove active class from all tab buttons
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
+        button.classList.add('text-slate-600', 'hover:text-slate-900', 'hover:bg-white/50');
+    });
+
+    // Show selected tab content
+    const tabContent = document.getElementById(tabName + '-tab');
+    if (tabContent) {
+        tabContent.classList.remove('hidden');
+    }
+
+    // Add active class to clicked button or find the correct button
+    const targetButton = clickedButton || document.querySelector(`[onclick*="${tabName}"]`);
+    if (targetButton) {
+        targetButton.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
+        targetButton.classList.remove('text-slate-600', 'hover:text-slate-900', 'hover:bg-white/50');
+    }
+
+    // Re-initialize charts when showing overview tab
+    if (tabName === 'overview' && typeof d3 !== 'undefined') {
+        setTimeout(initializeCharts, 100);
+    }
+}
+
+// Auto-refresh functionality
+function refreshTeamData() {
+    console.log('Team data refresh check');
+}
+
+// Refresh every 15 minutes
+setInterval(refreshTeamData, 900000);
+
+// Initial load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Team profile loaded with tabs');
+    {% if team.name %}
+    console.log('Team: {{ team.name }}');
+    {% endif %}
+    {% if league_position %}
+    console.log('League Position: {{ league_position }}');
+    {% endif %}
+    {% if team_players %}
+    console.log('Team players loaded:', {{ team_players|length }});
+    {% endif %}
+
+    // Show overview tab by default
+    showTab('overview');
+});
+
+// Initialize D3 charts when overview tab is shown
+function initializeCharts() {
+    {% if team_standing %}
+        // Match Results Pie Chart
+        createResultsPieChart();
+
+        // Goals Bar Chart
+        createGoalsBarChart();
+    {% endif %}
+
+    {% if team_formations %}
+        // Formation Usage Donut Chart
+        createFormationDonutChart();
+    {% endif %}
+
+    {% if recent_fixtures %}
+        // Recent Form Line Chart
+        createFormLineChart();
+    {% endif %}
+
+    // Team Form Trends Chart
+    createTeamFormTrendsChart();
+}
+
+{% if team_standing %}
+// Enhanced 3D Pie Chart for Match Results with Blue/Yellow Theme
+function createResultsPieChart() {
+    const container = d3.select('#resultsChart');
+    if (container.empty()) return;
+
+    // Clear any existing content
+    container.selectAll('*').remove();
+
+    const width = 320;
+    const height = 320;
+    const radius = Math.min(width, height) / 2 - 30;
+    const innerRadius = radius * 0.4; // Make it a donut for 3D effect
+
+    // Blue/Yellow color scheme
+    const data = [
+        {label: '{% trans "Wins" %}', value: {{ team_standing.all.win }}, color: '#1e40af', lightColor: '#3b82f6', darkColor: '#1e3a8a'},
+        {label: '{% trans "Draws" %}', value: {{ team_standing.all.draw }}, color: '#f59e0b', lightColor: '#fbbf24', darkColor: '#d97706'},
+        {label: '{% trans "Losses" %}', value: {{ team_standing.all.lose }}, color: '#1e3a8a', lightColor: '#3730a3', darkColor: '#1e1b4b'}
+    ].filter(d => d.value > 0);
+
+    const svg = container.append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+    // Add gradient definitions for 3D effect
+    const defs = svg.append('defs');
+
+    data.forEach((d, i) => {
+        const gradient = defs.append('radialGradient')
+            .attr('id', `gradient-${i}`)
+            .attr('cx', '30%')
+            .attr('cy', '30%');
+
+        gradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', d.lightColor);
+
+        gradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', d.darkColor);
+
+        // Shadow gradient
+        const shadowGradient = defs.append('radialGradient')
+            .attr('id', `shadow-gradient-${i}`)
+            .attr('cx', '50%')
+            .attr('cy', '50%');
+
+        shadowGradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', d.darkColor)
+            .attr('stop-opacity', '0.6');
+
+        shadowGradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', d.darkColor)
+            .attr('stop-opacity', '0.2');
+    });
+
+    const g = svg.append('g')
+        .attr('transform', `translate(${width/2}, ${height/2})`);
+
+    // Create shadow layer for 3D effect
+    const shadowG = svg.append('g')
+        .attr('transform', `translate(${width/2 + 4}, ${height/2 + 4})`);
+
+    const pie = d3.pie()
+        .value(d => d.value)
+        .sort(null)
+        .padAngle(0.02);
+
+    const arc = d3.arc()
+        .innerRadius(innerRadius)
+        .outerRadius(radius)
+        .cornerRadius(3);
+
+    const shadowArc = d3.arc()
+        .innerRadius(innerRadius)
+        .outerRadius(radius)
+        .cornerRadius(3);
+
+    // Draw shadows first
+    const shadows = shadowG.selectAll('.shadow-arc')
+        .data(pie(data))
+        .enter().append('path')
+        .attr('class', 'shadow-arc')
+        .attr('d', shadowArc)
+        .attr('fill', (d, i) => `url(#shadow-gradient-${i})`)
+        .attr('opacity', 0.4);
+
+    // Draw main arcs
+    const arcs = g.selectAll('.arc')
+        .data(pie(data))
+        .enter().append('g')
+        .attr('class', 'arc');
+
+    const paths = arcs.append('path')
+        .attr('d', arc)
+        .attr('fill', (d, i) => `url(#gradient-${i})`)
+        .attr('stroke', '#ffffff')
+        .attr('stroke-width', 3)
+        .style('cursor', 'pointer')
+        .style('filter', 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))')
+        .on('mouseover', function(event, d) {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('transform', 'scale(1.05)')
+                .style('filter', 'drop-shadow(4px 4px 8px rgba(0,0,0,0.4))');
+        })
+        .on('mouseout', function(event, d) {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('transform', 'scale(1)')
+                .style('filter', 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))');
+        });
+
+    // Add labels with better positioning
+    arcs.append('text')
+        .attr('transform', function(d) {
+            const [x, y] = arc.centroid(d);
+            return `translate(${x * 1.4}, ${y * 1.4})`;
+        })
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'middle')
+        .style('font-size', '12px')
+        .style('font-weight', 'bold')
+        .style('fill', '#1e40af')
+        .style('text-shadow', '1px 1px 2px rgba(255,255,255,0.8)')
+        .text(d => d.data.value);
+
+    // Add center text
+    g.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'middle')
+        .style('font-size', '16px')
+        .style('font-weight', 'bold')
+        .style('fill', '#1e40af')
+        .text('{{ team_standing.all.played }}');
+
+    g.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'middle')
+        .attr('y', 20)
+        .style('font-size', '10px')
+        .style('fill', '#64748b')
+        .text('{% trans "Matches" %}');
+}
+
+// Enhanced 3D Bar Chart for Goals with Blue/Yellow Theme
+function createGoalsBarChart() {
+    const container = d3.select('#goalsChart');
+    if (container.empty()) return;
+
+    // Clear any existing content
+    container.selectAll('*').remove();
+
+    const margin = {top: 30, right: 30, bottom: 60, left: 60};
+    const width = 320 - margin.left - margin.right;
+    const height = 280 - margin.bottom - margin.top;
+
+    // Blue/Yellow theme data
+    const data = [
+        {
+            label: '{% trans "Goals For" %}',
+            value: {{ team_standing.all.goals.for }},
+            color: '#1e40af',
+            lightColor: '#3b82f6',
+            darkColor: '#1e3a8a',
+            shadowColor: '#1e40af40'
+        },
+        {
+            label: '{% trans "Goals Against" %}',
+            value: {{ team_standing.all.goals.against }},
+            color: '#f59e0b',
+            lightColor: '#fbbf24',
+            darkColor: '#d97706',
+            shadowColor: '#f59e0b40'
+        }
+    ];
+
+    const svg = container.append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom);
+
+    // Create gradients for 3D effect
+    const defs = svg.append('defs');
+
+    data.forEach((d, i) => {
+        // Main gradient
+        const gradient = defs.append('linearGradient')
+            .attr('id', `bar-gradient-${i}`)
+            .attr('x1', '0%')
+            .attr('y1', '0%')
+            .attr('x2', '100%')
+            .attr('y2', '100%');
+
+        gradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', d.lightColor);
+
+        gradient.append('stop')
+            .attr('offset', '50%')
+            .attr('stop-color', d.color);
+
+        gradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', d.darkColor);
+
+        // Top gradient for 3D effect
+        const topGradient = defs.append('linearGradient')
+            .attr('id', `bar-top-gradient-${i}`)
+            .attr('x1', '0%')
+            .attr('y1', '0%')
+            .attr('x2', '100%')
+            .attr('y2', '0%');
+
+        topGradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', d.lightColor);
+
+        topGradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', d.color);
+
+        // Side gradient
+        const sideGradient = defs.append('linearGradient')
+            .attr('id', `bar-side-gradient-${i}`)
+            .attr('x1', '0%')
+            .attr('y1', '0%')
+            .attr('x2', '0%')
+            .attr('y2', '100%');
+
+        sideGradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', d.color);
+
+        sideGradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', d.darkColor);
+    });
+
+    const g = svg.append('g')
+        .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+    const x = d3.scaleBand()
+        .domain(data.map(d => d.label))
+        .range([0, width])
+        .padding(0.4);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.value)])
+        .nice()
+        .range([height, 0]);
+
+    // 3D effect parameters
+    const depthOffset = 8;
+    const topOffset = 6;
+
+    // Create 3D bars
+    data.forEach((d, i) => {
+        const barX = x(d.label);
+        const barWidth = x.bandwidth();
+        const barY = y(d.value);
+        const barHeight = height - y(d.value);
+
+        // Shadow (bottom layer)
+        g.append('rect')
+            .attr('x', barX + 2)
+            .attr('y', barY + 2)
+            .attr('width', barWidth)
+            .attr('height', barHeight)
+            .attr('fill', d.shadowColor)
+            .attr('rx', 6);
+
+        // Side face (right side)
+        if (barHeight > 0) {
+            g.append('path')
+                .attr('d', `M ${barX + barWidth} ${barY}
+                           L ${barX + barWidth + depthOffset} ${barY - topOffset}
+                           L ${barX + barWidth + depthOffset} ${barY + barHeight - topOffset}
+                           L ${barX + barWidth} ${barY + barHeight} Z`)
+                .attr('fill', `url(#bar-side-gradient-${i})`)
+                .style('filter', 'drop-shadow(1px 1px 2px rgba(0,0,0,0.3))');
+        }
+
+        // Top face
+        if (barHeight > 0) {
+            g.append('path')
+                .attr('d', `M ${barX} ${barY}
+                           L ${barX + depthOffset} ${barY - topOffset}
+                           L ${barX + barWidth + depthOffset} ${barY - topOffset}
+                           L ${barX + barWidth} ${barY} Z`)
+                .attr('fill', `url(#bar-top-gradient-${i})`)
+                .style('filter', 'drop-shadow(1px 1px 2px rgba(0,0,0,0.3))');
+        }
+
+        // Main front face
+        const mainBar = g.append('rect')
+            .attr('x', barX)
+            .attr('y', barY)
+            .attr('width', barWidth)
+            .attr('height', 0)
+            .attr('fill', `url(#bar-gradient-${i})`)
+            .attr('stroke', '#ffffff')
+            .attr('stroke-width', 2)
+            .attr('rx', 6)
+            .style('cursor', 'pointer')
+            .style('filter', 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))')
+            .on('mouseover', function() {
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr('transform', 'scale(1.02)')
+                    .style('filter', 'drop-shadow(4px 4px 8px rgba(0,0,0,0.4))');
+            })
+            .on('mouseout', function() {
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr('transform', 'scale(1)')
+                    .style('filter', 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))');
+            });
+
+        // Animate bar height
+        mainBar.transition()
+            .duration(1000)
+            .delay(i * 200)
+            .attr('height', barHeight);
+
+        // Add value labels with glow effect
+        g.append('text')
+            .attr('x', barX + barWidth / 2)
+            .attr('y', barY - 15)
+            .attr('text-anchor', 'middle')
+            .style('font-size', '16px')
+            .style('font-weight', 'bold')
+            .style('fill', '#1e40af')
+            .style('text-shadow', '0 0 10px rgba(255,255,255,0.8), 1px 1px 2px rgba(0,0,0,0.3)')
+            .text(d.value)
+            .attr('opacity', 0)
+            .transition()
+            .duration(1000)
+            .delay(i * 200 + 500)
+            .attr('opacity', 1);
+    });
+
+    // Enhanced axes with blue theme
+    const xAxis = g.append('g')
+        .attr('transform', `translate(0, ${height})`)
+        .call(d3.axisBottom(x).tickSize(0))
+        .selectAll('text')
+        .style('font-size', '12px')
+        .style('font-weight', '600')
+        .style('fill', '#1e40af')
+        .attr('transform', 'rotate(-15)')
+        .style('text-anchor', 'end');
+
+    const yAxis = g.append('g')
+        .call(d3.axisLeft(y).ticks(5).tickSize(-width))
+        .style('color', '#e5e7eb');
+
+    yAxis.selectAll('text')
+        .style('font-size', '10px')
+        .style('fill', '#64748b');
+
+    yAxis.selectAll('line')
+        .style('stroke', '#e5e7eb')
+        .style('stroke-dasharray', '2,2');
+
+    // Remove axis domain lines
+    yAxis.select('.domain').remove();
+    g.select('.domain').remove();
+}
+{% endif %}
+
+{% if team_formations %}
+// Enhanced 3D Donut Chart for Formation Usage with Blue/Yellow Theme
+function createFormationDonutChart() {
+    const container = d3.select('#formationChart');
+    if (container.empty()) return;
+
+    // Clear any existing content
+    container.selectAll('*').remove();
+
+    const width = 320;
+    const height = 320;
+    const radius = Math.min(width, height) / 2 - 30;
+    const innerRadius = radius * 0.55;
+
+    // Blue/Yellow theme for formations
+    const colors = [
+        {main: '#1e40af', light: '#3b82f6', dark: '#1e3a8a'},
+        {main: '#f59e0b', light: '#fbbf24', dark: '#d97706'},
+        {main: '#1e3a8a', light: '#3730a3', dark: '#1e1b4b'}
+    ];
+
+    const data = [
+        {% for formation in team_formations|slice:":3" %}
+        {
+            label: '{{ formation.formation }}',
+            value: {{ formation.played }},
+            colors: colors[{{ forloop.counter0 }}] || colors[0]
+        },
+        {% endfor %}
+    ];
+
+    const svg = container.append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+    // Create gradients
+    const defs = svg.append('defs');
+
+    data.forEach((d, i) => {
+        // Radial gradient for 3D effect
+        const gradient = defs.append('radialGradient')
+            .attr('id', `formation-gradient-${i}`)
+            .attr('cx', '30%')
+            .attr('cy', '30%');
+
+        gradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', d.colors.light);
+
+        gradient.append('stop')
+            .attr('offset', '70%')
+            .attr('stop-color', d.colors.main);
+
+        gradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', d.colors.dark);
+
+        // Shadow gradient
+        const shadowGradient = defs.append('radialGradient')
+            .attr('id', `formation-shadow-${i}`)
+            .attr('cx', '50%')
+            .attr('cy', '50%');
+
+        shadowGradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', d.colors.dark)
+            .attr('stop-opacity', '0.5');
+
+        shadowGradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', d.colors.dark)
+            .attr('stop-opacity', '0.1');
+    });
+
+    const g = svg.append('g')
+        .attr('transform', `translate(${width/2}, ${height/2})`);
+
+    // Shadow layer
+    const shadowG = svg.append('g')
+        .attr('transform', `translate(${width/2 + 5}, ${height/2 + 5})`);
+
+    const pie = d3.pie()
+        .value(d => d.value)
+        .sort(null)
+        .padAngle(0.02);
+
+    const arc = d3.arc()
+        .innerRadius(innerRadius)
+        .outerRadius(radius)
+        .cornerRadius(4);
+
+    const shadowArc = d3.arc()
+        .innerRadius(innerRadius)
+        .outerRadius(radius)
+        .cornerRadius(4);
+
+    // Draw shadows
+    shadowG.selectAll('.shadow-arc')
+        .data(pie(data))
+        .enter().append('path')
+        .attr('class', 'shadow-arc')
+        .attr('d', shadowArc)
+        .attr('fill', (d, i) => `url(#formation-shadow-${i})`)
+        .attr('opacity', 0.6);
+
+    // Main arcs
+    const arcs = g.selectAll('.arc')
+        .data(pie(data))
+        .enter().append('g')
+        .attr('class', 'arc');
+
+    const paths = arcs.append('path')
+        .attr('d', arc)
+        .attr('fill', (d, i) => `url(#formation-gradient-${i})`)
+        .attr('stroke', '#ffffff')
+        .attr('stroke-width', 3)
+        .style('cursor', 'pointer')
+        .style('filter', 'drop-shadow(3px 3px 6px rgba(0,0,0,0.3))')
+        .on('mouseover', function(event, d) {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('transform', 'scale(1.08)')
+                .style('filter', 'drop-shadow(5px 5px 10px rgba(0,0,0,0.4))');
+        })
+        .on('mouseout', function(event, d) {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('transform', 'scale(1)')
+                .style('filter', 'drop-shadow(3px 3px 6px rgba(0,0,0,0.3))');
+        });
+
+    // Animate the donut chart
+    paths.transition()
+        .duration(1500)
+        .ease(d3.easeElastic)
+        .delay((d, i) => i * 200)
+        .attrTween('d', function(d) {
+            const i = d3.interpolate({startAngle: 0, endAngle: 0}, d);
+            return function(t) {
+                return arc(i(t));
+            };
+        });
+
+    // Add percentage labels
+    arcs.append('text')
+        .attr('transform', function(d) {
+            const [x, y] = arc.centroid(d);
+            return `translate(${x * 1.2}, ${y * 1.2})`;
+        })
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'middle')
+        .style('font-size', '12px')
+        .style('font-weight', 'bold')
+        .style('fill', '#1e40af')
+        .style('text-shadow', '1px 1px 2px rgba(255,255,255,0.8)')
+        .text(d => d.data.value)
+        .attr('opacity', 0)
+        .transition()
+        .duration(1000)
+        .delay((d, i) => i * 200 + 800)
+        .attr('opacity', 1);
+
+    // Center content with most used formation
+    const centerGroup = g.append('g')
+        .attr('text-anchor', 'middle');
+
+    centerGroup.append('text')
+        .attr('y', -10)
+        .style('font-size', '18px')
+        .style('font-weight', 'bold')
+        .style('fill', '#1e40af')
+        .text(data[0] ? data[0].label : '');
+
+    centerGroup.append('text')
+        .attr('y', 15)
+        .style('font-size', '12px')
+        .style('fill', '#64748b')
+        .text('{% trans "Most Used" %}');
+
+    // Legend with 3D effect
+    const legend = svg.append('g')
+        .attr('transform', `translate(20, ${height - 80})`);
+
+    data.forEach((d, i) => {
+        const legendItem = legend.append('g')
+            .attr('transform', `translate(0, ${i * 25})`);
+
+        legendItem.append('rect')
+            .attr('width', 18)
+            .attr('height', 18)
+            .attr('rx', 3)
+            .attr('fill', `url(#formation-gradient-${i})`)
+            .attr('stroke', '#ffffff')
+            .attr('stroke-width', 2)
+            .style('filter', 'drop-shadow(1px 1px 2px rgba(0,0,0,0.3))');
+
+        legendItem.append('text')
+            .attr('x', 25)
+            .attr('y', 9)
+            .attr('dy', '0.35em')
+            .style('font-size', '11px')
+            .style('font-weight', '600')
+            .style('fill', '#1e40af')
+            .text(`${d.label} (${d.value})`);
+    });
+}
+{% endif %}
+
+{% if recent_fixtures %}
+// Enhanced 3D Line Chart for Recent Form with Blue/Yellow Theme
+function createFormLineChart() {
+    const container = d3.select('#formChart');
+    if (container.empty()) return;
+
+    // Clear any existing content
+    container.selectAll('*').remove();
+
+    const margin = {top: 30, right: 30, bottom: 50, left: 50};
+    const width = 320 - margin.left - margin.right;
+    const height = 280 - margin.bottom - margin.top;
+
+    // Blue/Yellow theme for results
+    const resultColors = {
+        3: {main: '#1e40af', light: '#3b82f6', dark: '#1e3a8a', name: 'Win'}, // Win - Blue
+        1: {main: '#f59e0b', light: '#fbbf24', dark: '#d97706', name: 'Draw'}, // Draw - Yellow
+        0: {main: '#1e3a8a', light: '#3730a3', dark: '#1e1b4b', name: 'Loss'}  // Loss - Dark Blue
+    };
+
+    const data = [];
+    {% for fixture in recent_fixtures|slice:":8" %}
+        data.unshift({
+            date: '{{ fixture.fixture.date|date:"M d" }}',
+            opponent: '{% if fixture.teams.home.id == team.id %}{{ fixture.teams.away.name }}{% else %}{{ fixture.teams.home.name }}{% endif %}',
+            {% if fixture.teams.home.id == team.id %}
+                {% if fixture.goals.home > fixture.goals.away %}
+                    result: 3, // Win
+                    score: '{{ fixture.goals.home }}-{{ fixture.goals.away }}'
+                {% elif fixture.goals.home == fixture.goals.away %}
+                    result: 1, // Draw
+                    score: '{{ fixture.goals.home }}-{{ fixture.goals.away }}'
+                {% else %}
+                    result: 0, // Loss
+                    score: '{{ fixture.goals.home }}-{{ fixture.goals.away }}'
+                {% endif %}
+            {% else %}
+                {% if fixture.goals.away > fixture.goals.home %}
+                    result: 3, // Win
+                    score: '{{ fixture.goals.away }}-{{ fixture.goals.home }}'
+                {% elif fixture.goals.away == fixture.goals.home %}
+                    result: 1, // Draw
+                    score: '{{ fixture.goals.away }}-{{ fixture.goals.home }}'
+                {% else %}
+                    result: 0, // Loss
+                    score: '{{ fixture.goals.away }}-{{ fixture.goals.home }}'
+                {% endif %}
+            {% endif %}
+        });
+    {% endfor %}
+
+    const svg = container.append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom);
+
+    // Create gradients for 3D effects
+    const defs = svg.append('defs');
+
+    // Line gradient
+    const lineGradient = defs.append('linearGradient')
+        .attr('id', 'line-gradient')
+        .attr('x1', '0%')
+        .attr('y1', '0%')
+        .attr('x2', '100%')
+        .attr('y2', '0%');
+
+    lineGradient.append('stop')
+        .attr('offset', '0%')
+        .attr('stop-color', '#3b82f6');
+
+    lineGradient.append('stop')
+        .attr('offset', '100%')
+        .attr('stop-color', '#1e40af');
+
+    // Area gradient
+    const areaGradient = defs.append('linearGradient')
+        .attr('id', 'area-gradient')
+        .attr('x1', '0%')
+        .attr('y1', '0%')
+        .attr('x2', '0%')
+        .attr('y2', '100%');
+
+    areaGradient.append('stop')
+        .attr('offset', '0%')
+        .attr('stop-color', '#3b82f6')
+        .attr('stop-opacity', '0.6');
+
+    areaGradient.append('stop')
+        .attr('offset', '100%')
+        .attr('stop-color', '#1e40af')
+        .attr('stop-opacity', '0.1');
+
+    const g = svg.append('g')
+        .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+    const x = d3.scalePoint()
+        .domain(data.map(d => d.date))
+        .range([0, width])
+        .padding(0.1);
+
+    const y = d3.scaleLinear()
+        .domain([0, 3])
+        .range([height, 0]);
+
+    // Create line and area generators
+    const line = d3.line()
+        .x(d => x(d.date))
+        .y(d => y(d.result))
+        .curve(d3.curveCardinal);
+
+    const area = d3.area()
+        .x(d => x(d.date))
+        .y0(height)
+        .y1(d => y(d.result))
+        .curve(d3.curveCardinal);
+
+    // Add grid lines
+    g.selectAll('.grid-line')
+        .data([0, 1, 3])
+        .enter().append('line')
+        .attr('class', 'grid-line')
+        .attr('x1', 0)
+        .attr('x2', width)
+        .attr('y1', d => y(d))
+        .attr('y2', d => y(d))
+        .attr('stroke', '#e5e7eb')
+        .attr('stroke-dasharray', '2,2')
+        .attr('opacity', 0.5);
+
+    // Add shadow area
+    g.append('path')
+        .datum(data)
+        .attr('d', area)
+        .attr('fill', 'url(#area-gradient)')
+        .attr('opacity', 0.8);
+
+    // Add main line with shadow
+    g.append('path')
+        .datum(data)
+        .attr('fill', 'none')
+        .attr('stroke', 'url(#line-gradient)')
+        .attr('stroke-width', 4)
+        .attr('d', line)
+        .style('filter', 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))')
+        .attr('stroke-dasharray', function() {
+            return this.getTotalLength();
+        })
+        .attr('stroke-dashoffset', function() {
+            return this.getTotalLength();
+        })
+        .transition()
+        .duration(2000)
+        .attr('stroke-dashoffset', 0);
+
+    // Add enhanced points with 3D effect
+    data.forEach((d, i) => {
+        const resultColor = resultColors[d.result];
+
+        // Shadow circle
+        g.append('circle')
+            .attr('cx', x(d.date) + 2)
+            .attr('cy', y(d.result) + 2)
+            .attr('r', 8)
+            .attr('fill', resultColor.dark)
+            .attr('opacity', 0.3);
+
+        // Main circle with gradient
+        const pointGradient = defs.append('radialGradient')
+            .attr('id', `point-gradient-${i}`)
+            .attr('cx', '30%')
+            .attr('cy', '30%');
+
+        pointGradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', resultColor.light);
+
+        pointGradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', resultColor.dark);
+
+        const point = g.append('circle')
+            .attr('cx', x(d.date))
+            .attr('cy', y(d.result))
+            .attr('r', 0)
+            .attr('fill', `url(#point-gradient-${i})`)
+            .attr('stroke', '#ffffff')
+            .attr('stroke-width', 3)
+            .style('cursor', 'pointer')
+            .style('filter', 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))')
+            .on('mouseover', function(event, d) {
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr('r', 12)
+                    .style('filter', 'drop-shadow(4px 4px 8px rgba(0,0,0,0.4))');
+
+                // Show tooltip
+                const tooltip = g.append('g')
+                    .attr('id', 'tooltip');
+
+                const rect = tooltip.append('rect')
+                    .attr('x', x(d.date) - 40)
+                    .attr('y', y(d.result) - 50)
+                    .attr('width', 80)
+                    .attr('height', 40)
+                    .attr('rx', 5)
+                    .attr('fill', '#1e40af')
+                    .attr('stroke', '#ffffff')
+                    .attr('stroke-width', 2)
+                    .style('filter', 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))');
+
+                tooltip.append('text')
+                    .attr('x', x(d.date))
+                    .attr('y', y(d.result) - 35)
+                    .attr('text-anchor', 'middle')
+                    .style('fill', '#ffffff')
+                    .style('font-size', '10px')
+                    .style('font-weight', 'bold')
+                    .text(resultColor.name);
+
+                tooltip.append('text')
+                    .attr('x', x(d.date))
+                    .attr('y', y(d.result) - 20)
+                    .attr('text-anchor', 'middle')
+                    .style('fill', '#ffffff')
+                    .style('font-size', '12px')
+                    .style('font-weight', 'bold')
+                    .text(d.score);
+            })
+            .on('mouseout', function() {
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr('r', 8)
+                    .style('filter', 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))');
+
+                g.select('#tooltip').remove();
+            });
+
+        // Animate point appearance
+        point.transition()
+            .duration(800)
+            .delay(i * 200 + 1000)
+            .attr('r', 8);
+
+        // Add result letter
+        g.append('text')
+            .attr('x', x(d.date))
+            .attr('y', y(d.result))
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'middle')
+            .style('font-size', '10px')
+            .style('font-weight', 'bold')
+            .style('fill', '#ffffff')
+            .style('text-shadow', '1px 1px 2px rgba(0,0,0,0.5)')
+            .text(resultColor.name.charAt(0))
+            .attr('opacity', 0)
+            .transition()
+            .duration(800)
+            .delay(i * 200 + 1200)
+            .attr('opacity', 1);
+    });
+
+    // Enhanced axes
+    const xAxis = g.append('g')
+        .attr('transform', `translate(0, ${height})`)
+        .call(d3.axisBottom(x).tickSize(0))
+        .style('color', '#1e40af');
+
+    xAxis.selectAll('text')
+        .style('font-size', '11px')
+        .style('font-weight', '600')
+        .style('fill', '#1e40af')
+        .attr('transform', 'rotate(-45)')
+        .style('text-anchor', 'end');
+
+    const yAxis = d3.axisLeft(y)
+        .ticks(4)
+        .tickFormat(d => {
+            switch(d) {
+                case 0: return '{% trans "L" %}';
+                case 1: return '{% trans "D" %}';
+                case 3: return '{% trans "W" %}';
+                default: return '';
+            }
+        });
+
+    const yAxisGroup = g.append('g')
+        .call(yAxis)
+        .style('color', '#64748b');
+
+    yAxisGroup.selectAll('text')
+        .style('font-size', '14px')
+        .style('font-weight', 'bold')
+        .style('fill', '#1e40af');
+
+    // Remove domain lines
+    xAxis.select('.domain').remove();
+    yAxisGroup.select('.domain').remove();
+
+    // Add chart title
+    svg.append('text')
+        .attr('x', (width + margin.left + margin.right) / 2)
+        .attr('y', 20)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '14px')
+        .style('font-weight', 'bold')
+        .style('fill', '#1e40af')
+        .text('{% trans "Recent Form Trend" %}');
+}
+{% endif %}
+
+// Initialize charts when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Load D3.js if not already loaded
+    if (typeof d3 === 'undefined') {
+        const script = document.createElement('script');
+        script.src = 'https://d3js.org/d3.v7.min.js';
+        script.onload = function() {
+            // Small delay to ensure DOM is ready
+            setTimeout(initializeCharts, 100);
+        };
+        document.head.appendChild(script);
+    } else {
+        initializeCharts();
+    }
+});
+
+// Form Trends Chart Variables
+let teamCurrentMetric = 'winRate';
+let teamCurrentTimeframe = 'last5';
+let teamComparisonMode = 'team';
+
+// Team Form Trends Chart Functions
+function generateTeamFormData() {
+    const teamName = '{{ team.name|escapejs }}';
+    const teamColor = getTeamColor(teamName);
+
+    const gameCount = teamCurrentTimeframe === 'last5' ? 5 : 10;
+
+    // Generate mock data for the current team
+    const teamData = {
+        name: teamName,
+        color: teamColor,
+        data: []
+    };
+
+    let cumulativePoints = 0;
+    let cumulativeGoals = 0;
+    let wins = 0;
+
+    for (let i = 0; i < gameCount; i++) {
+        const result = Math.random();
+        let points, goals;
+
+        if (result < 0.45) { // Win - slightly higher chance for current team
+            points = 3;
+            goals = Math.floor(Math.random() * 3) + 1;
+            wins++;
+        } else if (result < 0.75) { // Draw
+            points = 1;
+            goals = Math.floor(Math.random() * 2) + 1;
+        } else { // Loss
+            points = 0;
+            goals = Math.floor(Math.random() * 2);
+        }
+
+        cumulativePoints += points;
+        cumulativeGoals += goals;
+
+        teamData.data.push({
+            game: i + 1,
+            winRate: ((wins / (i + 1)) * 100),
+            goals: cumulativeGoals,
+            points: cumulativePoints
+        });
+    }
+
+    const result = [teamData];
+
+    // Add league average if comparison mode is active
+    if (teamComparisonMode === 'league') {
+        const leagueAvg = {
+            name: '{% trans "League Average" %}',
+            color: '#94a3b8',
+            data: []
+        };
+
+        let avgPoints = 0;
+        let avgGoals = 0;
+        let avgWins = 0;
+
+        for (let i = 0; i < gameCount; i++) {
+            const result = Math.random();
+            let points, goals;
+
+            if (result < 0.35) { // League average win rate
+                points = 3;
+                goals = Math.floor(Math.random() * 2) + 1;
+                avgWins++;
+            } else if (result < 0.65) { // Draw
+                points = 1;
+                goals = Math.floor(Math.random() * 2) + 1;
+            } else { // Loss
+                points = 0;
+                goals = Math.floor(Math.random() * 2);
+            }
+
+            avgPoints += points;
+            avgGoals += goals;
+
+            leagueAvg.data.push({
+                game: i + 1,
+                winRate: ((avgWins / (i + 1)) * 100),
+                goals: avgGoals,
+                points: avgPoints
+            });
+        }
+
+        result.push(leagueAvg);
+    }
+
+    return result;
+}
+
+function getTeamColor(teamName) {
+    // Team-specific colors
+    const teamColors = {
+        'AIK': '#000000',
+        'Malmö FF': '#6CABDD',
+        'Hammarby': '#00A651',
+        'Djurgården': '#003366',
+        'IFK Göteborg': '#0066CC',
+        'Elfsborg': '#FFD700',
+        'Häcken': '#FFFF00',
+        'Sirius': '#FF0000',
+        'Kalmar FF': '#FF6600',
+        'Varbergs BoIS': '#800080'
+    };
+
+    return teamColors[teamName] || '#1e40af'; // Default blue
+}
+
+function createTeamFormTrendsChart() {
+    // Clear previous chart
+    d3.select("#teamFormTrendsChart").selectAll("*").remove();
+    d3.select("#teamChartLegend").selectAll("*").remove();
+
+    const margin = {top: 20, right: 30, bottom: 50, left: 70};
+    const width = document.getElementById('teamFormTrendsChart').clientWidth - margin.left - margin.right;
+    const height = 450 - margin.top - margin.bottom;
+
+    // Create SVG
+    const svg = d3.select("#teamFormTrendsChart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
+
+    // Create gradients for enhanced visual appeal
+    const defs = svg.append("defs");
+
+    const teamGradient = defs.append("linearGradient")
+        .attr("id", "teamAreaGradient")
+        .attr("gradientUnits", "userSpaceOnUse")
+        .attr("x1", 0).attr("y1", height)
+        .attr("x2", 0).attr("y2", 0);
+
+    teamGradient.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "#1e40af")
+        .attr("stop-opacity", 0.1);
+
+    teamGradient.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#3b82f6")
+        .attr("stop-opacity", 0.4);
+
+    const g = svg.append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Generate data
+    const teamsData = generateTeamFormData();
+    const gameCount = teamCurrentTimeframe === 'last5' ? 5 : 10;
+
+    // Scales
+    const xScale = d3.scaleLinear()
+        .domain([1, gameCount])
+        .range([0, width]);
+
+    let yDomain;
+    const metricKey = teamCurrentMetric;
+
+    if (teamCurrentMetric === 'winRate') {
+        yDomain = [0, 100];
+    } else if (teamCurrentMetric === 'goals') {
+        yDomain = [0, d3.max(teamsData, team => d3.max(team.data, d => d.goals)) + 2];
+    } else {
+        yDomain = [0, d3.max(teamsData, team => d3.max(team.data, d => d.points)) + 2];
+    }
+
+    const yScale = d3.scaleLinear()
+        .domain(yDomain)
+        .range([height, 0]);
+
+    // Line generator
+    const line = d3.line()
+        .x(d => xScale(d.game))
+        .y(d => yScale(d[metricKey]))
+        .curve(d3.curveMonotoneX);
+
+    // Area generator for team data
+    const area = d3.area()
+        .x(d => xScale(d.game))
+        .y0(height)
+        .y1(d => yScale(d[metricKey]))
+        .curve(d3.curveMonotoneX);
+
+    // Add grid lines
+    g.append("g")
+        .attr("class", "grid")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(xScale)
+            .tickSize(-height)
+            .tickFormat("")
+        )
+        .style("stroke-dasharray", "3,3")
+        .style("opacity", 0.3);
+
+    g.append("g")
+        .attr("class", "grid")
+        .call(d3.axisLeft(yScale)
+            .tickSize(-width)
+            .tickFormat("")
+        )
+        .style("stroke-dasharray", "3,3")
+        .style("opacity", 0.3);
+
+    // Add axes
+    g.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(xScale).tickFormat(d => `Game ${d}`))
+        .append("text")
+        .attr("x", width / 2)
+        .attr("y", 40)
+        .attr("fill", "#64748b")
+        .style("text-anchor", "middle")
+        .style("font-size", "14px")
+        .text("{% trans "Recent Games" %}");
+
+    let yAxisLabel = '';
+    if (teamCurrentMetric === 'winRate') yAxisLabel = '{% trans "Win Rate %" %}';
+    else if (teamCurrentMetric === 'goals') yAxisLabel = '{% trans "Goals Scored" %}';
+    else yAxisLabel = '{% trans "Points" %}';
+
+    g.append("g")
+        .call(d3.axisLeft(yScale))
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -50)
+        .attr("x", -height / 2)
+        .attr("fill", "#64748b")
+        .style("text-anchor", "middle")
+        .style("font-size", "14px")
+        .text(yAxisLabel);
+
+    // Create tooltip
+    const tooltip = d3.select("body").append("div")
+        .attr("class", "team-tooltip")
+        .style("position", "absolute")
+        .style("background", "rgba(15, 23, 42, 0.95)")
+        .style("color", "white")
+        .style("padding", "12px")
+        .style("border-radius", "8px")
+        .style("font-size", "14px")
+        .style("pointer-events", "none")
+        .style("opacity", 0)
+        .style("z-index", "1000");
+
+    // Draw lines and areas for each team/comparison
+    teamsData.forEach((teamData, index) => {
+        // Add area fill for team data (not league average)
+        if (index === 0) {
+            g.append("path")
+                .datum(teamData.data)
+                .attr("fill", "url(#teamAreaGradient)")
+                .attr("d", area)
+                .style("opacity", 0.6);
+        }
+
+        // Add line
+        const path = g.append("path")
+            .datum(teamData.data)
+            .attr("fill", "none")
+            .attr("stroke", teamData.color)
+            .attr("stroke-width", index === 0 ? 4 : 2)
+            .attr("d", line)
+            .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.1))")
+            .style("stroke-dasharray", index === 0 ? "0" : "5,5");
+
+        // Animate line drawing
+        const totalLength = path.node().getTotalLength();
+        path
+            .attr("stroke-dasharray", totalLength + " " + totalLength)
+            .attr("stroke-dashoffset", totalLength)
+            .transition()
+            .duration(1500)
+            .ease(d3.easeLinear)
+            .attr("stroke-dashoffset", 0)
+            .attr("stroke-dasharray", index === 0 ? "0" : "5,5");
+
+        // Add data points
+        g.selectAll(`.team-point-${index}`)
+            .data(teamData.data)
+            .enter().append("circle")
+            .attr("class", `team-point-${index}`)
+            .attr("cx", d => xScale(d.game))
+            .attr("cy", d => yScale(d[metricKey]))
+            .attr("r", 0)
+            .attr("fill", teamData.color)
+            .attr("stroke", "white")
+            .attr("stroke-width", 2)
+            .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.2))")
+            .on("mouseover", function(event, d) {
+                d3.select(this).transition().duration(150).attr("r", index === 0 ? 8 : 6);
+
+                tooltip.transition().duration(200).style("opacity", 1);
+                tooltip.html(`
+                    <div style="font-weight: bold; margin-bottom: 8px;">${teamData.name}</div>
+                    <div>Game ${d.game}</div>
+                    <div>Win Rate: ${d.winRate.toFixed(1)}%</div>
+                    <div>Goals: ${d.goals}</div>
+                    <div>Points: ${d.points}</div>
+                `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+                d3.select(this).transition().duration(150).attr("r", index === 0 ? 6 : 4);
+                tooltip.transition().duration(200).style("opacity", 0);
+            })
+            .transition()
+            .delay((d, i) => i * 100 + index * 50)
+            .duration(800)
+            .attr("r", index === 0 ? 6 : 4);
+    });
+
+    // Create legend
+    const legend = d3.select("#teamChartLegend");
+    teamsData.forEach((teamData, index) => {
+        const legendItem = legend.append("div")
+            .attr("class", "flex items-center gap-2 px-3 py-2 bg-slate-50 rounded-lg");
+
+        legendItem.append("div")
+            .style("width", "20px")
+            .style("height", "4px")
+            .style("background-color", teamData.color)
+            .style("border-radius", "2px")
+            .style("border", index === 0 ? "none" : "1px dashed " + teamData.color);
+
+        legendItem.append("span")
+            .style("font-size", "14px")
+            .style("color", "#475569")
+            .style("font-weight", index === 0 ? "600" : "normal")
+            .text(teamData.name);
+    });
+
+    // Update performance indicators
+    updateTeamPerformanceIndicators(teamsData[0]);
+}
+
+function updateTeamPerformanceIndicators(teamData) {
+    const lastGameData = teamData.data[teamData.data.length - 1];
+
+    // Current form rating (based on recent win rate)
+    const formRating = Math.round(lastGameData.winRate);
+    document.getElementById('teamCurrentForm').textContent = formRating + '%';
+
+    // Form trend (comparing first half to second half)
+    const halfPoint = Math.floor(teamData.data.length / 2);
+    const firstHalf = teamData.data.slice(0, halfPoint);
+    const secondHalf = teamData.data.slice(halfPoint);
+
+    const firstHalfAvg = firstHalf.reduce((sum, d) => sum + d.winRate, 0) / firstHalf.length;
+    const secondHalfAvg = secondHalf.reduce((sum, d) => sum + d.winRate, 0) / secondHalf.length;
+
+    const trend = secondHalfAvg - firstHalfAvg;
+    document.getElementById('teamFormTrend').textContent =
+        (trend > 0 ? '↗ +' : trend < 0 ? '↘ ' : '→ ') + Math.round(Math.abs(trend)) + '%';
+
+    // Consistency score (inverse of variance)
+    const winRates = teamData.data.map(d => d.winRate);
+    const mean = winRates.reduce((a, b) => a + b) / winRates.length;
+    const variance = winRates.reduce((sum, rate) => sum + Math.pow(rate - mean, 2), 0) / winRates.length;
+    const consistency = Math.max(0, 100 - Math.sqrt(variance));
+    document.getElementById('teamConsistency').textContent = Math.round(consistency) + '%';
+
+    // League rank simulation
+    const leagueRank = Math.floor(Math.random() * 5) + 1; // Random 1-5 for demo
+    document.getElementById('teamLeagueRank').textContent =
+        leagueRank <= 2 ? 'Top 3' : leagueRank <= 5 ? 'Top 5' : 'Mid Table';
+}
+
+function switchTeamMetric(metric) {
+    teamCurrentMetric = metric;
+
+    // Update button states
+    document.querySelectorAll('#teamWinRateBtn, #teamGoalsBtn, #teamPointsBtn').forEach(btn => {
+        btn.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900';
+    });
+
+    document.getElementById('team' + metric.charAt(0).toUpperCase() + metric.slice(1) + 'Btn').className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-blue-600 text-white';
+
+    createTeamFormTrendsChart();
+}
+
+function switchTeamTimeframe(timeframe) {
+    teamCurrentTimeframe = timeframe;
+
+    // Update button states
+    document.querySelectorAll('#teamLastFiveBtn, #teamLastTenBtn').forEach(btn => {
+        btn.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900';
+    });
+
+    document.getElementById('team' + (timeframe === 'last5' ? 'LastFive' : 'LastTen') + 'Btn').className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-yellow-500 text-gray-900';
+
+    createTeamFormTrendsChart();
+}
+
+function switchComparisonMode(mode) {
+    teamComparisonMode = mode;
+
+    // Update button states
+    document.querySelectorAll('#teamOnlyBtn, #leagueCompareBtn').forEach(btn => {
+        btn.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-slate-600 hover:text-slate-900';
+    });
+
+    document.getElementById(mode === 'team' ? 'teamOnlyBtn' : 'leagueCompareBtn').className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-green-600 text-white';
+
+    createTeamFormTrendsChart();
+}
+</script>
+
+{% block extra_js %}
+<script src="https://d3js.org/d3.v7.min.js"></script>
+{% endblock %}
+{% endblock %}

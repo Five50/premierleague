@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% if player.player.name %}
+        {{ player.player.name }} - {% trans "ALLSVENSKAN Insikter" %}
+    {% else %}
+        {% trans "Player Profile - ALLSVENSKAN Insikter" %}
+    {% endif %}
+{% endblock %}
+
+{% block meta_description %}
+    {% if player.player.name %}
+        {% blocktrans with name=player.player.name %}View detailed statistics and profile for {{ name }} in the Allsvenskan with ALLSVENSKAN Insikter.{% endblocktrans %}
+    {% else %}
+        {% trans "Player profile and statistics from ALLSVENSKAN Insikter." %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50">
+    {% if player %}
+        <!-- Player Header -->
+        <div class="bg-blue-700 text-white">
+            <div class="container mx-auto px-4 py-12">
+                <div class="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
+                    <!-- Player Photo -->
+                    <div class="flex-shrink-0">
+                        {% if player.player.photo %}
+                            <img src="{{ player.player.photo }}" alt="{{ player.player.name }}" class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg">
+                        {% else %}
+                            <div class="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                                <span class="text-4xl font-bold text-white">{{ player.player.name|slice:":2"|upper }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Player Info -->
+                    <div class="text-center md:text-left">
+                        <h1 class="text-4xl md:text-5xl font-bold mb-2">{{ player.player.name }}</h1>
+
+                        {% if player.statistics.0.team.name %}
+                            <div class="flex items-center justify-center md:justify-start space-x-2 mb-2">
+                                {% if player.statistics.0.team.logo %}
+                                    <img src="{{ player.statistics.0.team.logo }}" alt="{{ player.statistics.0.team.name }}" class="w-8 h-8 object-contain">
+                                {% endif %}
+                                <span class="text-xl text-blue-100">{{ player.statistics.0.team.name }}</span>
+                            </div>
+                            {% if player.statistics.0.games.position %}
+                                <div class="text-center md:text-left mb-4">
+                                    <span class="inline-flex items-center px-4 py-2 rounded-full text-base font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-black shadow-lg">
+                                        {% if player.statistics.0.games.position == 'Goalkeeper' %}🥅
+                                        {% elif player.statistics.0.games.position == 'Defender' %}🛡️
+                                        {% elif player.statistics.0.games.position == 'Midfielder' %}⚽
+                                        {% elif player.statistics.0.games.position == 'Attacker' %}🎯
+                                        {% else %}⚽{% endif %}
+                                        {{ player.statistics.0.games.position }}
+                                    </span>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
+                        <!-- Player Details -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center md:text-left">
+                            {% if player.player.age %}
+                                <div>
+                                    <div class="text-2xl font-bold">{{ player.player.age }}</div>
+                                    <div class="text-blue-200 text-sm">{% trans "Years Old" %}</div>
+                                </div>
+                            {% endif %}
+
+                            {% if player.player.height %}
+                                <div>
+                                    <div class="text-2xl font-bold">{{ player.player.height }} cm</div>
+                                    <div class="text-blue-200 text-sm">{% trans "Height" %}</div>
+                                </div>
+                            {% endif %}
+
+                            {% if player.player.weight %}
+                                <div>
+                                    <div class="text-2xl font-bold">{{ player.player.weight }} kg</div>
+                                    <div class="text-blue-200 text-sm">{% trans "Weight" %}</div>
+                                </div>
+                            {% endif %}
+
+                            {% if player.player.nationality %}
+                                <div>
+                                    <div class="flex items-center justify-center md:justify-start space-x-2">
+                                        <img src="https://flagcdn.com/24x18/{% if player.player.nationality == 'Sweden' %}se{% elif player.player.nationality == 'Norway' %}no{% elif player.player.nationality == 'Denmark' %}dk{% elif player.player.nationality == 'Finland' %}fi{% elif player.player.nationality == 'Iceland' %}is{% elif player.player.nationality == 'Brazil' %}br{% elif player.player.nationality == 'Argentina' %}ar{% elif player.player.nationality == 'Germany' %}de{% elif player.player.nationality == 'France' %}fr{% elif player.player.nationality == 'Spain' %}es{% elif player.player.nationality == 'England' %}gb{% elif player.player.nationality == 'Netherlands' %}nl{% elif player.player.nationality == 'Poland' %}pl{% elif player.player.nationality == 'Serbia' %}rs{% elif player.player.nationality == 'Croatia' %}hr{% elif player.player.nationality == 'Bosnia and Herzegovina' %}ba{% else %}{{ player.player.nationality|lower|slice:':2' }}{% endif %}.png"
+                                             alt="{{ player.player.nationality }}"
+                                             class="w-6 h-4 object-cover rounded-sm shadow-sm"
+                                             onerror="this.style.display='none'">
+                                        <span class="text-lg font-bold">{{ player.player.nationality }}</span>
+                                    </div>
+                                    <div class="text-blue-200 text-sm">{% trans "Nationality" %}</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Player Statistics -->
+        <div class="container mx-auto px-4 py-12">
+            {% if player.statistics.0 %}
+                <!-- Current Season Stats -->
+                <div class="mb-12">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-8">{% trans "2025/26 Season Statistics" %}</h2>
+
+                    <!-- Key Stats Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="pl-card text-center">
+                            <div class="text-4xl font-bold text-green-600 mb-2">
+                                {{ player.statistics.0.goals.total|default:0 }}
+                            </div>
+                            <div class="text-sm text-slate-500">{% trans "Goals" %}</div>
+                        </div>
+
+                        <div class="pl-card text-center">
+                            <div class="text-4xl font-bold text-blue-600 mb-2">
+                                {{ player.statistics.0.goals.assists|default:0 }}
+                            </div>
+                            <div class="text-sm text-slate-500">{% trans "Assists" %}</div>
+                        </div>
+
+                        <div class="pl-card text-center">
+                            <div class="text-4xl font-bold text-slate-600 mb-2">
+                                {{ player.statistics.0.games.appearences|default:0 }}
+                            </div>
+                            <div class="text-sm text-slate-500">{% trans "Appearances" %}</div>
+                        </div>
+
+                        <div class="pl-card text-center">
+                            <div class="text-4xl font-bold text-yellow-600 mb-2">
+                                {{ player.statistics.0.cards.yellow|default:0 }}
+                            </div>
+                            <div class="text-sm text-slate-500">{% trans "Yellow Cards" %}</div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Statistics -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Performance Stats -->
+                        <div class="pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Performance" %}</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">{% trans "Matches Played" %}</span>
+                                    <span class="font-semibold">{{ player.statistics.0.games.appearences|default:0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">{% trans "Minutes Played" %}</span>
+                                    <span class="font-semibold">{{ player.statistics.0.games.minutes|default:0 }}</span>
+                                </div>
+                                {% if player.statistics.0.games.rating %}
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">{% trans "Average Rating" %}</span>
+                                        <span class="font-semibold">{{ player.statistics.0.games.rating }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if player.statistics.0.games.position %}
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">{% trans "Position" %}</span>
+                                        <span class="font-semibold">{{ player.statistics.0.games.position }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Goal Stats -->
+                        <div class="pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Goals & Assists" %}</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">{% trans "Goals Scored" %}</span>
+                                    <span class="font-semibold text-green-600">{{ player.statistics.0.goals.total|default:0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">{% trans "Assists" %}</span>
+                                    <span class="font-semibold text-blue-600">{{ player.statistics.0.goals.assists|default:0 }}</span>
+                                </div>
+                                {% if player.statistics.0.goals.saves %}
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">{% trans "Saves" %}</span>
+                                        <span class="font-semibold">{{ player.statistics.0.goals.saves }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if player.statistics.0.penalty %}
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">{% trans "Penalties Scored" %}</span>
+                                        <span class="font-semibold">{{ player.statistics.0.penalty.scored|default:0 }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Disciplinary -->
+                        <div class="pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Disciplinary" %}</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">{% trans "Yellow Cards" %}</span>
+                                    <span class="font-semibold text-yellow-600">{{ player.statistics.0.cards.yellow|default:0 }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">{% trans "Red Cards" %}</span>
+                                    <span class="font-semibold text-red-600">{{ player.statistics.0.cards.red|default:0 }}</span>
+                                </div>
+                                {% if player.statistics.0.fouls %}
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">{% trans "Fouls Committed" %}</span>
+                                        <span class="font-semibold">{{ player.statistics.0.fouls.committed|default:0 }}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-600">{% trans "Fouls Drawn" %}</span>
+                                        <span class="font-semibold">{{ player.statistics.0.fouls.drawn|default:0 }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Additional Stats -->
+                        {% if player.statistics.0.shots or player.statistics.0.passes %}
+                            <div class="pl-card">
+                                <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Technical" %}</h3>
+                                <div class="space-y-4">
+                                    {% if player.statistics.0.shots.total %}
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-slate-600">{% trans "Shots" %}</span>
+                                            <span class="font-semibold">{{ player.statistics.0.shots.total }}</span>
+                                        </div>
+                                    {% endif %}
+                                    {% if player.statistics.0.shots.on %}
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-slate-600">{% trans "Shots on Target" %}</span>
+                                            <span class="font-semibold">{{ player.statistics.0.shots.on }}</span>
+                                        </div>
+                                    {% endif %}
+                                    {% if player.statistics.0.passes.total %}
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-slate-600">{% trans "Passes" %}</span>
+                                            <span class="font-semibold">{{ player.statistics.0.passes.total }}</span>
+                                        </div>
+                                    {% endif %}
+                                    {% if player.statistics.0.passes.accuracy %}
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-slate-600">{% trans "Pass Accuracy" %}</span>
+                                            <span class="font-semibold">{{ player.statistics.0.passes.accuracy }}%</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Player Info Section -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-8">{% trans "Player Information" %}</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="pl-card">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Personal Details" %}</h3>
+                        <div class="space-y-4">
+                            {% if player.player.firstname %}
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">{% trans "First Name" %}</span>
+                                    <span class="font-semibold">{{ player.player.firstname }}</span>
+                                </div>
+                            {% endif %}
+                            {% if player.player.lastname %}
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">{% trans "Last Name" %}</span>
+                                    <span class="font-semibold">{{ player.player.lastname }}</span>
+                                </div>
+                            {% endif %}
+                            {% if player.player.birth.date %}
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">{% trans "Date of Birth" %}</span>
+                                    <span class="font-semibold">{{ player.player.birth.date|date:"j M Y" }}</span>
+                                </div>
+                            {% endif %}
+                            {% if player.player.birth.place %}
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-600">{% trans "Birthplace" %}</span>
+                                    <span class="font-semibold">{{ player.player.birth.place }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if player.statistics.0.team %}
+                        <div class="pl-card">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">{% trans "Current Team" %}</h3>
+                            <div class="flex items-center space-x-4 mb-4">
+                                {% if player.statistics.0.team.logo %}
+                                    <img src="{{ player.statistics.0.team.logo }}" alt="{{ player.statistics.0.team.name }}" class="w-16 h-16 object-contain">
+                                {% endif %}
+                                <div>
+                                    <div class="text-xl font-bold">{{ player.statistics.0.team.name }}</div>
+                                    {% if player.statistics.0.games.position %}
+                                        <div class="text-slate-600">{% trans "Position:" %} {{ player.statistics.0.games.position }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <div class="text-center">
+                <a href="{% url 'players' %}" class="inline-flex items-center justify-center pl-button-outline px-6 py-3 hover:bg-blue-600 hover:text-white transition-colors">
+                    <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span class="whitespace-nowrap">{% trans "Back to All Players" %}</span>
+                </a>
+            </div>
+        </div>
+
+    {% else %}
+        <!-- Error/No Data State -->
+        <div class="container mx-auto px-4 py-16">
+            <div class="pl-card text-center py-16">
+                <div class="text-6xl mb-4">⚽</div>
+                <h2 class="text-2xl font-bold text-slate-900 mb-4">
+                    {% trans "Player Not Found" %}
+                </h2>
+                <p class="text-slate-600 mb-8">
+                    {% trans "We couldn't find the player profile you're looking for. The player may not exist or there may be a connection issue." %}
+                </p>
+                <a href="{% url 'players' %}" class="pl-button">
+                    {% trans "Back to All Players" %}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Player profile loaded');
+    {% if player.player.name %}
+    console.log('Player: {{ player.player.name }}');
+    {% endif %}
+    {% if player.statistics.0.team.name %}
+    console.log('Team: {{ player.statistics.0.team.name }}');
+    {% endif %}
+});
+</script>
+{% endblock %}

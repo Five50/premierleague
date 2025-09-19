@@ -1,0 +1,17 @@
+{% comment %}
+Blog Table of Contents Molecule
+Usage: {% include 'molecules/blog-table-of-contents.html' with sections=toc_sections %}
+{% endcomment %}
+
+{% load i18n %}
+
+<div class="bg-white border border-slate-200 rounded-lg p-6">
+    <h3 class="text-lg font-semibold text-slate-900 mb-4">{% trans "Table of Contents" %}</h3>
+    <nav class="space-y-2">
+        {% for section in sections %}
+            <a href="#{{ section.id }}" class="block text-blue-600 hover:text-blue-800 py-1 px-2 rounded hover:bg-blue-50 transition text-sm">
+                {{ section.title }}
+            </a>
+        {% endfor %}
+    </nav>
+</div>

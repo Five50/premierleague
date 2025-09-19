@@ -1,0 +1,28 @@
+{% comment %}
+Blog Post Card Molecule - Individual blog post preview card
+Usage: {% include 'molecules/blog-post-card.html' with post=post_object %}
+{% endcomment %}
+{% load i18n %}
+
+<article class="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
+    <a href="{{ post.url }}" class="block flex-grow">
+        <div class="aspect-w-16 aspect-h-9 overflow-hidden bg-slate-100">
+            <img src="{{ post.thumbnail }}" 
+                 alt="{{ post.title }}"
+                 width="276"
+                 height="154"
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                 loading="lazy">
+        </div>
+        <div class="p-4">
+            <h3 class="text-lg font-semibold text-slate-900 line-clamp-2 group-hover:text-emerald-800 transition-colors">
+                {{ post.title }}
+            </h3>
+        </div>
+    </a>
+    <div class="px-4 pb-4 text-sm text-slate-600 flex items-center mt-auto">
+        <a href="{{ post.author_url }}" class="hover:text-emerald-800 hover:underline">{{ post.author }}</a>
+        <span class="mx-2 text-slate-600">/</span>
+        <time datetime="{{ post.date_iso }}" class="text-slate-500">{{ post.date }}</time>
+    </div>
+</article>

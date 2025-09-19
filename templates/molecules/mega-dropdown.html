@@ -1,0 +1,368 @@
+{% load static %}
+{% load i18n %}
+<!-- Mega Dropdown - Desktop -->
+<div x-show="megaMenuOpen" 
+     x-init="$watch('megaMenuOpen', value => animateMegaDropdown && animateMegaDropdown(value))"
+     @click.away="megaMenuOpen = false"
+     class="mega-dropdown hidden lg:block absolute top-full left-0 right-0 bg-white shadow-2xl border-t-4 border-blue-500 z-50"
+     x-cloak>
+    <div class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-4 gap-8">
+            
+            <!-- Big Six -->
+            <div>
+                <h3 class="text-lg font-bold text-gray-900 mb-4">{% trans "Big Six" %}</h3>
+                <ul class="space-y-3">
+                    <li><a href="/teams/arsenal/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <img src="{% static 'images/arsenal.svg' %}" alt="Arsenal logo" class="w-6 h-6 mt-0.5 mr-3 group-hover:scale-110 transition-transform" />
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">Arsenal</div>
+                            <div class="text-sm text-gray-600">{% trans "The Gunners" %}</div>
+                        </div>
+                    </a></li>
+                    <li><a href="/teams/chelsea/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <img src="{% static 'images/chelsea.svg' %}" alt="Chelsea logo" class="w-6 h-6 mt-0.5 mr-3 group-hover:scale-110 transition-transform" />
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">Chelsea</div>
+                            <div class="text-sm text-gray-600">{% trans "The Blues" %}</div>
+                        </div>
+                    </a></li>
+                    <li><a href="/teams/liverpool/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <img src="{% static 'images/liverpool.svg' %}" alt="Liverpool logo" class="w-6 h-6 mt-0.5 mr-3 group-hover:scale-110 transition-transform" />
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">Liverpool</div>
+                            <div class="text-sm text-gray-600">{% trans "The Reds" %}</div>
+                        </div>
+                    </a></li>
+                    <li><a href="/teams/manchester-city/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <img src="{% static 'images/manchester-city.svg' %}" alt="Manchester City logo" class="w-6 h-6 mt-0.5 mr-3 group-hover:scale-110 transition-transform" />
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">Manchester City</div>
+                            <div class="text-sm text-gray-600">{% trans "The Citizens" %}</div>
+                        </div>
+                    </a></li>
+                    <li><a href="/teams/manchester-united/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <img src="{% static 'images/manchester-united.svg' %}" alt="Manchester United logo" class="w-6 h-6 mt-0.5 mr-3 group-hover:scale-110 transition-transform" />
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">Manchester United</div>
+                            <div class="text-sm text-gray-600">{% trans "The Red Devils" %}</div>
+                        </div>
+                    </a></li>
+                    <li><a href="/teams/tottenham/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <img src="{% static 'images/tottenham.svg' %}" alt="Tottenham logo" class="w-6 h-6 mt-0.5 mr-3 group-hover:scale-110 transition-transform" />
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">Tottenham</div>
+                            <div class="text-sm text-gray-600">{% trans "Spurs" %}</div>
+                        </div>
+                    </a></li>
+                </ul>
+            </div>
+            
+            <!-- Other Teams -->
+            <div>
+                <h3 class="text-lg font-bold text-gray-900 mb-4">{% trans "Other Teams" %}</h3>
+                <ul class="space-y-3">
+                    <li><a href="/teams/aston-villa/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <img src="{% static 'images/aston-villa.svg' %}" alt="Aston Villa logo" class="w-6 h-6 mt-0.5 mr-3 group-hover:scale-110 transition-transform" />
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">Aston Villa</div>
+                            <div class="text-sm text-gray-600">{% trans "The Villa" %}</div>
+                        </div>
+                    </a></li>
+                    <li><a href="/teams/brighton/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <img src="{% static 'images/brighton.svg' %}" alt="Brighton logo" class="w-6 h-6 mt-0.5 mr-3 group-hover:scale-110 transition-transform" />
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">Brighton</div>
+                            <div class="text-sm text-gray-600">{% trans "The Seagulls" %}</div>
+                        </div>
+                    </a></li>
+                    <li><a href="/teams/newcastle/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <img src="{% static 'images/newcastle.svg' %}" alt="Newcastle logo" class="w-6 h-6 mt-0.5 mr-3 group-hover:scale-110 transition-transform" />
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">Newcastle United</div>
+                            <div class="text-sm text-gray-600">{% trans "The Magpies" %}</div>
+                        </div>
+                    </a></li>
+                    <li><a href="/teams/west-ham/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <img src="{% static 'images/west-ham.svg' %}" alt="West Ham logo" class="w-6 h-6 mt-0.5 mr-3 group-hover:scale-110 transition-transform" />
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">West Ham United</div>
+                            <div class="text-sm text-gray-600">{% trans "The Hammers" %}</div>
+                        </div>
+                    </a></li>
+                </ul>
+                <div class="mt-6">
+                    <a href="/teams/" class="inline-flex items-center px-4 py-2 bg-yellow-400 text-gray-900 rounded-lg font-bold text-sm hover:bg-yellow-500 transition-all duration-200">
+                        {% trans "View All Teams" %}
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Match Centre -->
+            <div>
+                <h3 class="text-lg font-bold text-gray-900 mb-4">{% trans "Match Centre" %}</h3>
+                <ul class="space-y-3">
+                    <li><a href="/fixtures/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <div class="w-3 h-3 bg-green-600 rounded-full mt-1 mr-3 group-hover:scale-110 transition-transform"></div>
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">{% trans "Fixtures & Results" %}</div>
+                            <div class="text-sm text-gray-600">{% trans "All upcoming matches" %}</div>
+                        </div>
+                    </a></li>
+                    <li><a href="/table/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <div class="w-3 h-3 bg-green-600 rounded-full mt-1 mr-3 group-hover:scale-110 transition-transform"></div>
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">{% trans "Allsvenskan Table" %}</div>
+                            <div class="text-sm text-gray-600">{% trans "Current standings" %}</div>
+                        </div>
+                    </a></li>
+                    <li><a href="/stats/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <div class="w-3 h-3 bg-green-600 rounded-full mt-1 mr-3 group-hover:scale-110 transition-transform"></div>
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">{% trans "Statistics" %}</div>
+                            <div class="text-sm text-gray-600">{% trans "Player & team stats" %}</div>
+                        </div>
+                    </a></li>
+                    <li><a href="/transfers/" class="flex items-start group p-2 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        <div class="w-3 h-3 bg-green-600 rounded-full mt-1 mr-3 group-hover:scale-110 transition-transform"></div>
+                        <div>
+                            <div class="text-gray-900 font-semibold group-hover:text-blue-600 transition-colors">{% trans "Transfer News" %}</div>
+                            <div class="text-sm text-gray-600">{% trans "Latest transfers" %}</div>
+                        </div>
+                    </a></li>
+                </ul>
+            </div>
+            
+            <!-- Live Match -->
+            <div class="bg-gradient-to-br from-blue-50 to-rose-50 rounded-2xl p-6 border border-blue-200/50">
+                <h3 class="text-lg font-bold text-blue-900 mb-4">{% trans "Live Now" %}</h3>
+                <div class="bg-white rounded-lg p-4 mb-4 shadow-md">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="inline-flex items-center px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full animate-pulse">
+                            <span class="w-2 h-2 bg-white rounded-full mr-1"></span>
+                            {% trans "LIVE" %}
+                        </span>
+                        <span class="text-sm text-gray-600 font-semibold">67' + 2</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="text-center">
+                            <div class="font-bold text-gray-900 text-sm">Arsenal</div>
+                            <div class="text-3xl font-black text-blue-700">2</div>
+                        </div>
+                        <div class="text-gray-400 font-bold">vs</div>
+                        <div class="text-center">
+                            <div class="font-bold text-gray-900 text-sm">Chelsea</div>
+                            <div class="text-3xl font-black text-blue-700">1</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <a href="/live/" class="flex items-center justify-center w-full px-4 py-3 bg-yellow-400 text-gray-900 rounded-lg font-bold text-sm hover:bg-yellow-500 transition-all duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293L12 11M9 10H8a4 4 0 000 8h1M9 10v4m3-4v4m0-4h1.586a1 1 0 00.707-.293L15 9"/>
+                        </svg>
+                        {% trans "Watch Live" %}
+                    </a>
+                    <a href="/live-scores/" class="flex items-center justify-center w-full px-4 py-3 bg-white text-blue-700 rounded-lg font-bold text-sm border-2 border-blue-200 hover:bg-blue-50 transition-all duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        {% trans "All Live Scores" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile/Tablet Accordion -->
+<div x-show="megaMenuOpen" 
+     @click.away="megaMenuOpen = false"
+     class="lg:hidden absolute top-full left-4 right-4 mt-2 bg-white rounded-xl shadow-xl z-50"
+     x-cloak
+     x-data="{ teamsOpen: false }">
+    <div class="px-4 py-4">
+        
+        <!-- Teams with Mega Menu Expansion -->
+        <div class="border-b border-gray-100 pb-3 mb-3">
+            <button @click="teamsOpen = !teamsOpen" 
+                    class="flex items-center justify-between w-full py-3 text-left">
+                <span class="text-base font-medium text-gray-700 hover:text-gray-900">{% trans "Teams" %}</span>
+                <svg class="w-4 h-4 text-gray-500 transition-transform" 
+                     :class="teamsOpen ? 'rotate-180' : ''"
+                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+            
+            <!-- Expanded Mega Menu Content -->
+            <div x-show="teamsOpen" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 max-h-0"
+                 x-transition:enter-end="opacity-100 max-h-screen"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 max-h-screen"
+                 x-transition:leave-end="opacity-0 max-h-0"
+                 class="mt-3 space-y-4 overflow-hidden">
+                 
+                <!-- Big Six -->
+                <div class="bg-blue-50 rounded-lg p-3">
+                    <h4 class="text-sm font-bold text-blue-900 mb-2">{% trans "Big Six" %}</h4>
+                    <div class="space-y-2">
+                        <a href="/teams/arsenal/" class="flex items-start group px-2 py-1 rounded hover:bg-blue-100">
+                            <div class="w-1.5 h-1.5 bg-red-600 rounded-full mt-1.5 mr-2 group-hover:bg-red-700"></div>
+                            <div>
+                                <div class="text-blue-900 font-medium group-hover:text-blue-800 text-xs">Arsenal</div>
+                                <div class="text-xs text-blue-700">{% trans "The Gunners" %}</div>
+                            </div>
+                        </a>
+                        <a href="/teams/chelsea/" class="flex items-start group px-2 py-1 rounded hover:bg-blue-100">
+                            <div class="w-1.5 h-1.5 bg-blue-600 rounded-full mt-1.5 mr-2 group-hover:bg-blue-700"></div>
+                            <div>
+                                <div class="text-blue-900 font-medium group-hover:text-blue-800 text-xs">Chelsea</div>
+                                <div class="text-xs text-blue-700">{% trans "The Blues" %}</div>
+                            </div>
+                        </a>
+                        <a href="/teams/liverpool/" class="flex items-start group px-2 py-1 rounded hover:bg-blue-100">
+                            <div class="w-1.5 h-1.5 bg-red-600 rounded-full mt-1.5 mr-2 group-hover:bg-red-700"></div>
+                            <div>
+                                <div class="text-blue-900 font-medium group-hover:text-blue-800 text-xs">Liverpool</div>
+                                <div class="text-xs text-blue-700">{% trans "The Reds" %}</div>
+                            </div>
+                        </a>
+                        <a href="/teams/manchester-city/" class="flex items-start group px-2 py-1 rounded hover:bg-blue-100">
+                            <div class="w-1.5 h-1.5 bg-sky-500 rounded-full mt-1.5 mr-2 group-hover:bg-sky-600"></div>
+                            <div>
+                                <div class="text-blue-900 font-medium group-hover:text-blue-800 text-xs">Manchester City</div>
+                                <div class="text-xs text-blue-700">{% trans "The Citizens" %}</div>
+                            </div>
+                        </a>
+                        <a href="/teams/manchester-united/" class="flex items-start group px-2 py-1 rounded hover:bg-blue-100">
+                            <div class="w-1.5 h-1.5 bg-red-600 rounded-full mt-1.5 mr-2 group-hover:bg-red-700"></div>
+                            <div>
+                                <div class="text-blue-900 font-medium group-hover:text-blue-800 text-xs">Manchester United</div>
+                                <div class="text-xs text-blue-700">{% trans "The Red Devils" %}</div>
+                            </div>
+                        </a>
+                        <a href="/teams/tottenham/" class="flex items-start group px-2 py-1 rounded hover:bg-blue-100">
+                            <div class="w-1.5 h-1.5 bg-slate-600 rounded-full mt-1.5 mr-2 group-hover:bg-slate-700"></div>
+                            <div>
+                                <div class="text-blue-900 font-medium group-hover:text-blue-800 text-xs">Tottenham</div>
+                                <div class="text-xs text-blue-700">{% trans "Spurs" %}</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Other Teams -->
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <h4 class="text-sm font-bold text-gray-900 mb-2">{% trans "Other Teams" %}</h4>
+                    <div class="space-y-2">
+                        <a href="/teams/aston-villa/" class="flex items-start group px-2 py-1 rounded hover:bg-gray-100">
+                            <div class="w-1.5 h-1.5 bg-blue-700 rounded-full mt-1.5 mr-2 group-hover:bg-blue-700"></div>
+                            <div>
+                                <div class="text-gray-900 font-medium group-hover:text-gray-800 text-xs">Aston Villa</div>
+                                <div class="text-xs text-gray-700">{% trans "The Villa" %}</div>
+                            </div>
+                        </a>
+                        <a href="/teams/brighton/" class="flex items-start group px-2 py-1 rounded hover:bg-gray-100">
+                            <div class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 mr-2 group-hover:bg-blue-600"></div>
+                            <div>
+                                <div class="text-gray-900 font-medium group-hover:text-gray-800 text-xs">Brighton</div>
+                                <div class="text-xs text-gray-700">{% trans "The Seagulls" %}</div>
+                            </div>
+                        </a>
+                        <a href="/teams/newcastle/" class="flex items-start group px-2 py-1 rounded hover:bg-gray-100">
+                            <div class="w-1.5 h-1.5 bg-gray-800 rounded-full mt-1.5 mr-2 group-hover:bg-gray-900"></div>
+                            <div>
+                                <div class="text-gray-900 font-medium group-hover:text-gray-800 text-xs">Newcastle United</div>
+                                <div class="text-xs text-gray-700">{% trans "The Magpies" %}</div>
+                            </div>
+                        </a>
+                        <a href="/teams/west-ham/" class="flex items-start group px-2 py-1 rounded hover:bg-gray-100">
+                            <div class="w-1.5 h-1.5 bg-blue-800 rounded-full mt-1.5 mr-2 group-hover:bg-blue-900"></div>
+                            <div>
+                                <div class="text-gray-900 font-medium group-hover:text-gray-800 text-xs">West Ham United</div>
+                                <div class="text-xs text-gray-700">{% trans "The Hammers" %}</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Match Centre -->
+                <div class="bg-green-50 rounded-lg p-3">
+                    <h4 class="text-sm font-bold text-green-900 mb-2">{% trans "Match Centre" %}</h4>
+                    <div class="space-y-2">
+                        <a href="/fixtures/" class="flex items-start group px-2 py-1 rounded hover:bg-green-100">
+                            <div class="w-1.5 h-1.5 bg-green-600 rounded-full mt-1.5 mr-2 group-hover:bg-green-700"></div>
+                            <div>
+                                <div class="text-green-900 font-medium group-hover:text-green-800 text-xs">{% trans "Fixtures & Results" %}</div>
+                                <div class="text-xs text-green-700">{% trans "All upcoming matches" %}</div>
+                            </div>
+                        </a>
+                        <a href="/table/" class="flex items-start group px-2 py-1 rounded hover:bg-green-100">
+                            <div class="w-1.5 h-1.5 bg-green-600 rounded-full mt-1.5 mr-2 group-hover:bg-green-700"></div>
+                            <div>
+                                <div class="text-green-900 font-medium group-hover:text-green-800 text-xs">{% trans "Allsvenskan Table" %}</div>
+                                <div class="text-xs text-green-700">{% trans "Current standings" %}</div>
+                            </div>
+                        </a>
+                        <a href="/stats/" class="flex items-start group px-2 py-1 rounded hover:bg-green-100">
+                            <div class="w-1.5 h-1.5 bg-green-600 rounded-full mt-1.5 mr-2 group-hover:bg-green-700"></div>
+                            <div>
+                                <div class="text-green-900 font-medium group-hover:text-green-800 text-xs">{% trans "Statistics" %}</div>
+                                <div class="text-xs text-green-700">{% trans "Player & team stats" %}</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Live Match -->
+                <div class="bg-gradient-to-br from-blue-100 to-rose-100 rounded-lg p-3">
+                    <h4 class="text-sm font-bold text-blue-900 mb-2">{% trans "Live Now" %}</h4>
+                    <div class="bg-white rounded-md p-2 mb-3">
+                        <div class="flex items-center justify-between text-xs text-gray-600 mb-1">
+                            <span class="font-medium">{% trans "LIVE" %}</span>
+                            <span>45' + 2</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-center">
+                                <div class="font-bold text-gray-900 text-xs">Arsenal</div>
+                                <div class="text-lg font-bold text-blue-700">2</div>
+                            </div>
+                            <div class="text-gray-400 text-xs">vs</div>
+                            <div class="text-center">
+                                <div class="font-bold text-gray-900 text-xs">Chelsea</div>
+                                <div class="text-lg font-bold text-blue-700">1</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <a href="/live/" class="flex items-center justify-center w-full px-3 py-2 bg-yellow-400 text-gray-900 rounded-md font-semibold text-xs hover:bg-yellow-500 transition-colors">
+                            <svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293L12 11M9 10H8a4 4 0 000 8h1M9 10v4m3-4v4m0-4h1.586a1 1 0 00.707-.293L15 9"/>
+                            </svg>
+                            {% trans "Watch Live" %}
+                        </a>
+                        <a href="/live-scores/" class="flex items-center justify-center w-full px-3 py-2 bg-white text-blue-700 rounded-md font-semibold text-xs border border-blue-300 hover:bg-blue-50 transition-colors">
+                            <svg class="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                            {% trans "All Scores" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Menu Items (Stacked) -->
+        <div class="space-y-1">
+            <a href="/fixtures/" class="block px-3 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors">{% trans "Fixtures" %}</a>
+            <a href="/table/" class="block px-3 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors">{% trans "Table" %}</a>
+            <a href="/players/" class="block px-3 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors">{% trans "Players" %}</a>
+        </div>
+    </div>
+</div>

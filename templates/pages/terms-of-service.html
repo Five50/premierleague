@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Terms of Service" %} | Allsvenskan Insikter{% endblock %}
+
+{% block meta_description %}{% trans "Read our Terms of Service to understand the rules and guidelines for using Allsvenskan Insikter website and services." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50">
+    <!-- Page Header -->
+    <div class="bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 text-white">
+        <div class="container mx-auto px-4 py-16">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    {% trans "Terms of Service" %}
+                </h1>
+                <p class="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                    {% trans "Please read these terms carefully before using our website and services." %}
+                </p>
+                <p class="text-blue-200 mt-4">
+                    {% trans "Last updated: December 1, 2024" %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-4xl mx-auto">
+
+            <!-- Table of Contents -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8" x-data="{ tocOpen: false }">
+                <button @click="tocOpen = !tocOpen"
+                        class="flex items-center justify-between w-full text-left font-semibold text-blue-900 hover:text-blue-700 transition-colors">
+                    <span class="flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                        </svg>
+                        {% trans "Table of Contents" %}
+                    </span>
+                    <svg class="w-5 h-5 transition-transform duration-200"
+                         :class="{ 'rotate-180': tocOpen }"
+                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+
+                <div x-show="tocOpen" x-collapse class="mt-4 space-y-2">
+                    <nav class="text-sm space-y-1">
+                        <a href="#acceptance" class="block text-blue-700 hover:text-blue-900 py-1">1. {% trans "Acceptance of Terms" %}</a>
+                        <a href="#description" class="block text-blue-700 hover:text-blue-900 py-1">2. {% trans "Description of Service" %}</a>
+                        <a href="#user-accounts" class="block text-blue-700 hover:text-blue-900 py-1">3. {% trans "User Accounts" %}</a>
+                        <a href="#acceptable-use" class="block text-blue-700 hover:text-blue-900 py-1">4. {% trans "Acceptable Use" %}</a>
+                        <a href="#intellectual-property" class="block text-blue-700 hover:text-blue-900 py-1">5. {% trans "Intellectual Property" %}</a>
+                        <a href="#user-content" class="block text-blue-700 hover:text-blue-900 py-1">6. {% trans "User-Generated Content" %}</a>
+                        <a href="#disclaimers" class="block text-blue-700 hover:text-blue-900 py-1">7. {% trans "Disclaimers" %}</a>
+                        <a href="#limitation-liability" class="block text-blue-700 hover:text-blue-900 py-1">8. {% trans "Limitation of Liability" %}</a>
+                        <a href="#indemnification" class="block text-blue-700 hover:text-blue-900 py-1">9. {% trans "Indemnification" %}</a>
+                        <a href="#termination" class="block text-blue-700 hover:text-blue-900 py-1">10. {% trans "Termination" %}</a>
+                        <a href="#governing-law" class="block text-blue-700 hover:text-blue-900 py-1">11. {% trans "Governing Law" %}</a>
+                        <a href="#changes" class="block text-blue-700 hover:text-blue-900 py-1">12. {% trans "Changes to Terms" %}</a>
+                        <a href="#contact" class="block text-blue-700 hover:text-blue-900 py-1">13. {% trans "Contact Information" %}</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100">
+                <div class="p-8 space-y-8">
+
+                    <!-- Acceptance -->
+                    <section id="acceptance">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">1. {% trans "Acceptance of Terms" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "These Terms of Service ('Terms') govern your use of the Allsvenskan Insikter website (allsvenskaninsikter.se) and all related services provided by Allsvenskan Insikter AB ('we', 'our', or 'us')." %}</p>
+                            <p>{% trans "By accessing or using our website, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use our service." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- Description -->
+                    <section id="description">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">2. {% trans "Description of Service" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "Allsvenskan Insikter provides football analysis, statistics, news, and insights related to the Swedish Allsvenskan league. Our services include:" %}</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "Match analysis and reports" %}</li>
+                                <li>{% trans "Player and team statistics" %}</li>
+                                <li>{% trans "News and transfer information" %}</li>
+                                <li>{% trans "Betting insights and tips" %}</li>
+                                <li>{% trans "Interactive features and community discussions" %}</li>
+                            </ul>
+                            <p>{% trans "We reserve the right to modify, suspend, or discontinue any part of our service at any time without notice." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- User Accounts -->
+                    <section id="user-accounts">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">3. {% trans "User Accounts" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "Some features of our service may require you to create an account. When creating an account, you agree to:" %}</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "Provide accurate and complete information" %}</li>
+                                <li>{% trans "Maintain the security of your account credentials" %}</li>
+                                <li>{% trans "Accept responsibility for all activities under your account" %}</li>
+                                <li>{% trans "Notify us immediately of any unauthorized access" %}</li>
+                            </ul>
+                            <p>{% trans "You must be at least 16 years old to create an account. Users under 18 should have parental consent." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- Acceptable Use -->
+                    <section id="acceptable-use">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">4. {% trans "Acceptable Use" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "You agree not to use our service to:" %}</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "Violate any applicable laws or regulations" %}</li>
+                                <li>{% trans "Post harmful, offensive, or inappropriate content" %}</li>
+                                <li>{% trans "Harass, threaten, or abuse other users" %}</li>
+                                <li>{% trans "Spam or send unsolicited communications" %}</li>
+                                <li>{% trans "Attempt to gain unauthorized access to our systems" %}</li>
+                                <li>{% trans "Use automated tools to access our service without permission" %}</li>
+                                <li>{% trans "Infringe on intellectual property rights" %}</li>
+                                <li>{% trans "Distribute malware or malicious code" %}</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Intellectual Property -->
+                    <section id="intellectual-property">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">5. {% trans "Intellectual Property" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "All content on our website, including text, graphics, logos, images, and software, is the property of Allsvenskan Insikter AB or our licensors and is protected by copyright and other intellectual property laws." %}</p>
+                            <p>{% trans "You may not reproduce, distribute, modify, or create derivative works from our content without explicit written permission." %}</p>
+                            <p>{% trans "Limited use for personal, non-commercial purposes is permitted, provided you maintain all copyright and proprietary notices." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- User Content -->
+                    <section id="user-content">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">6. {% trans "User-Generated Content" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "When you submit content to our website (comments, reviews, etc.), you grant us a non-exclusive, worldwide, royalty-free license to use, modify, and distribute that content." %}</p>
+                            <p>{% trans "You represent that:" %}</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "You own or have the right to submit the content" %}</li>
+                                <li>{% trans "Your content does not violate any third-party rights" %}</li>
+                                <li>{% trans "Your content complies with these Terms" %}</li>
+                            </ul>
+                            <p>{% trans "We reserve the right to remove any user content that violates these Terms or is otherwise objectionable." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- Disclaimers -->
+                    <section id="disclaimers">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">7. {% trans "Disclaimers" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "Our service is provided 'as is' without warranties of any kind. We disclaim all warranties, express or implied, including:" %}</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "Warranties of merchantability or fitness for a particular purpose" %}</li>
+                                <li>{% trans "Guarantees of accuracy or completeness of information" %}</li>
+                                <li>{% trans "Assurance of uninterrupted or error-free service" %}</li>
+                            </ul>
+                            <p class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-4">
+                                <strong>{% trans "Betting Disclaimer:" %}</strong> {% trans "Our betting tips and analysis are for informational purposes only. Gambling involves risk, and you should never bet more than you can afford to lose. We are not responsible for any losses resulting from betting decisions." %}
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Limitation of Liability -->
+                    <section id="limitation-liability">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">8. {% trans "Limitation of Liability" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "To the fullest extent permitted by law, Allsvenskan Insikter AB shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or business opportunities." %}</p>
+                            <p>{% trans "Our total liability for any claims arising from your use of our service shall not exceed the amount you have paid us in the 12 months preceding the claim." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- Indemnification -->
+                    <section id="indemnification">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">9. {% trans "Indemnification" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "You agree to indemnify and hold harmless Allsvenskan Insikter AB, its employees, and affiliates from any claims, damages, or expenses arising from:" %}</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "Your use of our service" %}</li>
+                                <li>{% trans "Your violation of these Terms" %}</li>
+                                <li>{% trans "Your infringement of any third-party rights" %}</li>
+                                <li>{% trans "Any content you submit to our website" %}</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Termination -->
+                    <section id="termination">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">10. {% trans "Termination" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "We may terminate or suspend your access to our service immediately, without prior notice, for any reason, including:" %}</p>
+                            <ul class="list-disc pl-6 space-y-1">
+                                <li>{% trans "Violation of these Terms" %}</li>
+                                <li>{% trans "Suspected fraudulent or illegal activity" %}</li>
+                                <li>{% trans "Extended periods of inactivity" %}</li>
+                            </ul>
+                            <p>{% trans "Upon termination, your right to use our service will cease immediately, but these Terms will continue to apply to your past use." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- Governing Law -->
+                    <section id="governing-law">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">11. {% trans "Governing Law" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "These Terms are governed by Swedish law without regard to conflict of law principles. Any disputes arising from these Terms or your use of our service will be resolved in Swedish courts." %}</p>
+                            <p>{% trans "If you are a consumer resident in the EU, you may have additional rights under applicable consumer protection laws." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- Changes -->
+                    <section id="changes">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">12. {% trans "Changes to Terms" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "We reserve the right to modify these Terms at any time. We will notify users of material changes by posting an updated version on our website and updating the 'Last updated' date." %}</p>
+                            <p>{% trans "Your continued use of our service after changes take effect constitutes acceptance of the new Terms." %}</p>
+                        </div>
+                    </section>
+
+                    <!-- Contact -->
+                    <section id="contact">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">13. {% trans "Contact Information" %}</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p>{% trans "If you have questions about these Terms, please contact us:" %}</p>
+                            <div class="bg-gray-50 p-4 rounded-lg mt-4">
+                                <p><strong>Allsvenskan Insikter AB</strong></p>
+                                <p>Email: legal@allsvenskaninsikter.se</p>
+                                <p>{% trans "Phone:" %} +46 8 123 45 67</p>
+                                <p>{% trans "Address:" %} Storgatan 123, 111 22 Stockholm, Sweden</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{
+  "name": "theme_dev",
+  "version": "1.0.0",
+  "description": "A modern Django project template built with industry best practices, featuring organized settings, environment configuration, security-first approach, and beautiful responsive design.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css",
+    "build-css-min": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.min.css --minify",
+    "watch-css": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css --watch",
+    "minify-js": "terser static/js/business-loans.js -o static/js/business-loans.min.js -c -m",
+    "minify-css": "postcss static/css/business-loans.css -o static/css/business-loans.min.css",
+    "compress-static": "python3 static/compress_static.py",
+    "build": "npm run build-css && npm run build-css-min && npm run minify-js && npm run minify-css && npm run compress-static",
+    "build:production": "npm run build-css-min && npm run compress-static",
+    "dev": "npm run watch-css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xelnio/theme_dev.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/0xelnio/theme_dev/issues"
+  },
+  "homepage": "https://github.com/0xelnio/theme_dev#readme",
+  "devDependencies": {
+    "cssnano": "^7.1.0",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "terser": "^5.43.1"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.12",
+    "tailwindcss": "^4.1.12"
+  }
+}

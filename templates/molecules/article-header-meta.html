@@ -1,0 +1,29 @@
+{% comment %}
+Article Header Meta Molecule
+Usage: {% include 'molecules/article-header-meta.html' with authors=authors date="September 18, 2025" read_time="15" rating="4.8" %}
+{% endcomment %}
+
+{% load i18n %}
+
+<div class="flex flex-wrap items-center gap-6 text-slate-600">
+    {% for author in authors %}
+        <div class="flex items-center">
+            {% include 'atoms/author-avatar.html' with src=author.avatar alt=author.name size="md" class="mr-3" %}
+            <div>
+                <p class="font-semibold text-slate-900">{{ author.name }}</p>
+                <p class="text-sm">{{ author.title }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
+    <span>{{ date }}</span>
+
+    {% include 'atoms/read-time.html' with minutes=read_time %}
+
+    {% if rating %}
+        <div class="flex items-center space-x-1">
+            <span class="text-amber-400">★★★★★</span>
+            <span class="text-sm">({{ rating }})</span>
+        </div>
+    {% endif %}
+</div>

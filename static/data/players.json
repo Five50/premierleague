@@ -1,0 +1,166 @@
+{
+  "players": [
+    {
+      "id": 1,
+      "name": "Bukayo Saka",
+      "team_id": 1,
+      "position": {
+        "en": "Right Winger",
+        "sv": "Högerytter"
+      },
+      "nationality": {
+        "en": "England",
+        "sv": "England"
+      },
+      "age": 22,
+      "shirt_number": 7,
+      "photo": "/static/images/players/saka.jpg",
+      "stats": {
+        "appearances": 8,
+        "goals": 4,
+        "assists": 3,
+        "yellow_cards": 1,
+        "red_cards": 0
+      },
+      "bio": {
+        "en": "Bukayo Saka is an English professional footballer who plays as a winger for Premier League club Arsenal and the England national team.",
+        "sv": "Bukayo Saka är en engelsk professionell fotbollsspelare som spelar som ytter för Premier League-klubben Arsenal och Englands landslag."
+      }
+    },
+    {
+      "id": 2,
+      "name": "Cole Palmer",
+      "team_id": 2,
+      "position": {
+        "en": "Attacking Midfielder",
+        "sv": "Anfallande mittfältare"
+      },
+      "nationality": {
+        "en": "England",
+        "sv": "England"
+      },
+      "age": 21,
+      "shirt_number": 20,
+      "photo": "/static/images/players/palmer.jpg",
+      "stats": {
+        "appearances": 8,
+        "goals": 6,
+        "assists": 4,
+        "yellow_cards": 0,
+        "red_cards": 0
+      },
+      "bio": {
+        "en": "Cole Palmer is an English professional footballer who plays as an attacking midfielder or winger for Premier League club Chelsea.",
+        "sv": "Cole Palmer är en engelsk professionell fotbollsspelare som spelar som anfallande mittfältare eller ytter för Premier League-klubben Chelsea."
+      }
+    },
+    {
+      "id": 3,
+      "name": "Mohamed Salah",
+      "team_id": 3,
+      "position": {
+        "en": "Right Winger",
+        "sv": "Högerytter"
+      },
+      "nationality": {
+        "en": "Egypt",
+        "sv": "Egypten"
+      },
+      "age": 31,
+      "shirt_number": 11,
+      "photo": "/static/images/players/salah.jpg",
+      "stats": {
+        "appearances": 8,
+        "goals": 5,
+        "assists": 4,
+        "yellow_cards": 1,
+        "red_cards": 0
+      },
+      "bio": {
+        "en": "Mohamed Salah is an Egyptian professional footballer who plays as a right winger or forward for Premier League club Liverpool and captains the Egypt national team.",
+        "sv": "Mohamed Salah är en egyptisk professionell fotbollsspelare som spelar som högerytter eller forward för Premier League-klubben Liverpool och är kapten för Egyptens landslag."
+      }
+    },
+    {
+      "id": 4,
+      "name": "Erling Haaland",
+      "team_id": 4,
+      "position": {
+        "en": "Striker",
+        "sv": "Anfallare"
+      },
+      "nationality": {
+        "en": "Norway",
+        "sv": "Norge"
+      },
+      "age": 23,
+      "shirt_number": 9,
+      "photo": "/static/images/players/haaland.jpg",
+      "stats": {
+        "appearances": 8,
+        "goals": 9,
+        "assists": 1,
+        "yellow_cards": 2,
+        "red_cards": 0
+      },
+      "bio": {
+        "en": "Erling Haaland is a Norwegian professional footballer who plays as a striker for Premier League club Manchester City and the Norway national team.",
+        "sv": "Erling Haaland är en norsk professionell fotbollsspelare som spelar som anfallare för Premier League-klubben Manchester City och Norges landslag."
+      }
+    },
+    {
+      "id": 5,
+      "name": "Bruno Fernandes",
+      "team_id": 5,
+      "position": {
+        "en": "Attacking Midfielder",
+        "sv": "Anfallande mittfältare"
+      },
+      "nationality": {
+        "en": "Portugal",
+        "sv": "Portugal"
+      },
+      "age": 29,
+      "shirt_number": 8,
+      "photo": "/static/images/players/fernandes.jpg",
+      "stats": {
+        "appearances": 8,
+        "goals": 3,
+        "assists": 5,
+        "yellow_cards": 3,
+        "red_cards": 0
+      },
+      "bio": {
+        "en": "Bruno Fernandes is a Portuguese professional footballer who plays as a midfielder for Premier League club Manchester United and captains the Portugal national team.",
+        "sv": "Bruno Fernandes är en portugisisk professionell fotbollsspelare som spelar som mittfältare för Premier League-klubben Manchester United och är kapten för Portugals landslag."
+      }
+    },
+    {
+      "id": 6,
+      "name": "Son Heung-min",
+      "team_id": 6,
+      "position": {
+        "en": "Left Winger",
+        "sv": "Vänsterytter"
+      },
+      "nationality": {
+        "en": "South Korea",
+        "sv": "Sydkorea"
+      },
+      "age": 31,
+      "shirt_number": 7,
+      "photo": "/static/images/players/son.jpg",
+      "stats": {
+        "appearances": 8,
+        "goals": 3,
+        "assists": 2,
+        "yellow_cards": 1,
+        "red_cards": 0
+      },
+      "bio": {
+        "en": "Son Heung-min is a South Korean professional footballer who plays as a winger or forward for Premier League club Tottenham Hotspur and captains the South Korea national team.",
+        "sv": "Son Heung-min är en sydkoreansk professionell fotbollsspelare som spelar som ytter eller forward för Premier League-klubben Tottenham Hotspur och är kapten för Sydkoreas landslag."
+      }
+    }
+  ]
+}

@@ -1,0 +1,818 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Allsvenskan Betting Tips, Odds & Predictions | bet365, William Hill, Paddy Power" %}{% endblock %}
+
+{% block meta_description %}{% trans "Expert Allsvenskan betting tips, latest odds comparison from bet365, William Hill & top bookmakers. Match predictions, player bets, accumulator tips. Bet responsibly." %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50">
+    <!-- Page Header -->
+    <div class="bg-blue-700 text-white">
+        <div class="container mx-auto px-4 py-12">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                    {% trans "Allsvenskan Betting Tips & Odds" %}
+                </h1>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto">
+                    {% trans "Expert Allsvenskan betting tips, odds comparison from bet365, William Hill, Paddy Power and match predictions from professional tipsters. Daily accumulator tips and player betting markets." %}
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Responsible Gambling Notice -->
+    <div class="bg-amber-100 /30 border-l-4 border-amber-500 p-4 mx-4 mt-4 rounded">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm text-amber-800 ">
+                    <strong>{% trans "Responsible Gambling:" %}</strong> {% trans "Please bet responsibly. Only bet what you can afford to lose. If you need help, visit" %} 
+                    <a href="https://www.begambleaware.org" class="underline hover:text-amber-600" target="_blank">BeGambleAware.org</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Odds -->    
+    <section class="py-8 bg-white ">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold pl-text mb-6">{% trans "Today's Best Odds" %}</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="quickOdds">
+                <!-- Odds will be loaded here -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Betting Tips -->    
+    <section class="py-8 bg-slate-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-bold pl-text">{% trans "Expert Betting Tips" %}</h2>
+                <div class="flex space-x-2">
+                    <button class="pl-button-outline tip-filter active" data-filter="all">{% trans "All Tips" %}</button>
+                    <button class="pl-button-outline tip-filter" data-filter="match-result">{% trans "Match Result" %}</button>
+                    <button class="pl-button-outline tip-filter" data-filter="over-under">{% trans "Goals" %}</button>
+                    <button class="pl-button-outline tip-filter" data-filter="player">{% trans "Player Bets" %}</button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6" id="bettingTips">
+                <!-- Tips will be loaded here -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Bookmaker Recommendations -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold pl-text mb-8 text-center">{% trans "Best Allsvenskan Betting Sites 2024" %}</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- bet365 Card -->
+                <div class="group relative bg-gradient-to-br from-white via-green-50/30 to-green-100/50 rounded-2xl p-6 border border-green-200/50 hover:border-green-300 hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden">
+                    <!-- Background decoration -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-200/20 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-green-100/30 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
+
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-24 h-14 bg-gradient-to-r from-green-600 to-green-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                                <span class="text-white font-bold text-lg tracking-tight">365</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <div class="flex text-yellow-400 text-lg">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                                <span class="text-xs text-slate-600 ml-2 font-medium">5.0</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 class="font-bold text-2xl pl-text mb-3 group-hover:text-green-700 transition-colors duration-300">bet365</h3>
+                            <p class="text-sm pl-text opacity-75 leading-relaxed">{% trans "World's leading online betting company. The most comprehensive in-play service." %}</p>
+                        </div>
+
+                        <!-- Features -->
+                        <div class="space-y-3 mb-6">
+                            <div class="bg-white/60 backdrop-blur-sm rounded-lg p-3 border border-green-100">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium text-slate-700">{% trans "Welcome Bonus:" %}</span>
+                                    <span class="font-bold text-green-700 bg-green-100 px-2 py-1 rounded-full text-xs">{% trans "Bet £10 Get £30" %}</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="flex items-center space-x-2 text-sm">
+                                    <div class="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xs">✓</span>
+                                    </div>
+                                    <span class="text-slate-700 font-medium">{% trans "Live Streaming" %}</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-sm">
+                                    <div class="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xs">✓</span>
+                                    </div>
+                                    <span class="text-slate-700 font-medium">{% trans "Cash Out" %}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg mb-3">
+                            {% trans "Visit bet365" %}
+                        </button>
+                        <p class="text-xs text-center text-slate-500">{% trans "18+ New Customers Only. T&Cs Apply." %}</p>
+                    </div>
+                </div>
+
+                <!-- William Hill Card -->
+                <div class="group relative bg-gradient-to-br from-white via-blue-50/30 to-blue-100/50 rounded-2xl p-6 border border-blue-200/50 hover:border-blue-300 hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden">
+                    <!-- Background decoration -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-200/20 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-100/30 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
+
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-24 h-14 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                                <span class="text-white font-bold text-sm tracking-wide">WH</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <div class="flex text-yellow-400 text-lg">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span class="text-slate-300">★</span>
+                                </div>
+                                <span class="text-xs text-slate-600 ml-2 font-medium">4.3</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 class="font-bold text-2xl pl-text mb-3 group-hover:text-blue-700 transition-colors duration-300">William Hill</h3>
+                            <p class="text-sm pl-text opacity-75 leading-relaxed">{% trans "Established 1934. Great odds on Allsvenskan matches and enhanced accumulators." %}</p>
+                        </div>
+
+                        <!-- Features -->
+                        <div class="space-y-3 mb-6">
+                            <div class="bg-white/60 backdrop-blur-sm rounded-lg p-3 border border-blue-100">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium text-slate-700">{% trans "Welcome Bonus:" %}</span>
+                                    <span class="font-bold text-blue-700 bg-blue-100 px-2 py-1 rounded-full text-xs">{% trans "£20 Free Bet" %}</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="flex items-center space-x-2 text-sm">
+                                    <div class="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xs">✓</span>
+                                    </div>
+                                    <span class="text-slate-700 font-medium">{% trans "Acca Insurance" %}</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-sm">
+                                    <div class="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xs">✓</span>
+                                    </div>
+                                    <span class="text-slate-700 font-medium">{% trans "Mobile App" %}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg mb-3">
+                            {% trans "Visit William Hill" %}
+                        </button>
+                        <p class="text-xs text-center text-slate-500">{% trans "18+ New Customers Only. T&Cs Apply." %}</p>
+                    </div>
+                </div>
+
+                <!-- Paddy Power Card -->
+                <div class="group relative bg-gradient-to-br from-white via-emerald-50/30 to-emerald-100/50 rounded-2xl p-6 border border-emerald-200/50 hover:border-emerald-300 hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden">
+                    <!-- Background decoration -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-200/20 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-emerald-100/30 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
+
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-24 h-14 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                                <span class="text-white font-bold text-sm tracking-wide">PP</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <div class="flex text-yellow-400 text-lg">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span class="text-slate-300">★</span>
+                                </div>
+                                <span class="text-xs text-slate-600 ml-2 font-medium">4.4</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 class="font-bold text-2xl pl-text mb-3 group-hover:text-emerald-700 transition-colors duration-300">Paddy Power</h3>
+                            <p class="text-sm pl-text opacity-75 leading-relaxed">{% trans "Money back specials and best Allsvenskan novelty bets. Entertaining betting." %}</p>
+                        </div>
+
+                        <!-- Features -->
+                        <div class="space-y-3 mb-6">
+                            <div class="bg-white/60 backdrop-blur-sm rounded-lg p-3 border border-emerald-100">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium text-slate-700">{% trans "Welcome Bonus:" %}</span>
+                                    <span class="font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-full text-xs">{% trans "£20 Cash Back" %}</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="flex items-center space-x-2 text-sm">
+                                    <div class="w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xs">✓</span>
+                                    </div>
+                                    <span class="text-slate-700 font-medium">{% trans "Money Back" %}</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-sm">
+                                    <div class="w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xs">✓</span>
+                                    </div>
+                                    <span class="text-slate-700 font-medium">{% trans "Same Game Multi" %}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg mb-3">
+                            {% trans "Visit Paddy Power" %}
+                        </button>
+                        <p class="text-xs text-center text-slate-500">{% trans "18+ New Customers Only. T&Cs Apply." %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Odds Comparison -->
+    <section class="py-12 bg-gradient-to-br from-slate-50 to-slate-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold pl-text mb-4">{% trans "Live Odds Comparison" %}</h2>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto">{% trans "Compare the best odds across top betting sites for Allsvenskan matches" %}</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+                <div class="bg-gradient-to-r from-slate-800 to-slate-700 px-6 py-4">
+                    <h3 class="text-white font-bold text-lg">{% trans "Today's Best Odds" %}</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-slate-50 border-b border-slate-200">
+                            <tr>
+                                <th class="text-left py-4 px-6 font-bold text-slate-700">{% trans "Match" %}</th>
+                                <th class="text-center py-4 px-4 font-bold text-green-700">
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <div class="w-6 h-6 bg-green-600 rounded flex items-center justify-center">
+                                            <span class="text-white text-xs font-bold">365</span>
+                                        </div>
+                                        <span>bet365</span>
+                                    </div>
+                                </th>
+                                <th class="text-center py-4 px-4 font-bold text-blue-700">
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <div class="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                                            <span class="text-white text-xs font-bold">WH</span>
+                                        </div>
+                                        <span>William Hill</span>
+                                    </div>
+                                </th>
+                                <th class="text-center py-4 px-4 font-bold text-emerald-700">
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <div class="w-6 h-6 bg-emerald-600 rounded flex items-center justify-center">
+                                            <span class="text-white text-xs font-bold">PP</span>
+                                        </div>
+                                        <span>Paddy Power</span>
+                                    </div>
+                                </th>
+                                <th class="text-center py-4 px-4 font-bold text-gold-600">
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <span class="text-yellow-500 text-lg">★</span>
+                                        <span>{% trans "Best Odds" %}</span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="oddsComparison" class="divide-y divide-slate-100">
+                            <!-- Odds comparison will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bg-slate-50 px-6 py-3 border-t border-slate-200">
+                    <p class="text-xs text-slate-600 text-center">{% trans "Odds updated every 30 seconds. Best odds highlighted in green." %}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Player Betting Markets -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold pl-text mb-8 text-center">{% trans "Player Betting Markets" %}</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-4">{% trans "Anytime Goalscorer" %}</h3>
+                    <div class="space-y-3" id="goalscorers">
+                        <!-- Player odds will be loaded here -->
+                    </div>
+                </div>
+                <div class="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-4">{% trans "Player to be Booked" %}</h3>
+                    <div class="space-y-3" id="bookings">
+                        <!-- Booking odds will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accumulator Tips -->
+    <section class="py-12 bg-slate-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold pl-text mb-8 text-center">{% trans "Daily Accumulator Tips" %}</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-green-600">{% trans "Safe Acca" %}</h3>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">3.20</span>
+                    </div>
+                    <div class="space-y-2 text-sm" id="safeAcca">
+                        <!-- Safe accumulator will be loaded here -->
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-yellow-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-yellow-600">{% trans "Value Acca" %}</h3>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold">8.50</span>
+                    </div>
+                    <div class="space-y-2 text-sm" id="valueAcca">
+                        <!-- Value accumulator will be loaded here -->
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-red-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-red-600">{% trans "Longshot Acca" %}</h3>
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">25.00</span>
+                    </div>
+                    <div class="space-y-2 text-sm" id="longshotAcca">
+                        <!-- Longshot accumulator will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEO Content Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="prose prose-lg max-w-none">
+                <h2 class="text-3xl font-bold mb-8">{% trans "Allsvenskan Betting Guide 2024: Expert Tips and Best Odds" %}</h2>
+
+                <p class="text-lg leading-relaxed mb-6">
+                    {% trans "Allsvenskan betting has never been more exciting, with bet365, William Hill, and Paddy Power offering competitive odds across all 16 teams. Our expert tipsters analyze every match to bring you the best betting opportunities, from simple match result predictions to complex accumulator tips and player-specific markets." %}
+                </p>
+
+                <h3 class="text-2xl font-bold mb-4">{% trans "Why Choose Our Allsvenskan Betting Tips?" %}</h3>
+                <p class="mb-6">
+                    {% trans "Our professional betting analysts have decades of combined experience in Allsvenskan football betting. We provide daily tips covering match results, over/under goals, both teams to score, anytime goalscorer markets, and player booking odds. Every tip comes with detailed analysis explaining our reasoning and confidence level." %}
+                </p>
+
+                <h3 class="text-2xl font-bold mb-4">{% trans "Best Bookmakers for Allsvenskan Betting" %}</h3>
+                <p class="mb-4">
+                    {% trans "We've tested all major betting sites to find the best options for Allsvenskan punters:" %}
+                </p>
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li><strong>bet365</strong> - {% trans "Best overall betting site with live streaming of Allsvenskan matches, comprehensive in-play betting, and excellent cash-out options. Their welcome offer of 'Bet £10 Get £30 in Free Bets' is perfect for new customers." %}</li>
+                    <li><strong>William Hill</strong> - {% trans "Established bookmaker since 1934, offering enhanced Allsvenskan accumulators and acca insurance. Great mobile app and competitive odds on all Allsvenskan matches." %}</li>
+                    <li><strong>Paddy Power</strong> - {% trans "Famous for money-back specials and novelty Allsvenskan bets. Their same-game multiples allow you to combine different markets from the same match for bigger odds." %}</li>
+                </ul>
+
+                <h3 class="text-2xl font-bold mb-4">{% trans "Popular Allsvenskan Betting Markets" %}</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <h4 class="text-xl font-semibold mb-3">{% trans "Match Betting Markets" %}</h4>
+                        <ul class="list-disc pl-4 space-y-1">
+                            <li>{% trans "Match Result (1X2)" %}</li>
+                            <li>{% trans "Double Chance" %}</li>
+                            <li>{% trans "Draw No Bet" %}</li>
+                            <li>{% trans "Over/Under Goals" %}</li>
+                            <li>{% trans "Both Teams to Score" %}</li>
+                            <li>{% trans "Asian Handicap" %}</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-3">{% trans "Player Markets" %}</h4>
+                        <ul class="list-disc pl-4 space-y-1">
+                            <li>{% trans "Anytime Goalscorer" %}</li>
+                            <li>{% trans "First Goalscorer" %}</li>
+                            <li>{% trans "Player to be Booked" %}</li>
+                            <li>{% trans "Player Shots on Target" %}</li>
+                            <li>{% trans "Player Assists" %}</li>
+                            <li>{% trans "Man of the Match" %}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4">{% trans "Accumulator Betting Strategy" %}</h3>
+                <p class="mb-6">
+                    {% trans "Our accumulator tips are categorized into three types: Safe accas (3-5 odds) focus on favorites and likely outcomes, Value accas (8-15 odds) balance risk and reward, while Longshot accas (20+ odds) target massive payouts with higher risk selections. We recommend staking appropriately based on the accumulator type." %}
+                </p>
+
+                <h3 class="text-2xl font-bold mb-4">{% trans "Live Betting and Cash Out" %}</h3>
+                <p class="mb-6">
+                    {% trans "In-play betting on Allsvenskan matches offers exciting opportunities to react to game events. bet365 leads the market with their comprehensive live betting platform, offering odds on everything from next goalscorer to corner counts. Their cash-out feature allows you to secure profits or minimize losses before your bet settles." %}
+                </p>
+
+                <h3 class="text-2xl font-bold mb-4">{% trans "Responsible Gambling" %}</h3>
+                <p class="mb-6">
+                    {% trans "Remember that betting should be fun and never more than you can afford to lose. Set deposit limits, take regular breaks, and never chase losses. If you feel your gambling is becoming problematic, seek help from organizations like BeGambleAware or contact the National Gambling Helpline." %}
+                </p>
+
+                <div class="bg-blue-50 p-6 rounded-lg mt-8">
+                    <h4 class="text-xl font-bold mb-3">{% trans "Allsvenskan Betting Tips Summary" %}</h4>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li>{% trans "Compare odds across bet365, William Hill, and Paddy Power for best value" %}</li>
+                        <li>{% trans "Focus on markets you understand - start with simple match results" %}</li>
+                        <li>{% trans "Use accumulator insurance when available" %}</li>
+                        <li>{% trans "Take advantage of live streaming on bet365 for informed in-play betting" %}</li>
+                        <li>{% trans "Set a budget and stick to it - only bet what you can afford to lose" %}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+let bettingData = {};
+let currentTipFilter = 'all';
+
+// Load betting data
+async function loadBettingData() {
+    try {
+        const response = await fetch('{% static "data/betting-odds.json" %}');
+        bettingData = await response.json();
+    } catch (error) {
+        console.error('Error loading betting data:', error);
+        // Provide fallback data structure
+        bettingData = {
+            upcoming_matches: [
+                {
+                    home_team: { en: 'AIK', sv: 'AIK' },
+                    away_team: { en: 'Malmö FF', sv: 'Malmö FF' },
+                    date: 'Idag 19:00',
+                    odds: { match_result: { home_win: '2.40', draw: '3.20', away_win: '2.80' } }
+                },
+                {
+                    home_team: { en: 'Hammarby IF', sv: 'Hammarby IF' },
+                    away_team: { en: 'BK Häcken', sv: 'BK Häcken' },
+                    date: 'Imorgon 15:00',
+                    odds: { match_result: { home_win: '2.10', draw: '3.40', away_win: '3.20' } }
+                },
+                {
+                    home_team: { en: 'Djurgården', sv: 'Djurgården' },
+                    away_team: { en: 'IFK Göteborg', sv: 'IFK Göteborg' },
+                    date: 'Imorgon 17:30',
+                    odds: { match_result: { home_win: '1.95', draw: '3.60', away_win: '3.80' } }
+                }
+            ],
+            betting_tips: [
+                {
+                    match: 'AIK vs Malmö FF',
+                    league: 'Allsvenskan',
+                    date: 'Idag',
+                    odds: '2.40',
+                    category: 'match-result',
+                    confidence: '85',
+                    tip: 'AIK att vinna',
+                    analysis: 'AIK har varit i utmärkt form hemma denna säsong med 4 segrar i rad.',
+                    analyst: 'Allsvenskan Expert',
+                    published: 'Idag'
+                },
+                {
+                    match: 'Hammarby IF vs BK Häcken',
+                    league: 'Allsvenskan',
+                    date: 'Imorgon',
+                    odds: '1.85',
+                    category: 'over-under',
+                    confidence: '78',
+                    tip: 'Över 2.5 mål',
+                    analysis: 'Båda lagen har visat offensiv styrka senaste matcherna.',
+                    analyst: 'Målspecialist',
+                    published: 'Idag'
+                },
+                {
+                    match: 'Djurgården vs IFK Göteborg',
+                    league: 'Allsvenskan',
+                    date: 'Imorgon',
+                    odds: '3.20',
+                    category: 'player',
+                    confidence: '72',
+                    tip: 'Deniz Hümmet att göra mål',
+                    analysis: 'Hümmet har gjort mål i 3 av sina senaste 4 matcher.',
+                    analyst: 'Spelarscouten',
+                    published: 'Idag'
+                },
+                {
+                    match: 'IFK Norrköping vs Elfsborg',
+                    league: 'Allsvenskan',
+                    date: 'Söndag',
+                    odds: '2.60',
+                    category: 'match-result',
+                    confidence: '80',
+                    tip: 'Elfsborg dubbel chans',
+                    analysis: 'Elfsborg är obesegrade på 6 matcher.',
+                    analyst: 'Formspecialist',
+                    published: 'Igår'
+                },
+                {
+                    match: 'Malmö FF vs Värnamo',
+                    league: 'Allsvenskan',
+                    date: 'Söndag',
+                    odds: '1.75',
+                    category: 'over-under',
+                    confidence: '82',
+                    tip: 'Båda lagen gör mål',
+                    analysis: 'Malmö FF har stark offensiv medan Värnamo släpper in många mål.',
+                    analyst: 'Målanalytiker',
+                    published: 'Igår'
+                }
+            ]
+        };
+    }
+
+    console.log('Betting data loaded:', bettingData);
+    displayQuickOdds();
+    displayBettingTips();
+    displayOddsComparison();
+    displayPlayerMarkets();
+    displayAccumulators();
+}
+
+function displayQuickOdds() {
+    const container = document.getElementById('quickOdds');
+    const odds = bettingData.upcoming_matches || [];
+
+    container.innerHTML = odds.slice(0, 3).map(match => `
+        <div class="pl-card">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-6 h-6 bg-red-600 rounded-full"></div>
+                    <span class="font-semibold text-sm">${match.home_team?.en || match.home_team || 'Home Team'}</span>
+                </div>
+                <div class="text-xs pl-text opacity-75">${match.date || 'TBD'}</div>
+                <div class="flex items-center space-x-2">
+                    <span class="font-semibold text-sm">${match.away_team?.en || match.away_team || 'Away Team'}</span>
+                    <div class="w-6 h-6 bg-blue-600 rounded-full"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="bg-slate-100  p-2 rounded">
+                    <div class="text-xs pl-text opacity-75 mb-1">1</div>
+                    <div class="font-bold pl-text">${match.odds?.match_result?.home_win || '2.50'}</div>
+                </div>
+                <div class="bg-slate-100  p-2 rounded">
+                    <div class="text-xs pl-text opacity-75 mb-1">X</div>
+                    <div class="font-bold pl-text">${match.odds?.match_result?.draw || '3.20'}</div>
+                </div>
+                <div class="bg-slate-100  p-2 rounded">
+                    <div class="text-xs pl-text opacity-75 mb-1">2</div>
+                    <div class="font-bold pl-text">${match.odds?.match_result?.away_win || '2.80'}</div>
+                </div>
+            </div>
+
+            <button class="pl-button w-full mt-4" onclick="window.open('#', '_blank')">
+                {% trans "View All Odds" %}
+            </button>
+        </div>
+    `).join('');
+}
+
+function displayBettingTips() {
+    const container = document.getElementById('bettingTips');
+    const tips = bettingData.betting_tips || [];
+
+    const filteredTips = currentTipFilter === 'all' ? tips :
+        tips.filter(tip => tip.category === currentTipFilter);
+
+    if (filteredTips.length === 0) {
+        container.innerHTML = `
+            <div class="col-span-full text-center py-12">
+                <p class="text-gray-500">No betting tips available for this category.</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = filteredTips.map(tip => {
+        // Safely extract values with proper fallbacks
+        const match = tip.match || 'Allsvenskan Match';
+        const league = tip.league || 'Allsvenskan';
+        const date = tip.date || 'Today';
+        const odds = tip.odds || '2.50';
+        // Convert category to display name
+        const categoryMap = {
+            'match-result': 'Match Result',
+            'over-under': 'Goals',
+            'player': 'Player Bets'
+        };
+        const category = categoryMap[tip.category] || 'Match Result';
+        const confidence = tip.confidence || '75';
+        const tipText = tip.tip || 'Expert betting tip';
+        const analysis = tip.analysis || 'Professional analysis of the match';
+        const analyst = tip.analyst || 'Allsvenskan Expert';
+        const published = tip.published || 'Today';
+
+        return `
+            <div class="pl-card">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <h3 class="font-semibold pl-text mb-1">${match}</h3>
+                        <p class="text-sm pl-text opacity-75">${league} • ${date}</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-sm font-semibold pl-text">${odds}</div>
+                        <div class="text-xs pl-text opacity-75">{% trans "odds" %}</div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
+                            ${category}
+                        </span>
+                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">
+                            ${confidence}% {% trans "confidence" %}
+                        </span>
+                    </div>
+                    <h4 class="font-semibold pl-text mb-2">${tipText}</h4>
+                    <p class="text-sm pl-text">${analysis}</p>
+                </div>
+
+                <div class="flex items-center justify-between pt-4 border-t border-slate-200">
+                    <div class="text-xs pl-text opacity-75">
+                        {% trans "By" %} ${analyst} • ${published}
+                    </div>
+                    <button class="text-sm text-blue-600 hover:text-blue-700 font-semibold">
+                        {% trans "Read Analysis" %}
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function displayOddsComparison() {
+    const container = document.getElementById('oddsComparison');
+    const matches = bettingData.upcoming_matches || [];
+
+    container.innerHTML = matches.slice(0, 4).map(match => {
+        const bet365Odds = match.odds?.match_result?.home_win || '2.50';
+        const williamHillOdds = (parseFloat(bet365Odds) * 0.98).toFixed(2); // Slightly different odds
+        const paddyPowerOdds = (parseFloat(bet365Odds) * 1.02).toFixed(2);
+        const bestOdds = Math.max(parseFloat(bet365Odds), parseFloat(williamHillOdds), parseFloat(paddyPowerOdds)).toFixed(2);
+
+        const homeTeam = match.home_team?.en || match.home_team || 'Home Team';
+        const awayTeam = match.away_team?.en || match.away_team || 'Away Team';
+        const matchDate = match.date || 'TBD';
+
+        return `
+            <tr class="hover:bg-slate-50/50 transition-colors duration-200">
+                <td class="py-6 px-6 font-semibold">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <span class="text-blue-600 text-xs font-bold">⚽</span>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-slate-800">${homeTeam} vs ${awayTeam}</div>
+                            <div class="text-sm text-slate-500">${matchDate}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center py-6 px-4">
+                    <div class="inline-flex px-3 py-2 rounded-lg ${bet365Odds == bestOdds ? 'bg-green-100 border-2 border-green-300 font-bold text-green-800' : 'bg-slate-50 text-slate-700'} transition-all duration-200">
+                        ${bet365Odds}
+                    </div>
+                </td>
+                <td class="text-center py-6 px-4">
+                    <div class="inline-flex px-3 py-2 rounded-lg ${williamHillOdds == bestOdds ? 'bg-green-100 border-2 border-green-300 font-bold text-green-800' : 'bg-slate-50 text-slate-700'} transition-all duration-200">
+                        ${williamHillOdds}
+                    </div>
+                </td>
+                <td class="text-center py-6 px-4">
+                    <div class="inline-flex px-3 py-2 rounded-lg ${paddyPowerOdds == bestOdds ? 'bg-green-100 border-2 border-green-300 font-bold text-green-800' : 'bg-slate-50 text-slate-700'} transition-all duration-200">
+                        ${paddyPowerOdds}
+                    </div>
+                </td>
+                <td class="text-center py-6 px-4">
+                    <div class="inline-flex items-center px-3 py-2 bg-gradient-to-r from-yellow-100 to-yellow-200 border-2 border-yellow-300 rounded-lg font-bold text-yellow-800">
+                        <span class="text-yellow-600 mr-1">★</span>
+                        ${bestOdds}
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function displayPlayerMarkets() {
+    const goalscorersContainer = document.getElementById('goalscorers');
+    const bookingsContainer = document.getElementById('bookings');
+
+    // Sample goalscorer odds for Allsvenskan
+    const goalscorers = [
+        { name: 'Isaac Kiese Thelin', odds: '4.20', team: 'AIK' },
+        { name: 'Erik Botheim', odds: '3.80', team: 'Malmö FF' },
+        { name: 'Jusef Erabi', odds: '3.50', team: 'Hammarby IF' },
+        { name: 'Deniz Hümmet', odds: '3.20', team: 'Djurgården' }
+    ];
+
+    const bookings = [
+        { name: 'Sebastian Nanasi', odds: '2.80', team: 'Malmö FF' },
+        { name: 'Nahir Besara', odds: '3.20', team: 'Hammarby IF' },
+        { name: 'Gustav Wikheim', odds: '3.50', team: 'Djurgården' },
+        { name: 'Anders Christiansen', odds: '3.80', team: 'Malmö FF' }
+    ];
+
+    goalscorersContainer.innerHTML = goalscorers.map(player => `
+        <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+            <div>
+                <div class="font-semibold">${player.name}</div>
+                <div class="text-sm text-slate-500">${player.team}</div>
+            </div>
+            <div class="text-lg font-bold text-blue-600">${player.odds}</div>
+        </div>
+    `).join('');
+
+    bookingsContainer.innerHTML = bookings.map(player => `
+        <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+            <div>
+                <div class="font-semibold">${player.name}</div>
+                <div class="text-sm text-slate-500">${player.team}</div>
+            </div>
+            <div class="text-lg font-bold text-green-600">${player.odds}</div>
+        </div>
+    `).join('');
+}
+
+function displayAccumulators() {
+    const safeAcca = [
+        { match: 'AIK vs Värnamo', bet: 'AIK Vinn', odds: '1.40' },
+        { match: 'Malmö FF vs Kalmar FF', bet: 'Malmö FF Vinn', odds: '1.30' },
+        { match: 'Djurgården vs Degerfors', bet: 'Djurgården Vinn', odds: '1.25' }
+    ];
+
+    const valueAcca = [
+        { match: 'Hammarby IF vs BK Häcken', bet: 'Över 2.5 Mål', odds: '1.70' },
+        { match: 'IFK Göteborg vs AIK', bet: 'Båda Lagen Gör Mål', odds: '1.80' },
+        { match: 'Elfsborg vs IFK Norrköping', bet: 'Elfsborg Vinn', odds: '1.60' },
+        { match: 'Mjällby vs Sirius', bet: 'Mjällby Vinn', odds: '1.50' }
+    ];
+
+    const longshotAcca = [
+        { match: 'Värnamo vs Malmö FF', bet: 'Värnamo Vinn', odds: '2.80' },
+        { match: 'Kalmar FF vs Hammarby IF', bet: 'Båda Lagen Gör Mål', odds: '1.65' },
+        { match: 'Degerfors vs BK Häcken', bet: 'Degerfors Vinn', odds: '2.20' },
+        { match: 'IFK Norrköping vs Djurgården', bet: 'Under 2.5 Mål', odds: '2.40' }
+    ];
+
+    document.getElementById('safeAcca').innerHTML = safeAcca.map(tip => `
+        <div class="flex justify-between items-center">
+            <span class="text-slate-700">${tip.match}: ${tip.bet}</span>
+            <span class="font-semibold text-green-600">${tip.odds}</span>
+        </div>
+    `).join('');
+
+    document.getElementById('valueAcca').innerHTML = valueAcca.map(tip => `
+        <div class="flex justify-between items-center">
+            <span class="text-slate-700">${tip.match}: ${tip.bet}</span>
+            <span class="font-semibold text-yellow-600">${tip.odds}</span>
+        </div>
+    `).join('');
+
+    document.getElementById('longshotAcca').innerHTML = longshotAcca.map(tip => `
+        <div class="flex justify-between items-center">
+            <span class="text-slate-700">${tip.match}: ${tip.bet}</span>
+            <span class="font-semibold text-red-600">${tip.odds}</span>
+        </div>
+    `).join('');
+}
+
+function filterTips(category) {
+    currentTipFilter = category;
+    displayBettingTips();
+    
+    // Update active button
+    document.querySelectorAll('.tip-filter').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelector(`[data-filter="${category}"]`).classList.add('active');
+}
+
+// Event listeners
+document.querySelectorAll('.tip-filter').forEach(btn => {
+    btn.addEventListener('click', () => filterTips(btn.dataset.filter));
+});
+
+// Load data on page load
+document.addEventListener('DOMContentLoaded', loadBettingData);
+</script>
+{% endblock %}

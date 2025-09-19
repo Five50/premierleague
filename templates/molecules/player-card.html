@@ -1,0 +1,105 @@
+{% load static %}
+{% load i18n %}
+{% comment %}
+Player card molecule
+Usage: {% include 'molecules/player-card.html' with player=player_data %}
+{% endcomment %}
+
+<div class="player-card pl-card hover:shadow-lg transition-all duration-300 group">
+    <a href="/players/{{ player.id }}/" class="block">
+        <!-- Player Header -->
+        <div class="player-header p-4">
+            <div class="flex items-center space-x-4">
+                <!-- Player Photo -->
+                <div class="player-photo w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center overflow-hidden">
+                    {% if player.photo %}
+                        <img src="{{ player.photo }}" alt="{{ player.name }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <svg class="w-8 h-8 text-slate-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                        </svg>
+                    {% endif %}
+                </div>
+                
+                <!-- Player Info -->
+                <div class="flex-1">
+                    <h3 class="text-lg font-bold pl-text group-hover:text-blue-700 transition-colors">
+                        {{ player.name }}
+                    </h3>
+                    <div class="text-sm pl-text opacity-75 mb-1">
+                        {% if LANGUAGE_CODE == 'sv' %}
+                            {{ player.position.sv }}
+                        {% else %}
+                            {{ player.position.en }}
+                        {% endif %}
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        {% include 'atoms/team-logo.html' with team_id=player.team_id size='xs' %}
+                        <span class="text-xs pl-text opacity-75">
+                            #{{ player.shirt_number }}
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Shirt Number Badge -->
+                <div class="shirt-number bg-blue-700 text-white rounded-lg p-2 text-center min-w-[2.5rem]">
+                    <div class="text-lg font-bold">{{ player.shirt_number }}</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Player Details -->
+        <div class="player-details p-4 pt-0">
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="detail-item">
+                    <div class="detail-label text-xs pl-text opacity-75">{% trans "Age" %}</div>
+                    <div class="detail-value text-sm font-semibold pl-text">{{ player.age }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label text-xs pl-text opacity-75">{% trans "Nationality" %}</div>
+                    <div class="detail-value text-sm font-semibold pl-text">
+                        {% if LANGUAGE_CODE == 'sv' %}
+                            {{ player.nationality.sv }}
+                        {% else %}
+                            {{ player.nationality.en }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Season Stats -->
+        {% if player.stats %}
+        <div class="season-stats p-4 pt-0 border-t border-slate-200">
+            <div class="stats-title text-sm font-semibold pl-text mb-3">
+                {% trans "This Season" %}
+            </div>
+            <div class="stats-grid grid grid-cols-4 gap-3 text-center">
+                <div class="stat-item">
+                    <div class="stat-value text-lg font-bold pl-text">{{ player.stats.appearances }}</div>
+                    <div class="stat-label text-xs pl-text opacity-75">{% trans "Apps" %}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value text-lg font-bold text-green-600">{{ player.stats.goals }}</div>
+                    <div class="stat-label text-xs pl-text opacity-75">{% trans "Goals" %}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value text-lg font-bold text-blue-600">{{ player.stats.assists }}</div>
+                    <div class="stat-label text-xs pl-text opacity-75">{% trans "Assists" %}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value text-lg font-bold text-yellow-500">{{ player.stats.yellow_cards }}</div>
+                    <div class="stat-label text-xs pl-text opacity-75">{% trans "Cards" %}</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- View Player Button -->
+        <div class="p-4 pt-3">
+            <div class="pl-button-outline w-full text-center py-2 group-hover:bg-blue-700 group-hover:text-white group-hover:border-blue-700 transition-colors">
+                {% trans "View Profile" %}
+            </div>
+        </div>
+    </a>
+</div>

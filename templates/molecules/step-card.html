@@ -1,0 +1,11 @@
+{% comment %}
+Step card molecule
+Usage: {% include 'molecules/step-card.html' with number="1" title="Title" description="Description" %}
+{% endcomment %}
+<div class="bg-white rounded-lg shadow-md p-6 text-center">
+  <div class="w-12 h-12 bg-emerald-700 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
+    {{ number }}
+  </div>
+  <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ title }}</h3>
+  <p class="text-slate-600">{{ description }}</p>
+</div>

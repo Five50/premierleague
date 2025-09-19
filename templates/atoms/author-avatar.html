@@ -1,0 +1,9 @@
+{% comment %}
+Author Avatar Atom
+Usage: {% include 'atoms/author-avatar.html' with src="image.jpg" alt="Author Name" size="md" %}
+Sizes: sm, md, lg
+{% endcomment %}
+
+<img src="{{ src }}"
+     alt="{{ alt }}"
+     class="{% if size == 'sm' %}w-8 h-8{% elif size == 'lg' %}w-20 h-20{% else %}w-12 h-12{% endif %} rounded-full object-cover {{ class }}">

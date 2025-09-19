@@ -1,0 +1,184 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Server Error" %} - 500 | ALLSVENSKAN Insikter</title>
+    <meta name="description" content="{% trans 'An unexpected error occurred. We apologize for the inconvenience.' %}">
+    
+    <!-- Inline critical CSS for 500 page (in case static files fail) -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+        
+        .container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .content {
+            max-width: 42rem;
+            text-align: center;
+        }
+        
+        .error-code {
+            font-size: 9rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            line-height: 1;
+            margin-bottom: -2rem;
+        }
+        
+        .emoji {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            font-size: 1.125rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+            max-width: 32rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+        
+        .btn-secondary {
+            border-color: #cbd5e1;
+            color: #475569;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f8fafc;
+        }
+        
+        .btn svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.5rem;
+        }
+        
+        .info {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .info-text {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 640px) {
+            .error-code {
+                font-size: 6rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <!-- Error Code -->
+            <div class="error-code">500</div>
+            <div class="emoji">🔧</div>
+            
+            <!-- Error Message -->
+            <h1>{% trans "Oops! Something went wrong" %}</h1>
+            
+            <p>
+                {% trans "We're experiencing technical difficulties. Our team has been notified and is working to fix the issue." %}
+            </p>
+            
+            <!-- Action Buttons -->
+            <div class="buttons">
+                <a href="/static" class="btn btn-primary">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    {% trans "Back to Home" %}
+                </a>
+                
+                <button onclick="location.reload()" class="btn btn-secondary">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    {% trans "Try Again" %}
+                </button>
+            </div>
+            
+            <!-- Additional Info -->
+            <div class="info">
+                <p class="info-text">
+                    {% trans "Error Reference:" %} <code style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">{{ request.META.HTTP_HOST }}-{{ now|date:"YmdHis" }}</code>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% comment %}
+Navigation Item Molecule
+Usage: {% include 'molecules/nav-item.html' with text="Features" href="#features" has_dropdown=True %}
+{% endcomment %}
+
+<li class="h-full {% if has_dropdown %}group relative{% endif %}">
+    <a class="flex items-center gap-2 h-full px-4 hover:text-emerald-800 transition-colors duration-300 {{ class }}"
+       href="{{ href|default:'#' }}">
+        {{ text }}
+        {% if has_dropdown %}
+            {% include 'atoms/icon.html' with name="chevron-down" size="sm" %}
+        {% endif %}
+    </a>
+    
+    {% if has_dropdown and dropdown_items %}
+        <div class="absolute left-0 top-full w-[240px] bg-slate-900 shadow-lg rounded- opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+            <ul class="py-2">
+                {% for item in dropdown_items %}
+                    <li>
+                        <a class="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-emerald-800 transition-colors"
+                           href="{{ item.href|default:'#' }}">
+                            {{ item.text }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</li>
